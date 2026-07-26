@@ -1,0 +1,90 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../lib/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model ConsultationRequest {
+  id          String     @id @default(cuid())
+  fullName    String?
+  phoneNumber String?
+  email       String?
+  message     String?
+  source      LeadSource @default(HERO_WIDGET)
+  productId   String?
+  product     Product?   @relation(fields: [productId], references: [id])
+  status      LeadStatus @default(NEW)
+  notes       String?
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+}
+
+enum LeadSource {
+  HEADER_BUTTON
+  HERO_WIDGET
+  PRODUCT_PAGE
+  PROJECT_PAGE
+  CONTACT_PAGE
+}
+
+enum LeadStatus {
+  NEW
+  CONTACTED
+  IN_PROGRESS
+  WON
+  LOST
+}
+
+enum ProductCategory {
+  MELTING_FURNACE
+  HOLDING_FURNACE
+  ELECTRICAL_PANEL
+  COOLING_SYSTEM
+  PERIPHERAL_EQUIPMENT
+}
+
+model Product {
+  id          String                @id @default(cuid())
+  slug        String                @unique
+  name        String
+  category    ProductCategory       @default(MELTING_FURNACE)
+  description String?
+  capacityKg  Int?
+  powerKw     Int?
+  frequencyHz Int?
+  images      String[]
+  featured    Boolean               @default(false)
+  order       Int                   @default(0)
+  requests    ConsultationRequest[]
+}
+
+// دسته‌بندی صنعتی پروژه‌ها — برای فیلتر صفحه پروژه‌ها
+enum ProjectIndustry {
+  STEEL      // صنعت فولاد
+  CAST_IRON  // صنعت چدن
+  COPPER     // صنعت مس
+  ALUMINUM   // صنعت آلومینیوم
+  OTHER      // سایر صنایع
+}
+
+model Project {
+  id          String          @id @default(cuid())
+  slug        String          @unique
+  title       String
+  industry    ProjectIndustry @default(OTHER)
+  capacityKg  Int
+  image       String
+  videoUrl    String?         // اگر پروژه ویدیو دارد، اینجا پر می‌شود (image همچنان fallback است)
+  featured    Boolean         @default(false) // فقط پروژه‌های featured تو گالری نشون داده میشن
+  order       Int             @default(0)
+  completedAt DateTime?
+}
+
+model NewsletterSubscriber {
+  id        String   @id @default(cuid())
+  contact   String   @unique
+  createdAt DateTime @default(now())
+}
