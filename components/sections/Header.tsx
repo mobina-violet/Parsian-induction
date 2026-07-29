@@ -14,7 +14,6 @@ const navItems = [
   { label: "خدمات", href: "/services" },
   { label: "درباره ما", href: "/about" },
   { label: "تماس با ما", href: "/contact" },
-  { label: "وبلاگ", href: "/blog" },
 ];
 
 export function Header() {

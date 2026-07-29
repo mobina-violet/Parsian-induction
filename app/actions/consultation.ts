@@ -16,6 +16,7 @@ export async function submitConsultationRequest(data: Partial<ConsultationFormDa
         fullName: parsed.data.fullName || null,
         phoneNumber: parsed.data.phoneNumber || null,
         email: parsed.data.email || null,
+        subject: parsed.data.subject || null,
         message: parsed.data.message || null,
         source: parsed.data.source,
         productId: parsed.data.productId || null,

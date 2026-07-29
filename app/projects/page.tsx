@@ -91,10 +91,13 @@ export default async function ProjectsPage({
 
         {/* هیرو: متن راست، تصویر چپ */}
         <div className="mx-auto grid max-w-7xl gap-8 px-4 py-10 sm:px-6 lg:grid-cols-[1.1fr_0.9fr] lg:items-center lg:px-8 lg:py-14">
-          <div>
-            <h1 className="text-2xl font-bold mb-8 text-slate-900 sm:text-3xl">
+          <div dir="rtl" className="text-right">
+            <span className="text-xs font-medium text-orange-400">
+              نمونه پروژه‌ها{""}
+            </span>
+            <h1 className="mt-2 text-2xl font-bold leading-tight text-black sm:text-4xl">
               نمونه پروژه‌های اجرایی {""}
-              <span className="text-red-600 ">پارسیان</span>
+              <span className="text-orange-500 ">پارسیان</span>
             </h1>
             <p className="mt-3 max-w-xl text-sm leading-7 text-gray-500 sm:text-base">
               اجرای موفق پروژه‌های صنعتی در صنایع فولاد، چدن، مس و آلومینیوم با

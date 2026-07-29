@@ -12,6 +12,7 @@ model ConsultationRequest {
   fullName    String?
   phoneNumber String?
   email       String?
+  subject     String?
   message     String?
   source      LeadSource @default(HERO_WIDGET)
   productId   String?

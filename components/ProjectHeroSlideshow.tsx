@@ -7,10 +7,12 @@ export function ProjectHeroSlideshow({
   images,
   alt,
   intervalMs = 4000,
+  className = 'h-72 w-full max-w-[520px] sm:h-96',
 }: {
   images: string[]
   alt: string
   intervalMs?: number
+  className?: string
 }) {
   const [active, setActive] = useState(0)
 
@@ -23,7 +25,7 @@ export function ProjectHeroSlideshow({
   }, [images.length, intervalMs])
 
   return (
-    <div className="relative h-72 w-full max-w-[520px] overflow-hidden rounded-2xl sm:h-96">
+    <div className={`relative overflow-hidden rounded-2xl ${className}`}>
       {images.map((src, index) => (
         <Image
           key={src}
@@ -31,6 +33,7 @@ export function ProjectHeroSlideshow({
           alt={alt}
           fill
           priority={index === 0}
+          sizes="(max-width: 640px) 100vw, 520px"
           className={
             index === active
               ? 'object-cover opacity-100 transition-opacity duration-700'

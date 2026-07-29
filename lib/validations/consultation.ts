@@ -9,6 +9,7 @@ export const consultationSchema = z
       .optional()
       .or(z.literal('')),
     email: z.string().email('ایمیل معتبر نیست').optional().or(z.literal('')),
+    subject: z.string().optional(),
     message: z.string().optional(),
     source: z.enum(['HEADER_BUTTON', 'HERO_WIDGET', 'PRODUCT_PAGE', 'PROJECT_PAGE', 'CONTACT_PAGE']),
     productId: z.string().optional(),
