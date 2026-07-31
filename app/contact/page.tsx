@@ -185,11 +185,10 @@ export default function ContactPage() {
                 height="450"
                 allowFullScreen
                 loading="lazy"></iframe>
-              <div className="absolute inset-0 flex items-center justify-center"></div>
 
               <div
                 dir="rtl"
-                className="absolute bottom-4 right-4 left-4 flex items-center gap-3 rounded-2xl bg-slate-950/90 p-4 text-right sm:right-4 sm:left-auto sm:max-w-xs">
+                className="absolute bottom-4 right-4 left-4 flex items-center gap-3 rounded-2xl bg-slate-900 p-4 text-right sm:right-4 sm:left-auto sm:max-w-xs">
                 <div className="flex-1">
                   <h3 className="text-sm font-bold text-white">بازدید حضوری</h3>
                   <p className="mt-1 text-xs leading-6 text-slate-400">
@@ -216,7 +215,7 @@ export default function ContactPage() {
         <div className="mx-auto max-w-7xl px-4 pb-14 sm:px-6 lg:px-8">
           <div
             dir="ltr"
-            className="flex flex-col gap-6 rounded-2xl bg-orange-500 p-6 sm:flex-row sm:items-center sm:justify-between">
+            className="flex flex-col gap-6 rounded-2xl bg-orange-500 hover:bg-orange-600 p-6 sm:flex-row sm:items-center sm:justify-between">
             <div dir="rtl" className="flex items-center gap-4">
               <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-white/15">
                 <Headset className="h-6 w-6 text-white" />

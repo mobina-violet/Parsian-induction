@@ -115,9 +115,11 @@ export default async function ProjectsPage({
             </div>
             <ProjectHeroSlideshow
               images={[
-                "/images/project1.jpg",
-                "/images/project2.jpg",
-                "/images/project3.jpg",
+                "/images/projects/project1.jpg",
+                "/images/projects/project2.jpg",
+                "/images/projects/project3.jpg",
+                "/images/projects/project4.jpg",
+                "/images/projects/project5.jpg",
               ]}
               alt="پروژه‌های اجرایی پارسیان"
             />

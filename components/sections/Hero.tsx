@@ -35,7 +35,7 @@ export function Hero() {
           </h1>
 
           <p className="mt-5 text-sm leading-7 text-gray-200 sm:text-base lg:text-lg">
-            بیش از ۲۵ سال تجربه در طراحی و ساخت کوره های القایی صنعتی
+            بیش از ۲۰ سال تجربه در طراحی و ساخت کوره های القایی صنعتی
             <br className="hidden sm:block" />
             با کیفیت بالا، راندمان عالی و خدمات پس از فروش مطمئن
           </p>
@@ -49,10 +49,10 @@ export function Hero() {
             </a>
 
             <button className="flex h-12 items-center justify-center rounded-full border border-white/40 bg-white/10 px-8 text-white backdrop-blur transition hover:bg-white/20">
-              <Phone className="h-4 w-4 shrink-0 text-orange-500" />
+              <Phone className="h-4 w-4 shrink-0  text-orange-500" />
               <a
                 href="tel:09124384191"
-                className="hover:text-orange-500 transition-colors"
+                className="hover:text-orange-500 p-2 transition-colors"
                 dir="ltr">
                 تماس با ما
               </a>
@@ -65,28 +65,28 @@ export function Hero() {
       <div className="absolute bottom-6 left-1/2 z-20 w-full max-w-6xl -translate-x-1/2 px-4 sm:px-6">
         <div
           dir="rtl"
-          className="grid grid-cols-2 gap-4 rounded-3xl border border-white/60 bg-white/95 p-5 shadow-2xl backdrop-blur-xl md:grid-cols-4 md:gap-6 md:p-7">
+          className="grid grid-cols-2 gap-4 justify-center items-center rounded-3xl border border-white/60 bg-white/95 p-5 shadow-2xl backdrop-blur-xl md:grid-cols-4 md:gap-6 md:p-7">
           <Stat
             icon={<Target className="w-5 h-5 md:w-6 md:h-6" />}
-            number="۲۰+"
-            title="سال سابقه"
+            number="۲۴/۷"
+            title=" پشتیبانی فنی"
           />
 
           <Stat
             icon={<Users className="w-5 h-5 md:w-6 md:h-6" />}
             number="۱۰۰+"
-            title="مشتری راضی"
+            title="مشتری وفادار"
           />
 
           <Stat
             icon={<Trophy className="w-5 h-5 md:w-6 md:h-6" />}
             number="۲۰+"
-            title="سال فعالیت"
+            title="سال فعالیت مستمر"
           />
 
           <Stat
             icon={<Award className="w-5 h-5 md:w-6 md:h-6" />}
-            number="۴۰+"
+            number="۱۰+"
             title="محصول متنوع"
           />
         </div>

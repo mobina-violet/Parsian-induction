@@ -9,7 +9,6 @@ import {
   HeartHandshake,
   Check,
   Headset,
-  MessageSquare,
 } from "lucide-react";
 import { prisma } from "@/lib/prisma";
 import { ProductCard } from "@/components/ProductCard";
@@ -33,6 +32,38 @@ type CategoryValue = (typeof validCategories)[number];
 
 function isValidCategory(value: string | undefined): value is CategoryValue {
   return !!value && (validCategories as readonly string[]).includes(value);
+}
+
+// کلمات کلیدی مرتبط با هر دسته‌بندی
+const categoryKeywords: Record<CategoryValue, string[]> = {
+  MELTING_FURNACE: ["ذوب", "کوره ذوب", "کوره القایی ذوب", "melting"],
+  HOLDING_FURNACE: ["نگهدارنده", "نگه‌دارنده", "holding", "نگهداری"],
+  ELECTRICAL_PANEL: ["تابلو", "برق", "تابلو برق", "الکتریکی", "panel"],
+  COOLING_SYSTEM: [
+    "خنک",
+    "خنک‌کننده",
+    "خنک کننده",
+    "سیستم خنک",
+    "cooling",
+    "کولینگ",
+  ],
+  PERIPHERAL_EQUIPMENT: ["جانبی", "قطعات", "تجهیزات جانبی", "peripheral"],
+};
+
+// تشخیص دسته‌بندی از روی کلمه سرچ‌شده
+function detectCategoryFromSearch(search?: string): CategoryValue | undefined {
+  if (!search) return undefined;
+
+  const normalized = search.trim().toLowerCase().replace(/‌/g, " "); // نیم‌فاصله رو هم در نظر بگیر
+
+  for (const [category, keywords] of Object.entries(categoryKeywords)) {
+    if (
+      keywords.some((keyword) => normalized.includes(keyword.toLowerCase()))
+    ) {
+      return category as CategoryValue;
+    }
+  }
+  return undefined;
 }
 
 const categoryTabs: { value?: CategoryValue; label: string }[] = [
@@ -81,16 +112,33 @@ const faqs = [
 export default async function ProductsPage({
   searchParams,
 }: {
-  searchParams: Promise<{ category?: string }>;
+  searchParams: Promise<{ category?: string; search?: string }>;
 }) {
   const params = await searchParams;
-  const category = isValidCategory(params.category)
-    ? params.category
-    : undefined;
+  const search = params.search?.trim() || undefined;
+
+  // اول دسته‌بندی دستی کاربر رو چک کن، اگه نبود از روی سرچ تشخیص بده
+  let category = isValidCategory(params.category) ? params.category : undefined;
+
+  if (!category && search) {
+    category = detectCategoryFromSearch(search);
+  }
 
   const [products, totalCount] = await Promise.all([
     prisma.product.findMany({
-      where: category ? { category } : undefined,
+      where: {
+        ...(category ? { category } : {}),
+        // فقط وقتی دسته‌بندی تشخیص داده نشد، روی متن سرچ کن
+        ...(!category && search
+          ? {
+              OR: [
+                { name: { contains: search, mode: "insensitive" } },
+                { description: { contains: search, mode: "insensitive" } },
+                { slug: { contains: search, mode: "insensitive" } },
+              ],
+            }
+          : {}),
+      },
       orderBy: { order: "asc" },
     }),
     prisma.product.count(),
@@ -98,106 +146,53 @@ export default async function ProductsPage({
 
   return (
     <main dir="rtl" className="bg-white">
-      {/* بردکرامب + هیرو کوچک */}
-      <div className="border-b border-gray-100 bg-gray-50">
-        <div className="mx-auto max-w-7xl px-4 pt-6 sm:px-6 lg:px-8">
-          <nav className="flex items-center gap-1.5 text-xs text-gray-400">
-            <Link href="/" className="transition hover:text-orange-500">
+      {/* هیرو - بدون تغییر */}
+      {/* هیرو با تصویر پس‌زمینه کامل */}
+      <div className="relative overflow-hidden">
+        {/* تصویر پس‌زمینه */}
+        <div className="absolute inset-0">
+          <Image
+            src="/product-hero.png"
+            alt="کوره القایی پارسیان"
+            fill
+            priority
+            className="object-cover"
+            sizes="100vw"
+          />
+          {/* لایه تیره برای خوانایی متن */}
+          <div className="absolute inset-0 bg-gradient-to-l from-black/80 via-black/60 to-black/40" />
+        </div>
+
+        <div className="relative mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-20 lg:px-8 lg:py-28">
+          {/* بردکرامب */}
+          <nav className="mb-8 flex items-center gap-1.5 text-xs text-white/70">
+            <Link href="/" className="transition hover:text-orange-400">
               خانه
             </Link>
             <ChevronLeft className="h-3 w-3" />
-            <span className="text-slate-600">محصولات</span>
+            <span className="text-white">محصولات</span>
           </nav>
-        </div>
 
-        <div
-          dir="ltr"
-          className="mx-auto grid max-w-7xl gap-8 px-4 py-10 sm:px-6 lg:grid-cols-[1.1fr_0.9fr] lg:items-center lg:px-8 lg:py-14">
-          <div dir="rtl" className="text-right">
-            <h1 className="text-3xl font-bold text-slate-900 sm:text-3xl">
-              محصولات <span className="text-red-600">پارسیان</span>
+          <div className="max-w-2xl">
+            <h1 className="text-3xl font-bold text-white sm:text-4xl lg:text-5xl">
+              محصولات <span className="text-orange-400">پارسیان</span>
             </h1>
-            <p className="mt-4 max-w-xl text-sm leading-8 text-gray-500 sm:text-base">
+            <p className="mt-5 text-sm leading-8 text-white/80 sm:text-base">
               از کوره‌های ذوب و نگه‌دارنده گرفته تا تابلوهای برق صنعتی، سیستم
-              خنک‌ کننده و قطعات جانبی؛ پارسیان طیف کاملی از تجهیزات مورد نیاز
-              خط تولید ذوب فلزات شما را با ظرفیت‌های ۲۵۰ تا ۲۰۰۰ کیلوگرم و امکان
+              خنک‌کننده و قطعات جانبی؛ پارسیان طیف کاملی از تجهیزات مورد نیاز خط
+              تولید ذوب فلزات شما را با ظرفیت‌های ۲۵۰ تا ۲۰۰۰ کیلوگرم و امکان
               سفارشی‌سازی کامل ارائه می‌دهد.
             </p>
 
-            <div
-              dir="ltr"
-              className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-4">
+            {/* ویژگی‌ها */}
+            <div className="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-4">
               {features.map((f) => (
-                <div
-                  key={f.title}
-                  dir="rtl"
-                  className="flex flex-col items-center text-center sm:items-start sm:text-right">
-                  <f.icon className="h-7 w-7 mt-4 text-orange-500" />
-                  <p className="mt-2 text-xs font-bold text-slate-900">
-                    {f.title}
-                  </p>
-                  <p className="text-[13px] text-gray-400">{f.desc}</p>
+                <div key={f.title} className="text-center sm:text-right">
+                  <f.icon className="mx-auto h-7 w-7 text-orange-400 sm:mx-0" />
+                  <p className="mt-2 text-xs font-bold text-white">{f.title}</p>
+                  <p className="text-[13px] text-white/60">{f.desc}</p>
                 </div>
               ))}
-            </div>
-          </div>
-
-          {/* تصویر هیرو با برش هندسی + لایه کمرنگ زیرین */}
-          <div className="relative flex justify-center lg:justify-end">
-            {/* لایه کمرنگ زیرین (همان تصویر ولی محو و جابه‌جا) */}
-            <div
-              className="
-      absolute
-      w-full max-w-[340px] sm:max-w-[400px]
-      translate-x-3 translate-y-4
-      opacity-40
-      blur-[2px]
-      lg:-translate-x-5 lg:-translate-y-5
-    "
-              style={{
-                clipPath: "polygon(12% 5%, 90% 0%, 100% 100%, 0% 100%, 0% 18%)",
-              }}>
-              <Image
-                src="/products.png"
-                alt=""
-                width={420}
-                height={420}
-                className="h-auto w-full object-cover"
-                aria-hidden="true"
-              />
-            </div>
-
-            {/* تصویر اصلی */}
-            <div
-              className="
-      relative
-      w-full max-w-[340px] sm:max-w-[400px]
-      overflow-hidden
-      shadow-[0_25px_60px_-12px_rgba(249,115,22,0.35)]
-    "
-              style={{
-                clipPath:
-                  "polygon(12% 5%, 100% 0%, 100% 100%, 0% 100%, 0% 18%)",
-              }}>
-              <Image
-                src="/products.png"
-                alt="کوره القایی پارسیان"
-                width={420}
-                height={420}
-                className="h-auto w-full object-cover"
-                priority
-              />
-
-              {/* هایلایت و خطوط روی تصویر */}
-              <div
-                className="pointer-events-none absolute inset-0"
-                aria-hidden="true">
-                <div className="absolute inset-0 bg-gradient-to-tr from-orange-600/15 via-transparent to-red-500/10" />
-                <div className="absolute -left-4 top-1/3 h-[2px] w-28 rotate-[-18deg] bg-gradient-to-r from-orange-400/90 to-transparent" />
-                <div className="absolute right-6 top-1/4 h-[1.5px] w-20 rotate-12 bg-gradient-to-l from-red-400/80 to-transparent" />
-                <div className="absolute right-8 top-10 h-2.5 w-2.5 rounded-full bg-orange-300 shadow-[0_0_14px_4px_rgba(251,146,60,0.7)]" />
-                <div className="absolute left-10 bottom-14 h-2 w-2 rounded-full bg-red-300 shadow-[0_0_10px_3px_rgba(248,113,113,0.55)]" />
-              </div>
             </div>
           </div>
         </div>
@@ -211,6 +206,7 @@ export default async function ProductsPage({
             const href = tab.value
               ? `/products?category=${tab.value}`
               : "/products";
+
             return (
               <Link
                 key={tab.label}
@@ -228,11 +224,11 @@ export default async function ProductsPage({
         </div>
       </div>
 
-      {/* آمار */}
-      <div className="mx-auto max-w-7xl px-4  sm:px-6 lg:px-8 ">
+      {/* آمار 
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div
           dir="ltr"
-          className="grid grid-cols-1 gap-6 rounded-2xl border border-gray-100 bg-gray-50  p-6 text-center justify-items-center sm:grid-cols-4 sm:text-right">
+          className="grid grid-cols-1 justify-items-center gap-6 rounded-2xl border border-gray-100 bg-gray-50 p-6 text-center sm:grid-cols-4 sm:text-right">
           <div dir="rtl">
             <p className="text-lg font-bold text-slate-900">
               {toPersianDigits(totalCount)} مدل محصول
@@ -251,7 +247,6 @@ export default async function ProductsPage({
             </p>
             <p className="text-xs text-gray-400">تولید کوره‌های سفارشی</p>
           </div>
-
           <div dir="rtl">
             <p className="text-lg font-bold text-slate-900">
               ۲۴/۷ پشتیبانی فنی
@@ -260,9 +255,31 @@ export default async function ProductsPage({
           </div>
         </div>
       </div>
+      */}
 
       {/* گرید محصولات */}
       <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
+        {search && (
+          <div className="mb-6 flex items-center justify-between rounded-xl bg-orange-50 px-5 py-3 text-sm">
+            <span className="text-slate-700">
+              {category ? (
+                <>
+                  نمایش دسته‌بندی مرتبط با:{" "}
+                  <strong className="text-orange-600">«{search}»</strong>
+                </>
+              ) : (
+                <>
+                  نتایج جستجو برای:{" "}
+                  <strong className="text-orange-600">«{search}»</strong>
+                </>
+              )}
+            </span>
+            <Link href="/products" className="text-orange-600 hover:underline">
+              پاک کردن جستجو
+            </Link>
+          </div>
+        )}
+
         {products.length > 0 ? (
           <div className="grid grid-cols-2 gap-5 sm:grid-cols-3 lg:grid-cols-4">
             {products.map((product) => (
@@ -271,12 +288,14 @@ export default async function ProductsPage({
           </div>
         ) : (
           <p className="rounded-xl border border-dashed border-gray-200 py-16 text-center text-sm text-gray-400">
-            محصولی در این دسته یافت نشد.
+            {search
+              ? `محصولی با عبارت «${search}» یافت نشد.`
+              : "محصولی در این دسته یافت نشد."}
           </p>
         )}
       </div>
 
-      {/* بنر اطلاعات */}
+      {/* بقیه بخش‌ها بدون تغییر */}
       <div className="mx-auto max-w-7xl px-4 pb-10 sm:px-6 lg:px-8">
         <div className="grid overflow-hidden rounded-2xl border border-gray-100 lg:grid-cols-2">
           <div className="relative h-56 lg:h-auto">
@@ -320,7 +339,6 @@ export default async function ProductsPage({
         </div>
       </div>
 
-      {/* سوالات متداول */}
       <div className="mx-auto max-w-7xl px-4 pb-10 sm:px-6 lg:px-8">
         <h2 className="text-xl font-bold text-orange-500 sm:text-2xl">
           سوالات متداول
@@ -340,7 +358,6 @@ export default async function ProductsPage({
         </div>
       </div>
 
-      {/* بنر پایین */}
       <div className="bg-gradient-to-l from-orange-50 via-gray-50 to-white">
         <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
           <div className="flex flex-col gap-6 rounded-3xl border border-orange-100 bg-white p-6 shadow-sm sm:flex-row sm:items-center sm:justify-between sm:p-8">
@@ -348,17 +365,14 @@ export default async function ProductsPage({
               <div className="rounded-2xl bg-orange-100 p-3">
                 <Headset className="h-7 w-7 text-orange-500" />
               </div>
-
               <div>
                 <h3 className="text-lg font-bold text-slate-900">
                   نیاز به راهنمایی برای انتخاب کوره دارید؟
                 </h3>
-
                 <p className="mt-2 max-w-xl text-sm leading-7 text-gray-500">
                   کارشناسان پارسیان بر اساس ظرفیت تولید، نوع فلز و شرایط کاری،
                   مناسب‌ترین تجهیزات را پیشنهاد می‌دهند.
                 </p>
-
                 <div className="mt-3 flex flex-wrap gap-3 text-xs text-slate-600">
                   <span>✓ مشاوره تخصصی</span>
                   <span>✓ طراحی سفارشی</span>
@@ -366,7 +380,6 @@ export default async function ProductsPage({
                 </div>
               </div>
             </div>
-
             <ConsultationCtaButton
               label="دریافت مشاوره رایگان"
               source="PRODUCT_PAGE"

@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { services } from '../../lib/data/services'
+import { services } from '@/lib/data/services'
 
 export function ServicesGrid() {
   return (

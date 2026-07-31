@@ -5,6 +5,9 @@ import {
   ClipboardCheck,
   Award,
   Clock,
+  Gauge,
+  Settings,
+   Headset,
   GraduationCap,
   Briefcase,
   ShieldCheck,
@@ -19,10 +22,10 @@ export const metadata = {
 };
 
 const stats = [
-  { icon: Users, value: "۱۰۰+", label: "مشتری راضی" },
-  { icon: ClipboardCheck, value: "۱۰۰+", label: "پروژه موفق" },
-  { icon: Award, value: "۲۵+", label: "سال تجربه" },
-  { icon: Clock, value: "۲۴/۷", label: "پشتیبانی و خدمات" },
+  { icon: Gauge, value: "راندمان بالا", label: "مصرف انرژی بهینه" },
+  { icon: Settings, value: "طراحی سفارشی", label: "متناسب با نیاز شما" },
+  { icon: ShieldCheck, value: "کیفیت پایدار", label: "استاندارد صنعتی" },
+  { icon: Headset, value: "پشتیبانی کامل", label: "نصب تا بهره‌برداری" },
 ];
 
 const credentials = [
@@ -78,7 +81,7 @@ export default function AboutPage() {
             </div>
             <div className="relative z-10 h-56 w-full overflow-hidden rounded-2xl   sm:h-80">
               <Image
-                src="/images/services-hero1.jpg"
+                src="/images/services/services1.jpg"
                 alt="کارخانه پارسیان"
                 fill
                 className="object-cover  hover:opacity-80"
@@ -152,7 +155,7 @@ export default function AboutPage() {
           <div dir="ltr" className="mt-8 grid gap-4 lg:grid-cols-[1.1fr_0.9fr]">
             <button className="group relative h-64 overflow-hidden rounded-2xl sm:h-full">
               <Image
-                src="/images/services-hero1.jpg"
+                src="/images/about/about-photo.jpg"
                 alt="ویدیوی فعالیت‌های پارسیان"
                 fill
                 className="object-cover transition duration-300 group-hover:scale-105"

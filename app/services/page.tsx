@@ -166,24 +166,24 @@ export default function ServicesPage() {
 
         <div
           dir="ltr"
-          className="mx-auto grid max-w-7xl gap-8 px-4 py-10 sm:px-6 lg:grid-cols-[1.1fr_0.9fr] lg:items-center lg:px-8 lg:py-14"
-        >
+          className="mx-auto grid max-w-7xl gap-8 px-4 py-10 sm:px-6 lg:grid-cols-[1.1fr_0.9fr] lg:items-center lg:px-8 lg:py-14">
           <div dir="rtl" className="text-right">
-            <span className="text-xs font-medium text-orange-400">خدمات ما</span>
+            <span className="text-xs font-medium text-orange-400">
+              خدمات ما
+            </span>
             <h1 className="mt-2 text-2xl font-bold leading-tight text-black sm:text-4xl">
               خدمات{" "}
               <span className="text-orange-500">تخصصی کوره القایی پارسیان</span>
             </h1>
             <p className="mt-3 max-w-xl text-sm leading-7 text-gray-500 sm:text-base">
-              فراتر از ساخت تجهیزات، شریک فنی پروژه‌های شما هستیم. با ارائه خدمات
-              مهندسی، طراحی، ساخت، نصب و پشتیبانی، عملکرد سیستم‌های القایی را به
-              حداکثر می‌رسانیم.
+              فراتر از ساخت تجهیزات، شریک فنی پروژه‌های شما هستیم. با ارائه
+              خدمات مهندسی، طراحی، ساخت، نصب و پشتیبانی، عملکرد سیستم‌های القایی
+              را به حداکثر می‌رسانیم.
             </p>
             <div className="mt-7 flex flex-wrap gap-3">
               <Link
                 href="/projects"
-                className="inline-flex items-center gap-2 rounded-full bg-orange-500 px-6 py-3 text-sm font-medium text-white transition hover:bg-orange-600"
-              >
+                className="inline-flex items-center gap-2 rounded-full bg-orange-500 px-6 py-3 text-sm font-medium text-white transition hover:bg-orange-600">
                 مشاهده نمونه پروژه‌ها
                 <ArrowLeft className="h-4 w-4" />
               </Link>
@@ -193,18 +193,17 @@ export default function ServicesPage() {
           <div className="relative flex justify-center">
             <div
               className="pointer-events-none absolute inset-0 flex items-center justify-center"
-              aria-hidden="true"
-            >
+              aria-hidden="true">
               <div className="h-64 w-64 rounded-full border border-orange-100 sm:h-80 sm:w-80" />
               <div className="absolute h-48 w-48 rounded-full bg-orange-50 sm:h-60 sm:w-60" />
             </div>
 
             <ProjectHeroSlideshow
               images={[
-                "/images/services-hero1.jpg",
-                "/images/services-hero2.jpg",
-                "/images/services-hero3.jpg",
-                "/images/services-hero4.jpg",
+                "/images/services/services1.jpg",
+                "/images/services/services2.jpg",
+                "/images/services/services3.jpg",
+                "/images/services/services4.jpg",
               ]}
               alt="خدمات تخصصی پارسیان"
             />
@@ -215,20 +214,28 @@ export default function ServicesPage() {
       {/* خدمات ما */}
       <section className="bg-white">
         <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
-          <h2 className="text-center text-xl font-bold text-slate-900 sm:text-2xl">خدمات ما</h2>
+          <h2 className="text-center text-xl font-bold text-slate-900 sm:text-2xl">
+            خدمات ما
+          </h2>
 
-          <div dir="ltr" className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-6">
+          <div
+            dir="ltr"
+            className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-6">
             {services.map((service) => (
               <div
                 key={service.title}
                 dir="rtl"
-                className="rounded-2xl border border-gray-100 p-4 text-center transition-all duration-300 hover:-translate-y-2 hover:shadow-xl"
-              >
-                <span className={`mx-auto flex h-12 w-12 items-center justify-center rounded-xl ${service.color}`}>
+                className="rounded-2xl border border-gray-100 p-4 text-center transition-all duration-300 hover:-translate-y-2 hover:shadow-xl">
+                <span
+                  className={`mx-auto flex h-12 w-12 items-center justify-center rounded-xl ${service.color}`}>
                   <service.icon className="h-6 w-6" />
                 </span>
-                <h3 className="mt-2 text-[11px] font-bold text-slate-900">{service.title}</h3>
-                <p className="mt-2 text-xs leading-6 text-gray-400">{service.desc}</p>
+                <h3 className="mt-2 text-[11px] font-bold text-slate-900">
+                  {service.title}
+                </h3>
+                <p className="mt-2 text-xs leading-6 text-gray-400">
+                  {service.desc}
+                </p>
               </div>
             ))}
           </div>
@@ -241,20 +248,27 @@ export default function ServicesPage() {
         <div className="absolute bottom-0 left-0 h-[400px] w-[400px] rounded-full bg-red-500/10 blur-[180px]" />
 
         <div className="relative mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
-          <h2 className="text-center text-xl font-bold text-white sm:text-2xl">چرا خدمات ما؟</h2>
+          <h2 className="text-center text-xl font-bold text-white sm:text-2xl">
+            چرا خدمات ما؟
+          </h2>
 
-          <div dir="ltr" className="mt-10 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
+          <div
+            dir="ltr"
+            className="mt-10 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
             {whyUs.map((item) => (
               <div
                 key={item.title}
                 dir="rtl"
-                className="group rounded-2xl border border-white/10 bg-white/5 p-6 text-center backdrop-blur-md transition-all duration-300 hover:-translate-y-2 hover:border-orange-400/40 hover:bg-white/10"
-              >
+                className="group rounded-2xl border border-white/10 bg-white/5 p-6 text-center backdrop-blur-md transition-all duration-300 hover:-translate-y-2 hover:border-orange-400/40 hover:bg-white/10">
                 <span className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-orange-500/20 to-red-500/20 ring-1 ring-orange-400/20 transition-all duration-300 group-hover:scale-110 group-hover:ring-orange-400/50">
                   <item.icon className="h-6 w-6 text-orange-400" />
                 </span>
-                <h3 className="mt-5 text-sm font-bold text-white">{item.title}</h3>
-                <p className="mt-2 text-xs leading-6 text-slate-300">{item.desc}</p>
+                <h3 className="mt-5 text-sm font-bold text-white">
+                  {item.title}
+                </h3>
+                <p className="mt-2 text-xs leading-6 text-slate-300">
+                  {item.desc}
+                </p>
               </div>
             ))}
           </div>
@@ -264,20 +278,31 @@ export default function ServicesPage() {
       {/* فرآیند همکاری با ما */}
       <section className="bg-white">
         <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
-          <h2 className="text-center text-xl font-bold text-slate-900 sm:text-2xl">فرآیند همکاری با ما</h2>
+          <h2 className="text-center text-xl font-bold text-slate-900 sm:text-2xl">
+            فرآیند همکاری با ما
+          </h2>
 
-          <div dir="ltr" className="relative mt-10 grid grid-cols-1 gap-8 sm:grid-cols-5">
+          <div
+            dir="ltr"
+            className="relative mt-10 grid grid-cols-1 gap-8 sm:grid-cols-5">
             <div className="pointer-events-none absolute inset-x-0 top-6 hidden h-px bg-gray-200 sm:block" />
             {process.map((step) => (
-              <div key={step.title} dir="rtl" className="relative flex flex-col items-center text-center">
+              <div
+                key={step.title}
+                dir="rtl"
+                className="relative flex flex-col items-center text-center">
                 <div className="relative z-10 flex h-12 w-12 items-center justify-center rounded-full border border-gray-200 bg-white shadow-sm">
                   <step.icon className="h-5 w-5 text-slate-700" />
                 </div>
                 <span className="absolute -top-1 right-1/3 z-20 flex h-5 w-5 translate-x-1/2 items-center justify-center rounded-full bg-orange-500 text-[10px] font-bold text-white">
                   {step.number}
                 </span>
-                <h3 className="mt-4 text-sm font-bold text-slate-900">{step.title}</h3>
-                <p className="mt-1.5 text-xs leading-6 text-gray-400">{step.desc}</p>
+                <h3 className="mt-4 text-sm font-bold text-slate-900">
+                  {step.title}
+                </h3>
+                <p className="mt-1.5 text-xs leading-6 text-gray-400">
+                  {step.desc}
+                </p>
               </div>
             ))}
           </div>
@@ -287,20 +312,25 @@ export default function ServicesPage() {
       {/* سوالات متداول + کارت تماس */}
       <section className="bg-gray-50">
         <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
-          <div dir="rtl" className="grid gap-8 items-start lg:grid-cols-[1.6fr_0.9fr]">
+          <div
+            dir="rtl"
+            className="grid gap-8 items-start lg:grid-cols-[1.6fr_0.9fr]">
             <div>
-              <h2 className="text-xl font-bold text-slate-900 sm:text-2xl">سوالات متداول</h2>
+              <h2 className="text-xl font-bold text-slate-900 sm:text-2xl">
+                سوالات متداول
+              </h2>
               <div className="mt-6 space-y-3">
                 {faqs.map((faq) => (
                   <details
                     key={faq.q}
-                    className="group rounded-xl border border-gray-100 bg-white px-5 py-4 shadow-sm transition hover:shadow-md [&_summary::-webkit-details-marker]:hidden"
-                  >
+                    className="group rounded-xl border border-gray-100 bg-white px-5 py-4 shadow-sm transition hover:shadow-md [&_summary::-webkit-details-marker]:hidden">
                     <summary className="flex cursor-pointer list-none items-center justify-between gap-3 text-sm font-medium text-slate-900">
                       <span>{faq.q}</span>
                       <ArrowLeft className="h-4 w-4 shrink-0 text-gray-400 transition-transform duration-300 group-open:-rotate-90" />
                     </summary>
-                    <p className="mt-3 text-sm leading-7 text-gray-500">{faq.a}</p>
+                    <p className="mt-3 text-sm leading-7 text-gray-500">
+                      {faq.a}
+                    </p>
                   </details>
                 ))}
               </div>
@@ -310,14 +340,15 @@ export default function ServicesPage() {
               <span className="flex h-12 w-12 items-center justify-center rounded-full bg-orange-50">
                 <Headset className="h-5 w-5 text-orange-500" />
               </span>
-              <h3 className="mt-3 text-sm font-bold text-slate-900">سوالی دارید؟</h3>
+              <h3 className="mt-3 text-sm font-bold text-slate-900">
+                سوالی دارید؟
+              </h3>
               <p className="mt-1 max-w-xs text-xs leading-6 text-gray-400">
                 کارشناسان ما آماده پاسخگویی و راهنمایی شما هستند.
               </p>
               <Link
                 href="/contact"
-                className="mt-4 inline-flex items-center gap-2 rounded-full bg-orange-500 px-5 py-2.5 text-xs font-medium text-white transition hover:bg-orange-600"
-              >
+                className="mt-4 inline-flex items-center gap-2 rounded-full bg-orange-500 px-5 py-2.5 text-xs font-medium text-white transition hover:bg-orange-600">
                 <Phone className="h-3.5 w-3.5" />
                 تماس با ما
               </Link>
