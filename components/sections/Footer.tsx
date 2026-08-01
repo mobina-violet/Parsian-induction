@@ -132,12 +132,16 @@ export function Footer() {
               <ul className="mt-4 space-y-3 text-sm text-gray-500">
                 <li className="flex items-start justify-center gap-2 sm:justify-start">
                   <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-orange-500" />
-                  <div className="flex flex-col">
-                    {" "}
-                    <span>رباط کریم میدان غدیر</span>
-                    <span>مجتمع صنعتی و تجاری نور</span>
-                    <span>واحد ۱۷</span>
-                  </div>
+                  <Link
+                    href="/contact#location"
+                    className="flex flex-col transition hover:text-orange-500">
+                    <div className="flex flex-col">
+                      {" "}
+                      <span>رباط کریم میدان غدیر</span>
+                      <span>مجتمع صنعتی و تجاری نور</span>
+                      <span>واحد ۱۷</span>
+                    </div>
+                  </Link>
                 </li>
 
                 <li className="flex items-center justify-center gap-2 sm:justify-start">

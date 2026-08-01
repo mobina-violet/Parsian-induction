@@ -7,15 +7,11 @@ import { WhyUsSection } from "@/components/sections/WhyUsSection";
 
 export default function Home() {
   return (
-    <div>
-    <main className="">
+    <main>
       <Hero />
       <ServicesGrid />
       <PopularProducts />
-      <WhyUsSection/>
+      <WhyUsSection />
     </main>
-     <Footer/>
-    </div>
-   
   );
 }

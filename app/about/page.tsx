@@ -7,7 +7,7 @@ import {
   Clock,
   Gauge,
   Settings,
-   Headset,
+  Headset,
   GraduationCap,
   Briefcase,
   ShieldCheck,
@@ -34,7 +34,7 @@ const credentials = [
     title: "کارشناسی ارشد مهندسی برق",
     desc: "دانشگاه رجائی",
   },
-  { icon: Briefcase, title: "بیش از ۲۰ سال تجربه", desc: "در صنعت القایی" },
+  { icon: Briefcase, title: "بیش از ۲۰ سال تجربه", desc: "در صنعت کوره القایی" },
 ];
 
 const values = [
@@ -193,7 +193,7 @@ export default function AboutPage() {
           <div dir="rtl" className="grid gap-8 lg:grid-cols-3 lg:items-center">
             <div className="relative h-72 overflow-hidden rounded-2xl lg:h-96">
               <Image
-                src="/images/about/founder.jpg"
+                src="/images/about/founder.png"
                 alt="بنیان‌گذار و مدیرعامل پارسیان"
                 fill
                 className="object-cover"
@@ -219,12 +219,15 @@ export default function AboutPage() {
               </p>
             </div>
 
-            <div className="rounded-2xl bg-slate-900 p-6">
+            <div dir="rtl" className="rounded-2xl bg-slate-900 p-6">
               <div className="space-y-5">
                 {credentials.map((item) => (
                   <div
                     key={item.title}
-                    className="flex items-start justify-end gap-3 text-right">
+                    className="flex items-start justify-start gap-3 text-right">
+                    <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-orange-500/10">
+                      <item.icon className="h-4 w-4 text-orange-400" />
+                    </span>
                     <div>
                       <p className="text-sm font-bold text-white">
                         {item.title}
@@ -233,9 +236,6 @@ export default function AboutPage() {
                         {item.desc}
                       </p>
                     </div>
-                    <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-orange-500/10">
-                      <item.icon className="h-4 w-4 text-orange-400" />
-                    </span>
                   </div>
                 ))}
               </div>

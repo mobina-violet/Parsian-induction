@@ -4,6 +4,7 @@ import "./globals.css";
 import { Header } from "@/components/sections/Header";
 import { Geist } from "next/font/google";
 import { cn } from "@/lib/utils";
+import { Footer } from "@/components/sections/Footer";
 import { ConsultationModal } from "../components/ConsultationModal";
 const geist = Geist({ subsets: ["latin"], variable: "--font-sans" });
 
@@ -44,6 +45,7 @@ export default function RootLayout({
         <Header />
         {children}
         <ConsultationModal />
+        <Footer/>
       </body>
     </html>
   );
