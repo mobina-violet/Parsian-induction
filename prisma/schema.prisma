@@ -84,8 +84,3 @@ model Project {
   completedAt DateTime?
 }
 
-model NewsletterSubscriber {
-  id        String   @id @default(cuid())
-  contact   String   @unique
-  createdAt DateTime @default(now())
-}

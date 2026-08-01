@@ -1,4 +1,4 @@
-import { Footer } from "@/components/sections/Footer";
+
 import { Hero } from "@/components/sections/Hero";
 import { PopularProducts } from "@/components/sections/PopularProducts";
 
