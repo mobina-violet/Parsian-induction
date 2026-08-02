@@ -3,7 +3,6 @@ import Link from "next/link";
 import { ChevronLeft } from "lucide-react";
 import { prisma } from "@/lib/prisma";
 import { ProductGallery } from "@/components/ProductGallery";
-import { ConsultationCtaButton } from "@/components/ConsultationCtaButton";
 import { toPersianDigits } from "@/lib/format";
 
 const categoryLabels: Record<string, string> = {

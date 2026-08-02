@@ -13,7 +13,6 @@ import {
 import { prisma } from "@/lib/prisma";
 import { ProductCard } from "@/components/ProductCard";
 import { ConsultationCtaButton } from "@/components/ConsultationCtaButton";
-import { toPersianDigits } from "@/lib/format";
 
 export const metadata = {
   title: "محصولات",
@@ -101,7 +100,7 @@ const faqs = [
   },
   {
     q: "آیا نصب و راه‌اندازی توسط تیم پارسیان انجام می‌شود؟",
-    a: "بله، نصب، راه‌اندازی و آموزش بهره‌برداری توسط کارشناسان پارسیان در محل شما انجام می‌شود.",
+    a: "بله، نصب، راه‌اندازی و آموزش بهره‌برداری توسط کارشناسان کوره القایی پارسیان در محل شما انجام می‌شود.",
   },
   {
     q: "خدمات پس از فروش شامل چه مواردی است؟",
@@ -146,7 +145,6 @@ export default async function ProductsPage({
 
   return (
     <main dir="rtl" className="bg-white">
-      {/* هیرو - بدون تغییر */}
       {/* هیرو با تصویر پس‌زمینه کامل */}
       <div className="relative overflow-hidden">
         {/* تصویر پس‌زمینه */}
@@ -294,8 +292,7 @@ export default async function ProductsPage({
           </p>
         )}
       </div>
-
-      {/* بقیه بخش‌ها بدون تغییر */}
+      {/*توضیحات درباره پارسیان */}
       <div className="mx-auto max-w-7xl px-4 pb-10 sm:px-6 lg:px-8">
         <div className="grid overflow-hidden rounded-2xl border border-gray-100 lg:grid-cols-2">
           <div className="relative h-56 lg:h-auto">
@@ -313,11 +310,15 @@ export default async function ProductsPage({
               کوره‌های القایی پارسیان
             </h2>
             <p className="mt-2 text-sm leading-7 text-gray-500">
-              محصولات پارسیان با بهره‌گیری از تکنولوژی روز دنیا و تجربه‌ی ۲۵
-              ساله، راه‌حل‌های مطمئن و اقتصادی برای صنایع ذوب فلزات ارائه
+              محصولات پارسیان با بهره‌گیری از تکنولوژی روز دنیا و تجربه بالای ۲۰
+              سال، راه‌حل‌های مطمئن و اقتصادی برای صنایع ذوب فلزات ارائه
               می‌دهند.
             </p>
             <ul className="mt-4 space-y-2 text-sm text-slate-700">
+              <li className="flex items-center gap-2">
+                <Check className="h-4 w-4 shrink-0 text-orange-500" />
+                استفاده از قطعات با کیفیت
+              </li>
               <li className="flex items-center gap-2">
                 <Check className="h-4 w-4 shrink-0 text-orange-500" />
                 طراحی و ساخت مطابق با نیاز مشتری
@@ -326,10 +327,7 @@ export default async function ProductsPage({
                 <Check className="h-4 w-4 shrink-0 text-orange-500" />
                 مصرف انرژی کمتر و راندمان بالاتر
               </li>
-              <li className="flex items-center gap-2">
-                <Check className="h-4 w-4 shrink-0 text-orange-500" />
-                استفاده از قطعات با کیفیت اروپایی
-              </li>
+
               <li className="flex items-center gap-2">
                 <Check className="h-4 w-4 shrink-0 text-orange-500" />
                 نصب، راه‌اندازی و پشتیبانی کامل
@@ -338,7 +336,7 @@ export default async function ProductsPage({
           </div>
         </div>
       </div>
-
+      {/*سوالات متداول */}
       <div className="mx-auto max-w-7xl px-4 pb-10 sm:px-6 lg:px-8">
         <h2 className="text-xl font-bold text-orange-500 sm:text-2xl">
           سوالات متداول
@@ -357,7 +355,7 @@ export default async function ProductsPage({
           ))}
         </div>
       </div>
-
+      {/*مشاوره */}
       <div className="bg-gradient-to-l from-orange-50 via-gray-50 to-white">
         <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
           <div className="flex flex-col gap-6 rounded-3xl border border-orange-100 bg-white p-6 shadow-sm sm:flex-row sm:items-center sm:justify-between sm:p-8">
@@ -370,8 +368,8 @@ export default async function ProductsPage({
                   نیاز به راهنمایی برای انتخاب کوره دارید؟
                 </h3>
                 <p className="mt-2 max-w-xl text-sm leading-7 text-gray-500">
-                  کارشناسان پارسیان بر اساس ظرفیت تولید، نوع فلز و شرایط کاری،
-                  مناسب‌ترین تجهیزات را پیشنهاد می‌دهند.
+                  کارشناسان پارسیان پرتوالوند بر اساس ظرفیت تولید، نوع فلز و
+                  شرایط کاری، مناسب‌ ترین تجهیزات را پیشنهاد می‌دهند.
                 </p>
                 <div className="mt-3 flex flex-wrap gap-3 text-xs text-slate-600">
                   <span>✓ مشاوره تخصصی</span>

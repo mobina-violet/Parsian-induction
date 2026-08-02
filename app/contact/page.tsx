@@ -1,7 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
 import {
-  Zap,
   MessageCircle,
   ShieldCheck,
   Headset,
@@ -12,6 +11,7 @@ import {
   ArrowLeft,
   Navigation,
 } from "lucide-react";
+import { ChevronLeft } from "lucide-react";
 import { ContactForm } from "@/components/ContactForm";
 
 export const metadata = {
@@ -21,7 +21,7 @@ export const metadata = {
 
 const heroFeatures = [
   { icon: MessageCircle, title: "پاسخ سریع", desc: "کمتر از ۲۴ ساعت" },
-  { icon: ShieldCheck, title: "مشاوره تخصصی", desc: "رایگان و بدون تعهد" },
+  { icon: ShieldCheck, title: "مشاوره تخصصی", desc: "رایگان" },
   { icon: Headset, title: "پشتیبانی فنی", desc: "در تمام مراحل پروژه" },
 ];
 
@@ -62,9 +62,25 @@ export default function ContactPage() {
     <main className="bg-white">
       {/* هیرو*/}
       <section className="relative overflow-hidden">
+        {/* بردکرامب + هیرو */}
+        <div className="absolute top-0 left-0 right-0 z-20">
+          <div className="mx-auto max-w-7xl px-4 pt-6 sm:px-6 lg:px-8">
+            <nav className="flex items-center gap-1.5 text-xs text-gray-400">
+              <Link href="/" className="transition hover:text-orange-500">
+                خانه
+              </Link>
+              <ChevronLeft className="h-3 w-3" />
+              <Link
+                href="/contact"
+                className="transition hover:text-orange-500">
+                تماس با ما{" "}
+              </Link>
+            </nav>
+          </div>
+        </div>
         {/* Background Image */}
         <Image
-          src="/images/contactus.png"
+          src="/images/contact-us.png"
           alt="تماس با پارسیان"
           fill
           priority
@@ -76,22 +92,22 @@ export default function ContactPage() {
 
         {/* Optional Orange Glow */}
         <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/40 to-black/60" />
-
         {/* Content */}
-        <div className="relative z-10 mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
-          <div dir="rtl" className="max-w-2xl text-right">
-            <h1 className="text-3xl font-bold leading-tight text-white sm:text-4xl lg:text-5xl">
-              در ارتباط با ما
-              <br />
-              همیشه یک قدم <span className="text-orange-500">نزدیک‌تریم</span>
+        <div className="relative z-10 mx-auto flex min-h-[500px] max-w-7xl items-center justify-center px-4 py-20 sm:px-6 lg:px-8">
+          <div dir="rtl" className="mx-auto max-w-3xl text-center">
+            <h1 className="text-3xl font-bold leading-tight text-white sm:text-4xl lg:text-4xl">
+              همیشه آماده پاسخ‌گویی و همراهی با شما
             </h1>
 
-            <p className="mt-6 text-base leading-8 text-gray-200">
-              تیم متخصص ما آماده پاسخ‌گویی به سوالات شما و ارائه بهترین
-              راهکارهای سیستم‌های القایی است.
+            <p className="mx-auto mt-10 max-w-2xl text-base leading-8 text-gray-200">
+              از مشاوره تخصصی تا طراحی، ساخت و راه‌اندازی سیستم‌های کوره القایی،
+              تیم پارسیان در تمامی مراحل پروژه در کنار شماست تا بهترین راهکار
+              متناسب با نیاز صنعت شما را ارائه دهد.
             </p>
 
-            <div dir="ltr" className="mt-10 flex flex-wrap gap-8">
+            <div
+              dir="ltr"
+              className="mt-15 flex flex-wrap justify-center gap-8">
               {heroFeatures.map((f) => (
                 <div
                   key={f.title}
@@ -101,7 +117,7 @@ export default function ContactPage() {
                     <f.icon className="h-5 w-5 text-orange-400" />
                   </div>
 
-                  <div>
+                  <div className="text-right">
                     <p className="text-sm font-bold text-white">{f.title}</p>
                     <p className="text-xs text-gray-300">{f.desc}</p>
                   </div>

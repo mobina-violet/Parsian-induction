@@ -1,10 +1,8 @@
 import Image from "next/image";
+import Link from "next/link";
 import {
   Play,
   Users,
-  ClipboardCheck,
-  Award,
-  Clock,
   Gauge,
   Settings,
   Headset,
@@ -14,6 +12,7 @@ import {
   Lightbulb,
   HeartHandshake,
   TrendingUp,
+  ChevronLeft,
 } from "lucide-react";
 
 export const metadata = {
@@ -34,7 +33,11 @@ const credentials = [
     title: "کارشناسی ارشد مهندسی برق",
     desc: "دانشگاه رجائی",
   },
-  { icon: Briefcase, title: "بیش از ۲۰ سال تجربه", desc: "در صنعت کوره القایی" },
+  {
+    icon: Briefcase,
+    title: "بیش از ۲۰ سال تجربه",
+    desc: "در صنعت کوره القایی",
+  },
 ];
 
 const values = [
@@ -70,39 +73,48 @@ export default function AboutPage() {
     <main className="bg-white">
       {/* هیرو تیره */}
       <section className="relative overflow-hidden bg-slate-950 pb-24">
+        {/* بردکرامب + هیرو */}
+        <div className="absolute top-0 left-0 right-0 z-20">
+          <div className="mx-auto max-w-7xl px-4 pt-6 sm:px-6 lg:px-8">
+            <nav className="flex items-center gap-1.5 text-xs text-gray-400">
+              <Link href="/" className="transition hover:text-orange-500">
+                خانه
+              </Link>
+              <ChevronLeft className="h-3 w-3" />
+              <Link href="/about" className="transition hover:text-orange-500">
+                درباره ما{" "}
+              </Link>
+            </nav>
+          </div>
+        </div>
+        <Image
+          src="/images/services/services5.png"
+          alt="کارخانه پارسیان"
+          fill
+          className="object-cover opacity-40"
+        />
+
+        {/* لایه تیره برای خوانایی متن */}
+        <div className="absolute inset-0 bg-slate-950/10" />
+
         <div
           dir="ltr"
-          className="mx-auto grid max-w-7xl gap-8 px-4 pt-14 sm:px-6 lg:grid-cols-[0.9fr_1.1fr] lg:items-center lg:px-8 lg:pt-20">
-          <div className="relative">
-            <div
-              className="pointer-events-none absolute inset-0 flex items-center justify-center"
-              aria-hidden="true">
-              <div className="h-72 w-72 rounded-full bg-orange-500/15 blur-3xl sm:h-80 sm:w-80" />
-            </div>
-            <div className="relative z-10 h-56 w-full overflow-hidden rounded-2xl   sm:h-80">
-              <Image
-                src="/images/services/services1.jpg"
-                alt="کارخانه پارسیان"
-                fill
-                className="object-cover  hover:opacity-80"
-              />
-            </div>
-          </div>
+          className="relative z-10 mx-auto grid max-w-7xl gap-8 px-4 pt-14 sm:px-6 lg:grid-cols-[0.9fr_1.1fr] lg:items-center lg:px-8 lg:pt-20">
+          <div className="hidden lg:block" />
 
           <div dir="rtl" className="text-right">
-            <span className="text-xs font-medium text-orange-400">
-              درباره پارسیان
-            </span>
             <h1 className="mt-2 text-2xl font-bold leading-tight text-white sm:text-3xl lg:text-4xl">
               تجربه، تخصص و نوآوری
               <br />
               <span className="text-orange-500">در صنعت کوره القایی</span>
             </h1>
+
             <p className="mt-4 max-w-lg text-sm leading-7 text-slate-300 sm:text-base">
               شرکت پارسیان با تکیه بر دانش فنی و تجربه‌ی تیمی متخصص، از سال ۱۳۸۸
               در زمینه‌ی طراحی، ساخت و راه‌اندازی سیستم‌های کوره القایی فعالیت
               می‌کند.
             </p>
+
             <button className="mt-7 flex items-center gap-3 rounded-full border border-white/15 py-2 pl-2 pr-5 text-sm font-medium text-white transition hover:border-orange-400 hover:text-orange-400">
               تماشای ویدیو معرفی
               <span className="flex h-9 w-9 items-center justify-center rounded-full bg-orange-500">

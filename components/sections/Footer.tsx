@@ -133,7 +133,7 @@ export function Footer() {
                 <li className="flex items-start justify-center gap-2 sm:justify-start">
                   <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-orange-500" />
                   <Link
-                    href="/contact#location"
+                    href="https://nshn.ir/ae_bQV-eyx5bku"
                     className="flex flex-col transition hover:text-orange-500">
                     <div className="flex flex-col">
                       {" "}

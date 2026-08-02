@@ -1,5 +1,5 @@
 import Link from "next/link";
-import Image from "next/image";
+
 import { ChevronLeft } from "lucide-react";
 import { ProjectHeroSlideshow } from "@/components/ProjectHeroSlideshow";
 import {
@@ -19,7 +19,6 @@ import {
   Wrench,
   Phone,
 } from "lucide-react";
-import { ConsultationCtaButton } from "@/components/ConsultationCtaButton";
 
 export const metadata = {
   title: "خدمات",
