@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ChevronLeft, Award, ShieldCheck, HeartHandshake } from "lucide-react";
+import { ChevronLeft } from "lucide-react";
 import { prisma } from "@/lib/prisma";
 import { ProjectFilterControls } from "@/components/ProjectFilterControls";
 import { ProjectShowcaseGrid } from "@/components/ProjectShowcaseGrid";
@@ -115,11 +115,11 @@ export default async function ProjectsPage({
             </div>
             <ProjectHeroSlideshow
               images={[
-                "/images/projects/project1.jpg",
-                "/images/projects/project2.jpg",
-                "/images/projects/project3.jpg",
-                "/images/projects/project4.jpg",
-                "/images/projects/project5.jpg",
+                "/images/projects/project1.webp",  
+                "/images/projects/project2.webp",
+                "/images/projects/project3.webp",
+                "/images/projects/project4.webp",
+                "/images/projects/project5.webp",
               ]}
               alt="پروژه‌های اجرایی پارسیان"
             />

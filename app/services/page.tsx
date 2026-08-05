@@ -199,10 +199,10 @@ export default function ServicesPage() {
 
             <ProjectHeroSlideshow
               images={[
-                "/images/services/services1.jpg",
-                "/images/services/services2.jpg",
-                "/images/services/services3.jpg",
-                "/images/services/services4.jpg",
+                "/images/services/services1.webp",
+                "/images/services/services2.webp",
+                "/images/services/services3.webp",
+                "/images/services/services4.webp",
               ]}
               alt="خدمات تخصصی پارسیان"
             />

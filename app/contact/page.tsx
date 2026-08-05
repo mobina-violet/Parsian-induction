@@ -80,7 +80,7 @@ export default function ContactPage() {
         </div>
         {/* Background Image */}
         <Image
-          src="/images/contact-us.png"
+          src="/images/contact.webp"
           alt="تماس با پارسیان"
           fill
           priority

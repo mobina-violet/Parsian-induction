@@ -150,7 +150,7 @@ export default async function ProductsPage({
         {/* تصویر پس‌زمینه */}
         <div className="absolute inset-0">
           <Image
-            src="/product-hero.png"
+            src="/product-hero.webp"
             alt="کوره القایی پارسیان"
             fill
             priority
@@ -297,7 +297,7 @@ export default async function ProductsPage({
         <div className="grid overflow-hidden rounded-2xl border border-gray-100 lg:grid-cols-2">
           <div className="relative h-56 lg:h-auto">
             <video
-              src="/product.MOV"
+              src="/product.mp4"
               autoPlay
               muted
               loop

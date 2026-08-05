@@ -167,7 +167,7 @@ export default function AboutPage() {
           <div dir="ltr" className="mt-8 grid gap-4 lg:grid-cols-[1.1fr_0.9fr]">
             <button className="group relative h-64 overflow-hidden rounded-2xl sm:h-full">
               <Image
-                src="/images/about/about-photo.jpg"
+                src="/images/about/about-photo.webp"
                 alt="ویدیوی فعالیت‌های پارسیان"
                 fill
                 className="object-cover transition duration-300 group-hover:scale-105"
@@ -205,7 +205,7 @@ export default function AboutPage() {
           <div dir="rtl" className="grid gap-8 lg:grid-cols-3 lg:items-center">
             <div className="relative h-72 overflow-hidden rounded-2xl lg:h-96">
               <Image
-                src="/images/about/founder.png"
+                src="/images/about/founder.webp"
                 alt="بنیان‌گذار و مدیرعامل پارسیان"
                 fill
                 className="object-cover"
