@@ -1,4 +1,3 @@
-"use client";
 
 import Image from "next/image";
 import { Award, Users, Trophy, Target } from "lucide-react";
@@ -60,7 +59,6 @@ export function Hero() {
           </div>
         </div>
       </div>
-
       {/* Stats */}
       <div className="absolute bottom-6 left-1/2 z-20 w-full max-w-6xl -translate-x-1/2 px-4 sm:px-6">
         <div
