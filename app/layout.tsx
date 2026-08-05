@@ -2,11 +2,11 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import { Header } from "@/components/sections/Header";
-import { Geist } from "next/font/google";
+
 import { cn } from "@/lib/utils";
 import { Footer } from "@/components/sections/Footer";
 import { ConsultationModal } from "../components/ConsultationModal";
-const geist = Geist({ subsets: ["latin"], variable: "--font-sans" });
+
 
 //FONT IRAN SANS
 const iranSans = localFont({
@@ -23,7 +23,7 @@ export const metadata: Metadata = {
   },
   description: "تولیدکننده کوره‌های القایی و تجهیزات صنعتی",
   icons: {
-    icon: "/favicon.ico",
+    icon: "/favicon.webp",
   },
 };
 export default function RootLayout({
@@ -39,7 +39,7 @@ export default function RootLayout({
         "antialiased",
         iranSans.variable,
         "font-sans",
-        geist.variable,
+
       )}>
       <body className="min-h-screen font-iransans">
         <Header />

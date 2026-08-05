@@ -51,10 +51,11 @@ export function Header() {
         {/* Logo */}
         <Link href="/" className="flex shrink-0 items-center gap-2">
           <Image
-            src="/parsian-logo.png"
+            src="/parsian-logo.webp"
             alt="لوگوی پارسیان"
-            width={40}
-            height={40}
+            width={48}
+            height={48}
+            quality={80}
             className="h-10 w-10 object-contain"
             priority
           />

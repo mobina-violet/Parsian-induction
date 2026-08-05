@@ -14,7 +14,7 @@ export function Footer() {
               <div className="flex items-center justify-center gap-2 sm:justify-start">
                 <span className="flex h-9 w-9 items-center justify-center rounded-full bg-orange-500">
                   <Image
-                    src="/parsian-logo.png"
+                    src="/parsian-logo.webp"
                     alt="لوگوی پارسیان"
                     width={36}
                     height={36}

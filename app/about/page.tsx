@@ -88,9 +88,11 @@ export default function AboutPage() {
           </div>
         </div>
         <Image
-          src="/images/services/services5.png"
+          src="/images/services/services5.webp"
           alt="کارخانه پارسیان"
           fill
+          quality={75}
+          sizes="100vw"
           className="object-cover opacity-40"
         />
 

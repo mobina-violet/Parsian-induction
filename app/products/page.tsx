@@ -154,8 +154,9 @@ export default async function ProductsPage({
             alt="کوره القایی پارسیان"
             fill
             priority
-            className="object-cover"
+            quality={75}
             sizes="100vw"
+            className="object-cover"
           />
           {/* لایه تیره برای خوانایی متن */}
           <div className="absolute inset-0 bg-gradient-to-l from-black/80 via-black/60 to-black/40" />

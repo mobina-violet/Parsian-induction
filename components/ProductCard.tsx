@@ -17,7 +17,7 @@ export function ProductCard({ product }: { product: Product }) {
 
       <div className="flex h-36 items-center justify-center">
         <Image
-          src={product.images[0] ?? '/images/placeholder-furnace.png'}
+          src={product.images[0] ?? '/images/placeholder-furnace.webp'}
           alt={product.name}
           width={200}
           height={200}

@@ -9,10 +9,12 @@ export function Hero() {
       {/* Background */}
       <div className="absolute inset-0 z-0">
         <Image
-          src="/hero-section.png"
+          src="/hero-section.webp"
           alt="کوره القایی"
           fill
           priority
+          quality={75}
+          sizes="100vw"
           className="object-cover"
         />
 
