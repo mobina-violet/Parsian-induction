@@ -50,15 +50,13 @@ export function Hero() {
               مشاهده محصولات
             </a>
 
-            <button className="flex h-12 items-center justify-center rounded-full border border-white/40 bg-white/10 px-8 text-white backdrop-blur transition hover:bg-white/20">
-              <Phone className="h-4 w-4 shrink-0  text-orange-500" />
-              <a
-                href="tel:09124384191"
-                className="hover:text-orange-500 p-2 transition-colors"
-                dir="ltr">
-                تماس با ما
-              </a>
-            </button>
+            <a
+              href="tel:09124384191"
+              className="flex h-12 items-center justify-center gap-2 rounded-full border border-white/40 bg-white/10 px-8 text-white backdrop-blur transition hover:bg-white/20"
+              dir="ltr">
+              <Phone className="h-4 w-4 shrink-0 text-orange-500" />
+              <span>تماس با ما</span>
+            </a>
           </div>
         </div>
       </div>

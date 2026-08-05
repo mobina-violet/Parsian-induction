@@ -60,9 +60,9 @@ export function ConsultationModal() {
           </p>
         ) : (
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-            <Input placeholder="نام و نام خانوادگی" {...register("fullName")} />
-            <Input placeholder="شماره موبایل" {...register("phoneNumber")} />
-            <Input placeholder="ایمیل (اختیاری)" {...register("email")} />
+            <Input aria-label="نام و نام خانوادگی" placeholder="نام و نام خانوادگی" {...register("fullName")} />
+            <Input aria-label="شماره موبایل" placeholder="شماره موبایل" {...register("phoneNumber")} />
+            <Input aria-label="ایمیل" placeholder="ایمیل (اختیاری)" {...register("email")} />
             {errors.phoneNumber && (
               <p className="text-sm text-red-500">
                 {errors.phoneNumber.message}

@@ -105,6 +105,7 @@ export function Header() {
                 <input
                   ref={searchInputRef}
                   type="search"
+                  aria-label="جستجوی محصول"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   placeholder="جستجوی محصول..."
@@ -162,15 +163,22 @@ export function Header() {
             <form onSubmit={handleSearch} className="mb-4 flex gap-2">
               <input
                 type="search"
+                aria-label="جستجوی محصول"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="جستجوی محصول..."
                 className="h-12 flex-1 rounded-2xl border border-gray-200 bg-white px-4 text-base text-slate-700 outline-none focus:border-orange-400"
               />
               <button
-                type="submit"
-                className="flex h-12 w-12 items-center justify-center rounded-2xl bg-orange-500 text-white">
-                <Search className="h-5 w-5" />
+                onClick={() => setMobileOpen(!mobileOpen)}
+                aria-label={mobileOpen ? "بستن منو" : "باز کردن منو"}
+                aria-expanded={mobileOpen}
+                className="flex h-10 w-10 items-center justify-center rounded-xl border border-gray-200 text-slate-700 transition hover:bg-gray-50 lg:hidden">
+                {mobileOpen ? (
+                  <X className="h-5 w-5" />
+                ) : (
+                  <Menu className="h-5 w-5" />
+                )}
               </button>
             </form>
 
