@@ -4,7 +4,7 @@ import { useState } from 'react'
 import Image from 'next/image'
 
 export function ProductGallery({ images, alt }: { images: string[]; alt: string }) {
-  const gallery = images.length > 0 ? images : ['/images/placeholder-furnace.png']
+  const gallery = images.length > 0 ? images : ['/images/placeholder-furnace.webp']
   const [active, setActive] = useState(gallery[0])
 
   return (

@@ -7,9 +7,12 @@ import { toPersianDigits } from "@/lib/format";
 
 const categoryLabels: Record<string, string> = {
   MELTING_FURNACE: "کوره القایی ذوب",
-  HOLDING_FURNACE: "کوره القایی نگه‌دارنده",
-  ELECTRICAL_PANEL: "سیستم‌های تابلو برق",
+  FORGING_FURNACE: "کوره القایی فورج",
+  HARDENING_FURNACE: "کوره القایی سخت‌کاری",
   COOLING_SYSTEM: "سیستم خنک‌کننده",
+  FREQUENCY_CONVERTER: "سیستم مبدل فرکانس",
+  CRUCIBLE: "بوته",
+  LINK: "لینک",
   PERIPHERAL_EQUIPMENT: "قطعات و تجهیزات جانبی",
 };
 
