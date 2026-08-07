@@ -21,9 +21,12 @@ export const metadata = {
 
 const validCategories = [
   "MELTING_FURNACE",
-  "HOLDING_FURNACE",
-  "ELECTRICAL_PANEL",
+  "FORGING_FURNACE",
+  "HARDENING_FURNACE",
   "COOLING_SYSTEM",
+  "FREQUENCY_CONVERTER",
+  "CRUCIBLE",
+  "LINK",
   "PERIPHERAL_EQUIPMENT",
 ] as const;
 
@@ -36,8 +39,8 @@ function isValidCategory(value: string | undefined): value is CategoryValue {
 // کلمات کلیدی مرتبط با هر دسته‌بندی
 const categoryKeywords: Record<CategoryValue, string[]> = {
   MELTING_FURNACE: ["ذوب", "کوره ذوب", "کوره القایی ذوب", "melting"],
-  HOLDING_FURNACE: ["نگهدارنده", "نگه‌دارنده", "holding", "نگهداری"],
-  ELECTRICAL_PANEL: ["تابلو", "برق", "تابلو برق", "الکتریکی", "panel"],
+  FORGING_FURNACE: ["فورج", "کوره فورج", "forging", "forge"],
+  HARDENING_FURNACE: ["سخت کاری", "سخت‌کاری", "سختکاری", "hardening"],
   COOLING_SYSTEM: [
     "خنک",
     "خنک‌کننده",
@@ -46,6 +49,16 @@ const categoryKeywords: Record<CategoryValue, string[]> = {
     "cooling",
     "کولینگ",
   ],
+  FREQUENCY_CONVERTER: [
+    "مبدل فرکانس",
+    "مبدل",
+    "فرکانس",
+    "اینورتر",
+    "frequency",
+    "converter",
+  ],
+  CRUCIBLE: ["بوته", "crucible"],
+  LINK: ["لینک", "link"],
   PERIPHERAL_EQUIPMENT: ["جانبی", "قطعات", "تجهیزات جانبی", "peripheral"],
 };
 
@@ -53,7 +66,7 @@ const categoryKeywords: Record<CategoryValue, string[]> = {
 function detectCategoryFromSearch(search?: string): CategoryValue | undefined {
   if (!search) return undefined;
 
-  const normalized = search.trim().toLowerCase().replace(/‌/g, " "); // نیم‌فاصله رو هم در نظر بگیر
+  const normalized = search.trim().toLowerCase().replace(/‌/g, " ");
 
   for (const [category, keywords] of Object.entries(categoryKeywords)) {
     if (
@@ -68,9 +81,12 @@ function detectCategoryFromSearch(search?: string): CategoryValue | undefined {
 const categoryTabs: { value?: CategoryValue; label: string }[] = [
   { value: undefined, label: "همه محصولات" },
   { value: "MELTING_FURNACE", label: "کوره‌های القایی ذوب" },
-  { value: "HOLDING_FURNACE", label: "کوره‌های القایی نگه‌دارنده" },
-  { value: "ELECTRICAL_PANEL", label: "سیستم‌های تابلو برق" },
+  { value: "FORGING_FURNACE", label: "کوره‌های القایی فورج" },
+  { value: "HARDENING_FURNACE", label: "کوره‌های القایی سخت کاری" },
   { value: "COOLING_SYSTEM", label: "سیستم خنک‌کننده" },
+  { value: "FREQUENCY_CONVERTER", label: "سیستم‌های مبدل فرکانس" },
+  { value: "CRUCIBLE", label: "بوته" },
+  { value: "LINK", label: "لینک" },
   { value: "PERIPHERAL_EQUIPMENT", label: "قطعات و تجهیزات جانبی" },
 ];
 
@@ -116,38 +132,32 @@ export default async function ProductsPage({
   const params = await searchParams;
   const search = params.search?.trim() || undefined;
 
-  // اول دسته‌بندی دستی کاربر رو چک کن، اگه نبود از روی سرچ تشخیص بده
   let category = isValidCategory(params.category) ? params.category : undefined;
 
   if (!category && search) {
     category = detectCategoryFromSearch(search);
   }
 
-  const [products, totalCount] = await Promise.all([
-    prisma.product.findMany({
-      where: {
-        ...(category ? { category } : {}),
-        // فقط وقتی دسته‌بندی تشخیص داده نشد، روی متن سرچ کن
-        ...(!category && search
-          ? {
-              OR: [
-                { name: { contains: search, mode: "insensitive" } },
-                { description: { contains: search, mode: "insensitive" } },
-                { slug: { contains: search, mode: "insensitive" } },
-              ],
-            }
-          : {}),
-      },
-      orderBy: { order: "asc" },
-    }),
-    prisma.product.count(),
-  ]);
+  const products = await prisma.product.findMany({
+    where: {
+      ...(category ? { category } : {}),
+      ...(!category && search
+        ? {
+            OR: [
+              { name: { contains: search, mode: "insensitive" } },
+              { description: { contains: search, mode: "insensitive" } },
+              { slug: { contains: search, mode: "insensitive" } },
+            ],
+          }
+        : {}),
+    },
+    orderBy: { order: "asc" },
+  });
 
   return (
     <main dir="rtl" className="bg-white">
-      {/* هیرو با تصویر پس‌زمینه کامل */}
+      {/* هیرو */}
       <div className="relative overflow-hidden">
-        {/* تصویر پس‌زمینه */}
         <div className="absolute inset-0">
           <Image
             src="/product-hero.webp"
@@ -158,12 +168,10 @@ export default async function ProductsPage({
             sizes="100vw"
             className="object-cover"
           />
-          {/* لایه تیره برای خوانایی متن */}
           <div className="absolute inset-0 bg-gradient-to-l from-black/80 via-black/60 to-black/40" />
         </div>
 
         <div className="relative mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-20 lg:px-8 lg:py-28">
-          {/* بردکرامب */}
           <nav className="mb-8 flex items-center gap-1.5 text-xs text-white/70">
             <Link href="/" className="transition hover:text-orange-400">
               خانه
@@ -177,13 +185,12 @@ export default async function ProductsPage({
               محصولات <span className="text-orange-400">پارسیان</span>
             </h1>
             <p className="mt-5 text-sm leading-8 text-white/80 sm:text-base">
-              از کوره‌های ذوب و نگه‌دارنده گرفته تا تابلوهای برق صنعتی، سیستم
-              خنک‌کننده و قطعات جانبی؛ پارسیان طیف کاملی از تجهیزات مورد نیاز خط
-              تولید ذوب فلزات شما را با ظرفیت‌های ۲۵۰ تا ۲۰۰۰ کیلوگرم و امکان
-              سفارشی‌سازی کامل ارائه می‌دهد.
+              از کوره‌های ذوب، فورج و سخت‌کاری گرفته تا سیستم خنک‌کننده، مبدل
+              فرکانس، بوته، لینک و قطعات جانبی؛ پارسیان طیف کاملی از تجهیزات مورد
+              نیاز خط تولید ذوب فلزات شما را با ظرفیت‌های ۲۵۰ تا ۲۰۰۰ کیلوگرم و
+              امکان سفارشی‌سازی کامل ارائه می‌دهد.
             </p>
 
-            {/* ویژگی‌ها */}
             <div className="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-4">
               {features.map((f) => (
                 <div key={f.title} className="text-center sm:text-right">
@@ -215,46 +222,14 @@ export default async function ProductsPage({
                   isActive
                     ? "rounded-full bg-orange-500 px-5 py-2.5 text-sm font-medium text-white"
                     : "rounded-full border border-gray-200 px-5 py-2.5 text-sm font-medium text-slate-600 transition hover:border-orange-300 hover:text-orange-500"
-                }>
+                }
+              >
                 {tab.label}
               </Link>
             );
           })}
         </div>
       </div>
-
-      {/* آمار 
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div
-          dir="ltr"
-          className="grid grid-cols-1 justify-items-center gap-6 rounded-2xl border border-gray-100 bg-gray-50 p-6 text-center sm:grid-cols-4 sm:text-right">
-          <div dir="rtl">
-            <p className="text-lg font-bold text-slate-900">
-              {toPersianDigits(totalCount)} مدل محصول
-            </p>
-            <p className="text-xs text-gray-400">متنوع و تخصصی</p>
-          </div>
-          <div dir="rtl">
-            <p className="text-lg font-bold text-slate-900">
-              ۱۰۰+ پروژه اجرا شده
-            </p>
-            <p className="text-xs text-gray-400">در صنایع مختلف</p>
-          </div>
-          <div dir="rtl">
-            <p className="text-lg font-bold text-slate-900">
-              ۲۰۰۰+ کیلوگرم ظرفیت
-            </p>
-            <p className="text-xs text-gray-400">تولید کوره‌های سفارشی</p>
-          </div>
-          <div dir="rtl">
-            <p className="text-lg font-bold text-slate-900">
-              ۲۴/۷ پشتیبانی فنی
-            </p>
-            <p className="text-xs text-gray-400">خدمات پس از فروش</p>
-          </div>
-        </div>
-      </div>
-      */}
 
       {/* گرید محصولات */}
       <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
@@ -293,7 +268,8 @@ export default async function ProductsPage({
           </p>
         )}
       </div>
-      {/*توضیحات درباره پارسیان */}
+
+      {/* توضیحات درباره پارسیان */}
       <div className="mx-auto max-w-7xl px-4 pb-10 sm:px-6 lg:px-8">
         <div className="grid overflow-hidden rounded-2xl border border-gray-100 lg:grid-cols-2">
           <div className="relative h-56 lg:h-auto">
@@ -328,7 +304,6 @@ export default async function ProductsPage({
                 <Check className="h-4 w-4 shrink-0 text-orange-500" />
                 مصرف انرژی کمتر و راندمان بالاتر
               </li>
-
               <li className="flex items-center gap-2">
                 <Check className="h-4 w-4 shrink-0 text-orange-500" />
                 نصب، راه‌اندازی و پشتیبانی کامل
@@ -337,7 +312,8 @@ export default async function ProductsPage({
           </div>
         </div>
       </div>
-      {/*سوالات متداول */}
+
+      {/* سوالات متداول */}
       <div className="mx-auto max-w-7xl px-4 pb-10 sm:px-6 lg:px-8">
         <h2 className="text-xl font-bold text-orange-500 sm:text-2xl">
           سوالات متداول
@@ -346,7 +322,8 @@ export default async function ProductsPage({
           {faqs.map((faq) => (
             <details
               key={faq.q}
-              className="group rounded-xl border border-gray-100 px-5 py-4 [&_summary::-webkit-details-marker]:hidden">
+              className="group rounded-xl border border-gray-100 px-5 py-4 [&_summary::-webkit-details-marker]:hidden"
+            >
               <summary className="flex cursor-pointer list-none items-center justify-between gap-3 text-sm font-medium text-slate-900">
                 {faq.q}
                 <ChevronLeft className="h-4 w-4 shrink-0 text-gray-400 transition group-open:-rotate-90" />
@@ -356,7 +333,8 @@ export default async function ProductsPage({
           ))}
         </div>
       </div>
-      {/*مشاوره */}
+
+      {/* مشاوره */}
       <div className="bg-gradient-to-l from-orange-50 via-gray-50 to-white">
         <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
           <div className="flex flex-col gap-6 rounded-3xl border border-orange-100 bg-white p-6 shadow-sm sm:flex-row sm:items-center sm:justify-between sm:p-8">
@@ -370,7 +348,7 @@ export default async function ProductsPage({
                 </h3>
                 <p className="mt-2 max-w-xl text-sm leading-7 text-gray-500">
                   کارشناسان پارسیان پرتوالوند بر اساس ظرفیت تولید، نوع فلز و
-                  شرایط کاری، مناسب‌ ترین تجهیزات را پیشنهاد می‌دهند.
+                  شرایط کاری، مناسب‌ترین تجهیزات را پیشنهاد می‌دهند.
                 </p>
                 <div className="mt-3 flex flex-wrap gap-3 text-xs text-slate-600">
                   <span>✓ مشاوره تخصصی</span>

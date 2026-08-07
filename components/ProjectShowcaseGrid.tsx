@@ -5,10 +5,11 @@ import type { Project } from '@/lib/generated/prisma/client'
 
 const industryLabels: Record<string, string> = {
   STEEL: 'صنعت فولاد',
-  CAST_IRON: 'صنعت چدن',
   COPPER: 'صنعت مس',
   ALUMINUM: 'صنعت آلومینیوم',
-  OTHER: 'سایر صنایع',
+  AUTOMOTIVE: 'صنعت خودرو',
+  NON_FERROUS: 'صنعت فلزات رنگی',
+  PRECISION_CASTING: 'صنعت ریخته‌گری دقیق',
 }
 
 export function ProjectShowcaseGrid({ projects }: { projects: Project[] }) {
@@ -23,7 +24,10 @@ export function ProjectShowcaseGrid({ projects }: { projects: Project[] }) {
   return (
     <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
       {projects.map((project) => (
-        <div key={project.id} className="group relative h-40 overflow-hidden rounded-xl sm:h-48">
+        <div
+          key={project.id}
+          className="group relative h-40 overflow-hidden rounded-xl sm:h-48"
+        >
           {project.videoUrl ? (
             <video
               src={project.videoUrl}
@@ -43,7 +47,7 @@ export function ProjectShowcaseGrid({ projects }: { projects: Project[] }) {
             />
           )}
           <span className="absolute right-2 top-2 rounded-full bg-black/60 px-2.5 py-1 text-[11px] text-white">
-            {industryLabels[project.industry]}
+            {industryLabels[project.industry] ?? project.industry}
           </span>
         </div>
       ))}

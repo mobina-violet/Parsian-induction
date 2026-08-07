@@ -24,6 +24,7 @@ export async function submitConsultationRequest(data: Partial<ConsultationFormDa
     })
     return { success: true }
   } catch (err) {
+    console.error('submitConsultationRequest failed:', err)
     return { success: false, error: 'مشکلی در ثبت درخواست پیش آمد' }
   }
 }

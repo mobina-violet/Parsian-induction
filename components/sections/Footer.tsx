@@ -155,12 +155,12 @@ export function Footer() {
                 </li>
                 <li className="flex items-center justify-center gap-2 sm:justify-start">
                   <a
-                    href="https://instagram.com/parsian-partoalvand-induction"
+                    href="https://instagram.com/parsian_partoalvand"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="flex items-center gap-2 hover:text-orange-500 transition-colors">
                     <FaInstagram className="h-4 w-4 shrink-0 text-orange-500" />
-                    <span>Parsian_partoalvand_induction</span>
+                    <span>parsian_partoalvand</span>
                   </a>
                 </li>
               </ul>

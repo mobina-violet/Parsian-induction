@@ -40,13 +40,15 @@ enum LeadStatus {
 }
 
 enum ProductCategory {
-  MELTING_FURNACE
-  HOLDING_FURNACE
-  ELECTRICAL_PANEL
-  COOLING_SYSTEM
-  PERIPHERAL_EQUIPMENT
+  MELTING_FURNACE        // کوره‌های القایی ذوب
+  FORGING_FURNACE        // کوره‌های القایی فورج
+  HARDENING_FURNACE      // کوره‌های القایی سخت‌کاری
+  COOLING_SYSTEM         // سیستم خنک‌کننده
+  FREQUENCY_CONVERTER    // سیستم‌های مبدل فرکانس
+  CRUCIBLE               // بوته
+  LINK                   // لینک
+  PERIPHERAL_EQUIPMENT   // قطعات و تجهیزات جانبی
 }
-
 model Product {
   id          String                @id @default(cuid())
   slug        String                @unique
@@ -64,23 +66,23 @@ model Product {
 
 // دسته‌بندی صنعتی پروژه‌ها — برای فیلتر صفحه پروژه‌ها
 enum ProjectIndustry {
-  STEEL      // صنعت فولاد
-  CAST_IRON  // صنعت چدن
-  COPPER     // صنعت مس
-  ALUMINUM   // صنعت آلومینیوم
-  OTHER      // سایر صنایع
+  STEEL
+  COPPER
+  ALUMINUM
+  AUTOMOTIVE
+  NON_FERROUS
+  PRECISION_CASTING
 }
 
 model Project {
   id          String          @id @default(cuid())
   slug        String          @unique
   title       String
-  industry    ProjectIndustry @default(OTHER)
+  industry    ProjectIndustry @default(STEEL)
   capacityKg  Int
   image       String
-  videoUrl    String?         // اگر پروژه ویدیو دارد، اینجا پر می‌شود (image همچنان fallback است)
-  featured    Boolean         @default(false) // فقط پروژه‌های featured تو گالری نشون داده میشن
+  videoUrl    String?
+  featured    Boolean         @default(false)
   order       Int             @default(0)
   completedAt DateTime?
 }
-

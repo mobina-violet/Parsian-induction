@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
@@ -21,6 +21,7 @@ import { submitConsultationRequest } from "@/app/actions/consultation";
 export function ConsultationModal() {
   const { isOpen, source, productId, close } = useConsultationModal();
   const [status, setStatus] = useState<"idle" | "success" | "error">("idle");
+  const [errorMessage, setErrorMessage] = useState("");
 
   const {
     register,
@@ -31,6 +32,15 @@ export function ConsultationModal() {
     resolver: zodResolver(consultationSchema),
     defaultValues: { source, productId },
   });
+
+  // هر بار مودال دوباره باز میشه، وضعیت قبلی (success/error) و فرم ریست بشه
+  useEffect(() => {
+    if (isOpen) {
+      setStatus("idle");
+      setErrorMessage("");
+      reset({ source, productId });
+    }
+  }, [isOpen, source, productId, reset]);
 
   async function onSubmit(data: ConsultationFormData) {
     const result = await submitConsultationRequest({
@@ -43,6 +53,7 @@ export function ConsultationModal() {
       reset();
     } else {
       setStatus("error");
+      setErrorMessage(result.error ?? "مشکلی در ثبت درخواست پیش آمد. لطفاً دوباره تلاش کنید.");
     }
   }
 
@@ -67,6 +78,9 @@ export function ConsultationModal() {
               <p className="text-sm text-red-500">
                 {errors.phoneNumber.message}
               </p>
+            )}
+            {status === "error" && (
+              <p className="text-sm text-red-500">{errorMessage}</p>
             )}
             <Button
               type="submit"

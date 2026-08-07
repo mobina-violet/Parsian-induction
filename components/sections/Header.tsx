@@ -170,6 +170,7 @@ export function Header() {
                 className="h-12 flex-1 rounded-2xl border border-gray-200 bg-white px-4 text-base text-slate-700 outline-none focus:border-orange-400"
               />
               <button
+                type="button"
                 onClick={() => setMobileOpen(!mobileOpen)}
                 aria-label={mobileOpen ? "بستن منو" : "باز کردن منو"}
                 aria-expanded={mobileOpen}

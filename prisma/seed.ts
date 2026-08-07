@@ -1,144 +1,116 @@
-import { PrismaClient } from '../lib/generated/prisma/client'
-import { PrismaPg } from '@prisma/adapter-pg'
+import { PrismaClient } from "../lib/generated/prisma/client";
+import { PrismaPg } from "@prisma/adapter-pg";
 
-const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL })
-const prisma = new PrismaClient({ adapter })
+const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL });
+const prisma = new PrismaClient({ adapter });
 
 // ⚠️ مشخصات فنی (ظرفیت/توان/فرکانس) اینجا فقط placeholder هستن — قبل از انتشار نهایی
 // حتماً با مشخصات واقعی مهندسی که کارفرما تایید کرده جایگزینشون کن.
 const products = [
+  // ... همان P250 تا P2000 با category: 'MELTING_FURNACE'
   {
-    slug: 'p250',
-    name: 'P250',
-    category: 'MELTING_FURNACE' as const,
-    capacityKg: 250,
-    powerKw: 250,
-    frequencyHz: 1000,
+    slug: "forging-furnace",
+    name: "کوره القایی فورج",
+    category: "FORGING_FURNACE" as const,
     description:
-      'کوره القایی ذوب P250 مناسب کارگاه‌های کوچک و متوسط با نیاز به ذوب سریع فلزات آهنی و غیرآهنی در حجم پایین است. طراحی جمع‌وجور آن امکان نصب در فضای محدود را فراهم می‌کند.',
-    images: [],
-    order: 1,
-  },
-  {
-    slug: 'p750',
-    name: 'P750',
-    category: 'MELTING_FURNACE' as const,
-    capacityKg: 750,
-    powerKw: 500,
-    frequencyHz: 500,
-    description:
-      'کوره القایی ذوب P750 برای واحدهای تولیدی با حجم ذوب متوسط طراحی شده و تعادل مناسبی بین ظرفیت، مصرف انرژی و سرعت ذوب ارائه می‌دهد.',
-    images: [],
-    order: 2,
-  },
-  {
-    slug: 'p1000',
-    name: 'P1000',
-    category: 'MELTING_FURNACE' as const,
-    capacityKg: 1000,
-    powerKw: 650,
-    frequencyHz: 250,
-    description:
-      'کوره القایی ذوب P1000 پرکاربردترین مدل پارسیان برای صنایع ریخته‌گری است؛ ترکیبی از راندمان بالا، پایداری در کارکرد مداوم، و سهولت نگهداری.',
-    images: [],
-    featured: true,
-    order: 3,
-  },
-  {
-    slug: 'p1500',
-    name: 'P1500',
-    category: 'MELTING_FURNACE' as const,
-    capacityKg: 1500,
-    powerKw: 900,
-    frequencyHz: 150,
-    description:
-      'کوره القایی ذوب P1500 برای خطوط تولید با ظرفیت بالاتر مناسب است و برای ذوب پیوسته در واحدهای صنعتی متوسط تا بزرگ استفاده می‌شود.',
-    images: [],
-    order: 4,
-  },
-  {
-    slug: 'p2000',
-    name: 'P2000',
-    category: 'MELTING_FURNACE' as const,
-    capacityKg: 2000,
-    powerKw: 1200,
-    frequencyHz: 100,
-    description:
-      'کوره القایی ذوب P2000 بزرگ‌ترین مدل استاندارد پارسیان، مناسب صنایع فولاد و ریخته‌گری سنگین با نیاز به ظرفیت ذوب بالا در هر سیکل کاری.',
-    images: [],
-    order: 5,
-  },
-  {
-    slug: 'electrical-panel',
-    name: 'تابلو برق صنعتی',
-    category: 'ELECTRICAL_PANEL' as const,
-    description:
-      'طراحی و ساخت تابلوهای برق کنترل و قدرت، مخصوص کوره‌های القایی، مطابق با استانداردهای ایمنی و قابلیت مانیتورینگ از راه دور.',
+      "کوره القایی پارسیان با بکارگیری دانش روز دنیا، در ساخت کوره های فورج کامل و موضعی، گام های بلندی برداشته است. یکی از کاربردهای کوره القایی، استفاده از آنها به عنوان کوره پیشگرم میباشد. در مواردی که لازم است قطعات فلزی به درجه حرارتی برسند که جهت انجام عملیات آهنگری مناسب باشند، از این نوع کوره ها استفاده می شود. مزایای زیادی باعث می شود که در بسیاری از موارد استفاده کوره القایی پیشگرم در اولویت قرار گیرد.این مزایا شامل اپراتوری آسان و راحت، عدم ایجاد اکسید روی قطعه بار به علت کمبود زمان فرمان حرارت دهی، بالا بودن راندمان، عدم تغییر آلودگی محیط زیست، امکان گرمایش موضعی، اختلاف دما بین سطح و مرکز قطعه، کاهش آلودگی و افزایش ایمنی محیط کار، یکنواختی گرمایش قطعات در فرآیند تولید انبوه، و سادگی عمل تغذیه و تخلیه میباشد.",
     images: [],
     order: 6,
   },
   {
-    slug: 'cooling-system',
-    name: 'سیستم خنک‌کننده',
-    category: 'COOLING_SYSTEM' as const,
+    slug: "hardening-furnace",
+    name: "کوره القایی سخت‌کاری",
+    category: "HARDENING_FURNACE" as const,
     description:
-      'سیستم‌های خنک‌کننده پیشرفته با کارایی بالا و مصرف انرژی بهینه، برای حفظ دمای ایمن کویل و قطعات الکتریکی کوره در کارکرد مداوم.',
+      "در بعضی از صنایع برای این که فلزات به خصوصیات فیزیکی و عملکردی قابل قبول برسند، باید بر روی آنها عملیات حرارتی انجام گیرد. عملیات گرمایش فلزات یکی از شاخه های متالورژی است که در صنعت دارای اهمیت بسزایی است. کوره القایی ساختکاری پارسیان با قابلیت کنترل دما در عمق نفوذ مورد نظر، با تأثیر در ساختار کریستالی فلزات به عنوان ابزاری کارآمد در اختیار مهندسی متالورژی قرار دارد.",
     images: [],
     order: 7,
   },
   {
-    slug: 'peripheral-equipment',
-    name: 'قطعات و تجهیزات جانبی',
-    category: 'PERIPHERAL_EQUIPMENT' as const,
+    slug: "cooling-system",
+    name: "سیستم خنک‌کننده",
+    category: "COOLING_SYSTEM" as const,
     description:
-      'تامین قطعات اصلی و مصرفی (کویل، رفرکتوری، اتصالات) با کیفیت بالا و طول عمر بالا، برای کاهش زمان توقف خط تولید.',
+      "برج خنک کننده گالوانیزه به نوعی از برج خنک کننده می گویند که بدنه و سازه ی آن از جنس فلزات گالوانیزه ساخته شده باشد. مهم‌ترین مشکل در برج خنک کننده گالوانیزه خوردگی و زنگ زدگی فلز می باشد. این برج ها معمولاً به صورت برج خنک کننده مکعبی، جریان مخالف و جریان متقاطع ساخته می شوند. در اکثر مواقع فن سانتریفیوژ در محیط ورود هوا قرار دارد و جریان اجباری به وجود می آورد.",
     images: [],
     order: 8,
   },
-]
-
+  {
+    slug: "frequency-converter",
+    name: "سیستم مبدل فرکانس",
+    category: "FREQUENCY_CONVERTER" as const,
+    description: "سیستم‌های مبدل فرکانس مخصوص کوره‌های القایی.",
+    images: [],
+    order: 9,
+  },
+  {
+    slug: "crucible",
+    name: "بوته",
+    category: "CRUCIBLE" as const,
+    description:
+      "انواع بوته های کوره القایی پارسیان شامل بوته با بدنه آلومینیومی، بوته با بدنه فولادی، بوته با بدنه استیل می باشد.",
+    images: [],
+    order: 10,
+  },
+  {
+    slug: "link",
+    name: "لینک",
+    category: "LINK" as const,
+    description: "لینک‌های قدرت و اتصالات مربوط به کوره القایی.",
+    images: [],
+    order: 11,
+  },
+  {
+    slug: "peripheral-equipment",
+    name: "قطعات و تجهیزات جانبی",
+    category: "PERIPHERAL_EQUIPMENT" as const,
+    description: "...",
+    images: [],
+    order: 12,
+  },
+];
 const projects = [
   {
-    slug: 'aluminum-smelter-arak',
-    title: 'کارخانه ذوب آلومینیوم اراک',
-    industry: 'ALUMINUM' as const,
-    capacityKg: 1500,
-    image: '/images/projects/placeholder-project.jpg',
+    slug: "khouzestan-steel-complex",
+    title: "مجتمع فولاد خوزستان",
+    industry: "STEEL" as const,
+    capacityKg: 2000,
+    image: "/images/projects/placeholder-project.jpg",
     featured: true,
     order: 1,
-    completedAt: new Date('2024-06-01'),
+    completedAt: new Date("2023-11-01"),
   },
   {
-    slug: 'khouzestan-steel-complex',
-    title: 'مجتمع فولاد خوزستان',
-    industry: 'STEEL' as const,
-    capacityKg: 2000,
-    image: '/images/projects/placeholder-project.jpg',
+    slug: "sarcheshmeh-copper",
+    title: "کارخانه مس سرچشمه",
+    industry: "COPPER" as const,
+    capacityKg: 1000,
+    image: "/images/projects/placeholder-project.jpg",
     featured: true,
     order: 2,
-    completedAt: new Date('2023-11-01'),
+    completedAt: new Date("2022-04-01"),
   },
   {
-    slug: 'sarcheshmeh-copper',
-    title: 'کارخانه مس سرچشمه',
-    industry: 'COPPER' as const,
-    capacityKg: 1000,
-    image: '/images/projects/placeholder-project.jpg',
+    slug: "aluminum-smelter-arak",
+    title: "کارخانه ذوب آلومینیوم اراک",
+    industry: "ALUMINUM" as const,
+    capacityKg: 1500,
+    image: "/images/projects/placeholder-project.jpg",
     featured: true,
     order: 3,
-    completedAt: new Date('2022-04-01'),
+    completedAt: new Date("2024-06-01"),
   },
   {
-    slug: 'pars-khodro-metal',
-    title: 'صنایع فلزی پارس خودرو',
-    industry: 'OTHER' as const,
+    slug: "pars-khodro-metal",
+    title: "صنایع فلزی پارس خودرو",
+    industry: "AUTOMOTIVE" as const,
     capacityKg: 750,
-    image: '/images/projects/placeholder-project.jpg',
+    image: "/images/projects/placeholder-project.jpg",
     featured: true,
     order: 4,
-    completedAt: new Date('2022-01-01'),
+    completedAt: new Date("2022-01-01"),
   },
-]
+];
 
 async function main() {
   for (const product of products) {
@@ -146,7 +118,7 @@ async function main() {
       where: { slug: product.slug },
       update: product,
       create: product,
-    })
+    });
   }
 
   for (const project of projects) {
@@ -154,13 +126,13 @@ async function main() {
       where: { slug: project.slug },
       update: project,
       create: project,
-    })
+    });
   }
 }
 
 main()
   .catch((e) => {
-    console.error(e)
-    process.exit(1)
+    console.error(e);
+    process.exit(1);
   })
-  .finally(() => prisma.$disconnect())
+  .finally(() => prisma.$disconnect());
