@@ -6,7 +6,7 @@ import { Header } from "@/components/sections/Header";
 import { cn } from "@/lib/utils";
 import { Footer } from "@/components/sections/Footer";
 import { ConsultationModal } from "../components/ConsultationModal";
-
+import { FloatingWhatsApp } from "@/components/FloatingWhatsApp";
 
 //FONT IRAN SANS
 const iranSans = localFont({
@@ -45,6 +45,7 @@ export default function RootLayout({
         <Header />
         {children}
         <ConsultationModal />
+        <FloatingWhatsApp />
         <Footer/>
       </body>
     </html>

@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { MapPin, Phone } from "lucide-react";
-import { FaInstagram } from "react-icons/fa";
+import { FaInstagram, FaWhatsapp } from "react-icons/fa";
 export function Footer() {
   return (
     <>
@@ -95,28 +95,28 @@ export function Footer() {
                 </li>
                 <li>
                   <Link
-                    href="/services#parts"
+                    href="/products?category=PERIPHERAL_EQUIPMENT"
                     className="transition hover:text-orange-500">
                     قطعات و تجهیزات
                   </Link>
                 </li>
                 <li>
                   <Link
-                    href="/services#electrical-panel"
+                    href="/products?category=FREQUENCY_CONVERTER"
                     className="transition hover:text-orange-500">
-                    تابلو برق
+                    سیستم مبدل فرکانس
                   </Link>
                 </li>
                 <li>
                   <Link
-                    href="/services#cooling"
+                    href="/products?category=COOLING_SYSTEM"
                     className="transition hover:text-orange-500">
                     سیستم خنک‌کننده
                   </Link>
                 </li>
                 <li>
                   <Link
-                    href="/services#installation"
+                    href="/services"
                     className="transition hover:text-orange-500">
                     نصب و راه‌اندازی
                   </Link>
@@ -151,6 +151,16 @@ export function Footer() {
                     className="hover:text-orange-500 transition-colors"
                     dir="ltr">
                     ۰۹۱۲۴۳۸۴۱۹۱
+                  </a>
+                </li>
+                <li className="flex items-center justify-center gap-2 sm:justify-start">
+                  <a
+                    href="https://wa.me/989124384191?text=%D8%B3%D9%84%D8%A7%D9%85%D8%8C%20%D9%85%DB%8C%E2%80%8C%D8%AE%D9%88%D8%A7%D8%B3%D8%AA%D9%85%20%D8%AF%D8%B1%D8%A8%D8%A7%D8%B1%D9%87%20%DA%A9%D9%88%D8%B1%D9%87%20%D8%A7%D9%84%D9%82%D8%A7%DB%8C%DB%8C%20%D8%B3%D9%88%D8%A7%D9%84%20%D8%A8%D9%BE%D8%B1%D8%B3%D9%85"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2 hover:text-orange-500 transition-colors">
+                    <FaWhatsapp className="h-4 w-4 shrink-0 text-orange-500" />
+                    <span dir="ltr">۰۹۱۲۴۳۸۴۱۹۱</span>
                   </a>
                 </li>
                 <li className="flex items-center justify-center gap-2 sm:justify-start">
