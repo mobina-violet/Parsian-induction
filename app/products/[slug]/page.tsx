@@ -1,9 +1,11 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { ChevronLeft } from "lucide-react";
+import type { Metadata } from "next";
 import { prisma } from "@/lib/prisma";
 import { ProductGallery } from "@/components/ProductGallery";
 import { toPersianDigits } from "@/lib/format";
+import { siteConfig } from "@/lib/site-config";
 
 const categoryLabels: Record<string, string> = {
   MELTING_FURNACE: "کوره القایی ذوب",
@@ -21,6 +23,44 @@ export async function generateStaticParams() {
   return products.map((p) => ({ slug: p.slug }));
 }
 
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
+  const { slug } = await params;
+  const product = await prisma.product.findUnique({ where: { slug } });
+
+  if (!product) {
+    return { title: "محصول یافت نشد" };
+  }
+
+  const isFurnace = product.capacityKg != null && product.powerKw != null;
+  const title = isFurnace
+    ? `کوره القایی ذوب ${product.name}`
+    : product.name;
+  const description =
+    product.description?.slice(0, 160) ||
+    `${title} — ${categoryLabels[product.category] ?? ""} پارسیان پرتو الوند.`;
+  const image = product.images[0] ?? "/images/placeholder-furnace.webp";
+
+  return {
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      images: [{ url: image }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: [image],
+    },
+  };
+}
+
 export default async function ProductDetailPage({
   params,
 }: {
@@ -35,8 +75,27 @@ export default async function ProductDetailPage({
 
   const isFurnace = product.capacityKg != null && product.powerKw != null;
 
+  const productJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name: product.name,
+    description: product.description ?? undefined,
+    image: product.images[0]
+      ? `${siteConfig.url}${product.images[0]}`
+      : `${siteConfig.url}/images/placeholder-furnace.webp`,
+    brand: {
+      "@type": "Brand",
+      name: siteConfig.name,
+    },
+    category: categoryLabels[product.category],
+  };
+
   return (
     <main dir="rtl" className="bg-white">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(productJsonLd) }}
+      />
       {/* بردکرامب */}
       <div className="border-b border-gray-100 bg-gray-50">
         <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">

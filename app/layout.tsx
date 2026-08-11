@@ -7,6 +7,8 @@ import { cn } from "@/lib/utils";
 import { Footer } from "@/components/sections/Footer";
 import { ConsultationModal } from "../components/ConsultationModal";
 import { FloatingWhatsApp } from "@/components/FloatingWhatsApp";
+import { siteConfig } from "@/lib/site-config";
+
 
 //FONT IRAN SANS
 const iranSans = localFont({
@@ -17,15 +19,55 @@ const iranSans = localFont({
   display: "swap",
 });
 export const metadata: Metadata = {
+  metadataBase: new URL(siteConfig.url),
   title: {
-    default: "پارسیان پرتو الوند",
+    default: siteConfig.title,
     template: "%s | پارسیان پرتو الوند",
   },
-  description: "تولیدکننده کوره‌های القایی و تجهیزات صنعتی",
+  description: siteConfig.description,
   icons: {
     icon: "/favicon.webp",
   },
+  openGraph: {
+    type: "website",
+    locale: "fa_IR",
+    siteName: siteConfig.name,
+    title: siteConfig.title,
+    description: siteConfig.description,
+    url: siteConfig.url,
+    images: [
+      {
+        url: "/og-image.webp",
+        width: 1200,
+        height: 630,
+        alt: siteConfig.name,
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: siteConfig.title,
+    description: siteConfig.description,
+    images: ["/og-image.webp"],
+  },
 };
+
+const organizationJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: siteConfig.name,
+  url: siteConfig.url,
+  logo: `${siteConfig.url}/parsian-logo.webp`,
+  description: siteConfig.description,
+  telephone: siteConfig.phone,
+  address: {
+    "@type": "PostalAddress",
+    streetAddress: siteConfig.address,
+    addressCountry: "IR",
+  },
+  sameAs: [siteConfig.instagram],
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -42,6 +84,10 @@ export default function RootLayout({
 
       )}>
       <body className="min-h-screen font-iransans">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
+        />
         <Header />
         {children}
         <ConsultationModal />

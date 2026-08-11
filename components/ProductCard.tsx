@@ -4,7 +4,13 @@ import { ChevronLeft } from 'lucide-react'
 import type { Product } from '@/lib/generated/prisma/client'
 import { toPersianDigits } from '@/lib/format'
 
-export function ProductCard({ product }: { product: Product }) {
+export function ProductCard({
+  product,
+  priority = false,
+}: {
+  product: Product
+  priority?: boolean
+}) {
   const isFurnace = product.capacityKg != null && product.powerKw != null
 
   return (
@@ -21,6 +27,7 @@ export function ProductCard({ product }: { product: Product }) {
           alt={product.name}
           width={200}
           height={200}
+          priority={priority}
           className="h-full w-auto object-contain"
         />
       </div>
@@ -29,19 +36,21 @@ export function ProductCard({ product }: { product: Product }) {
         {isFurnace ? `کوره القایی ذوب ${product.name}` : product.name}
       </h3>
 
-      {isFurnace ? (
-        <div className="mt-2 space-y-1 text-center text-xs text-gray-400">
-          <p>ظرفیت ذوب: {toPersianDigits(product.capacityKg!)} کیلوگرم</p>
-          <p>توان: {toPersianDigits(product.powerKw!)} کیلووات</p>
-          {product.frequencyHz != null && (
-            <p>فرکانس کاری: {toPersianDigits(product.frequencyHz)} هرتز</p>
-          )}
-        </div>
-      ) : (
-        <p className="mt-2 line-clamp-3 text-center text-xs leading-5 text-gray-400">
-          {product.description}
-        </p>
-      )}
+      <div className="flex-1">
+        {isFurnace ? (
+          <div className="mt-2 space-y-1 text-center text-xs text-gray-400">
+            <p>ظرفیت ذوب: {toPersianDigits(product.capacityKg!)} کیلوگرم</p>
+            <p>توان: {toPersianDigits(product.powerKw!)} کیلووات</p>
+            {product.frequencyHz != null && (
+              <p>فرکانس کاری: {toPersianDigits(product.frequencyHz)} هرتز</p>
+            )}
+          </div>
+        ) : (
+          <p className="mt-2 line-clamp-3 text-center text-xs leading-5 text-gray-400">
+            {product.description}
+          </p>
+        )}
+      </div>
 
       <Link
         href={`/products/${product.slug}`}
