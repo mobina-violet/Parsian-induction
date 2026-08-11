@@ -88,7 +88,7 @@ export default function AboutPage() {
           </div>
         </div>
         <Image
-          src="/images/services/services5.webp"
+          src="/images/services/hero-section-services.webp"
           alt="کارخانه پارسیان"
           fill
           quality={75}

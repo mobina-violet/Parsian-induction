@@ -135,7 +135,10 @@ const products = [
     category: "CRUCIBLE" as const,
     description:
       "بوته‌های کوره القایی پارسیان در سه نوع اصلی عرضه می‌شوند: بوته با بدنه آلومینیومی، بوته با بدنه فولادی (یوک) و بوته با بدنه استیل. انتخاب نوع بوته بر اساس نوع فلز، ظرفیت ذوب و شرایط کاری انجام می‌شود تا بالاترین راندمان و عمر مفید حاصل گردد.",
-    images: [],
+    images: [
+      "/images/products/crucible-1.webp",
+      "/images/products/crucible-2.webp",
+    ],
     order: 11,
   },
   {

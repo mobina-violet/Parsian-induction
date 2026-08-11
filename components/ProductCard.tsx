@@ -1,34 +1,37 @@
-import Image from 'next/image'
-import Link from 'next/link'
-import { ChevronLeft } from 'lucide-react'
-import type { Product } from '@/lib/generated/prisma/client'
-import { toPersianDigits } from '@/lib/format'
+import Image from "next/image";
+import Link from "next/link";
+import { ChevronLeft } from "lucide-react";
+import type { Product } from "@/lib/generated/prisma/client";
+import { toPersianDigits } from "@/lib/format";
 
 export function ProductCard({
   product,
   priority = false,
 }: {
-  product: Product
-  priority?: boolean
+  product: Product;
+  priority?: boolean;
 }) {
-  const isFurnace = product.capacityKg != null && product.powerKw != null
+  const isFurnace = product.capacityKg != null && product.powerKw != null;
 
   return (
     <div className="group relative flex h-full flex-col rounded-2xl border border-gray-100 bg-white p-4 transition hover:shadow-md">
       {product.featured && (
-        <span className="absolute right-4 top-4 rounded-full bg-orange-500 px-3 py-1 text-[11px] font-medium text-white">
+        <span className="absolute right-4 top-4 z-10 rounded-full bg-orange-500 px-3 py-1 text-[11px] font-medium text-white">
           پرفروش
         </span>
       )}
-
-      <div className="flex h-36 items-center justify-center">
+      <div className="relative aspect-square w-full overflow-hidden rounded-xl">
         <Image
-          src={product.images[0] ?? '/images/placeholder-furnace.webp'}
+          src={
+            product.images?.[0] && product.images[0].trim() !== ""
+              ? product.images[0]
+              : "/images/placeholder-furnace.webp"
+          }
           alt={product.name}
-          width={200}
-          height={200}
+          fill
           priority={priority}
-          className="h-full w-auto object-contain"
+          className="object-cover transition duration-300 group-hover:scale-105"
+          sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
         />
       </div>
 
@@ -54,11 +57,10 @@ export function ProductCard({
 
       <Link
         href={`/products/${product.slug}`}
-        className="mt-4 flex items-center justify-center gap-1.5 rounded-full bg-orange-500 py-2.5 text-xs font-medium text-white transition hover:bg-orange-600"
-      >
+        className="mt-4 flex items-center justify-center gap-1.5 rounded-full bg-orange-500 py-2.5 text-xs font-medium text-white transition hover:bg-orange-600">
         مشاهده مشخصات
         <ChevronLeft className="h-3.5 w-3.5" />
       </Link>
     </div>
-  )
+  );
 }
