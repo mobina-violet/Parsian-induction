@@ -32,6 +32,26 @@ export function Header() {
     }
   }, [searchOpen]);
 
+  // بستن منوی موبایل با کلید Escape
+  useEffect(() => {
+    if (!mobileOpen) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setMobileOpen(false);
+    };
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, [mobileOpen]);
+
+  // قفل اسکرول پشت صفحه وقتی منوی موبایل بازه
+  useEffect(() => {
+    if (!mobileOpen) return;
+    const original = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = original;
+    };
+  }, [mobileOpen]);
+
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     const q = searchQuery.trim();
@@ -145,6 +165,9 @@ export function Header() {
 
           <button
             onClick={() => setMobileOpen(!mobileOpen)}
+            aria-label={mobileOpen ? "بستن منو" : "باز کردن منو"}
+            aria-expanded={mobileOpen}
+            aria-controls="mobile-menu"
             className="flex h-10 w-10 items-center justify-center rounded-xl border border-gray-200 text-slate-700 transition hover:bg-gray-50 lg:hidden">
             {mobileOpen ? (
               <X className="h-5 w-5" />
@@ -157,7 +180,12 @@ export function Header() {
 
       {/* Mobile Menu */}
       {mobileOpen && (
-        <div className="fixed inset-0 top-20 z-50 border-t border-gray-100 bg-white/95 backdrop-blur-md lg:hidden">
+        <div
+          id="mobile-menu"
+          role="dialog"
+          aria-modal="true"
+          aria-label="منوی موبایل"
+          className="fixed inset-0 top-20 z-50 border-t border-gray-100 bg-white/95 backdrop-blur-md lg:hidden">
           <nav className="flex flex-col space-y-2 px-6 py-8 text-lg font-medium">
             {/* Mobile Search */}
             <form onSubmit={handleSearch} className="mb-4 flex gap-2">
@@ -171,15 +199,10 @@ export function Header() {
               />
               <button
                 type="button"
-                onClick={() => setMobileOpen(!mobileOpen)}
-                aria-label={mobileOpen ? "بستن منو" : "باز کردن منو"}
-                aria-expanded={mobileOpen}
+                onClick={() => setMobileOpen(false)}
+                aria-label="بستن منو"
                 className="flex h-10 w-10 items-center justify-center rounded-xl border border-gray-200 text-slate-700 transition hover:bg-gray-50 lg:hidden">
-                {mobileOpen ? (
-                  <X className="h-5 w-5" />
-                ) : (
-                  <Menu className="h-5 w-5" />
-                )}
+                <X className="h-5 w-5" />
               </button>
             </form>
 
