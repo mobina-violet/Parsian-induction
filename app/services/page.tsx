@@ -1,8 +1,7 @@
 import Link from "next/link";
-
-import { ChevronLeft } from "lucide-react";
-import { ProjectHeroSlideshow } from "@/components/ProjectHeroSlideshow";
+import Image from "next/image";
 import {
+  ChevronLeft,
   ArrowLeft,
   ClipboardCheck,
   Cpu,
@@ -17,14 +16,22 @@ import {
   MessageCircle,
   Compass,
   Wrench,
-  Phone,
 } from "lucide-react";
+import { prisma } from "@/lib/prisma";
+import { ProductCard } from "@/components/ProductCard";
 
 export const metadata = {
   title: "خدمات",
   description:
     "خدمات تخصصی پارسیان در مشاوره، طراحی، ساخت، نصب و پشتیبانی سیستم‌های کوره های القایی",
 };
+
+const serviceTabs = [
+  { value: "SERVICE_EQUIPMENT", label: "خدمات و تجهیزات" },
+  { value: "SPARE_PARTS", label: "لوازم یدکی" },
+] as const;
+
+type ServiceCategory = (typeof serviceTabs)[number]["value"];
 
 const services = [
   {
@@ -121,94 +128,95 @@ const process = [
   },
 ];
 
-const faqs = [
-  {
-    q: "مدت زمان اجرای یک پروژه چقدر است؟",
-    a: "بسته به نوع و مقیاس پروژه متغیر است. بعد از جلسه‌ی مشاوره و نیازسنجی، یه بازه‌ی زمانی دقیق به شما اعلام می‌شود.",
-  },
-  {
-    q: "آیا امکان سفارشی‌سازی تجهیزات وجود دارد؟",
-    a: "بله، طراحی و مهندسی تمام محصولات پارسیان بر اساس نیاز مشخص هر مشتری قابل تنظیم است.",
-  },
-  {
-    q: "آیا خدمات پس از فروش ارائه می‌دهید؟",
-    a: "بله، پشتیبانی فنی، تامین قطعات یدکی و بازدید دوره‌ای بخشی از خدمات پس از فروش پارسیان است.",
-  },
-  {
-    q: "گارانتی محصولات و خدمات شما چیست؟",
-    a: "تمام محصولات و خدمات پارسیان دارای گارانتی مشخص هستند که جزئیات آن در قرارداد همکاری ذکر می‌شود.",
-  },
-  {
-    q: "چه صنایعی می‌توانند از محصولات و خدمات شما استفاده کنند؟",
-    a: "صنایع ذوب فلزات آهنی و غیرآهنی از جمله فولاد، چدن، آلومینیوم و مس، در مقیاس‌های مختلف.",
-  },
-  {
-    q: "نحوه‌ی درخواست مشاوره چگونه است؟",
-    a: "کافیست از طریق دکمه‌ی «درخواست مشاوره» فرم کوتاهی پر کنید تا کارشناسان ما در سریع‌ترین زمان با شما تماس بگیرند.",
-  },
-];
+export default async function ServicesPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ category?: string }>;
+}) {
+  const params = await searchParams;
+  const activeCategory =
+    params.category === "SPARE_PARTS" ? "SPARE_PARTS" : "SERVICE_EQUIPMENT";
 
-export default function ServicesPage() {
+  const items = await prisma.product.findMany({
+    where: { category: activeCategory },
+    orderBy: { order: "asc" },
+  });
+
   return (
     <main dir="rtl" className="bg-white">
-      {/* بردکرامب + هیرو */}
-      <div className="border-b border-gray-100 bg-gray-50">
-        <div className="mx-auto max-w-7xl px-4 pt-6 sm:px-6 lg:px-8">
-          <nav className="flex items-center gap-1.5 text-xs text-gray-400">
-            <Link href="/" className="transition hover:text-orange-500">
+      {/* هیرو - عکس بزرگ + متن روش */}
+      <section className="relative overflow-hidden">
+        <div className="absolute inset-0">
+          <Image
+            src="/images/services/hero.webp"
+            alt="خدمات پارسیان"
+            fill
+            priority
+            className="object-cover"
+            sizes="100vw"
+          />
+          <div className="absolute inset-0 bg-gradient-to-l from-black/80 via-black/60 to-black/40" />
+        </div>
+
+        <div className="relative mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-20 lg:px-8 lg:py-28">
+          <nav className="mb-8 flex items-center gap-1.5 text-xs text-white/70">
+            <Link href="/" className="transition hover:text-orange-400">
               خانه
             </Link>
             <ChevronLeft className="h-3 w-3" />
-            <span className="text-slate-600">خدمات</span>
+            <span className="text-white">خدمات</span>
           </nav>
-        </div>
 
-        <div
-          dir="ltr"
-          className="mx-auto grid max-w-7xl gap-8 px-4 py-10 sm:px-6 lg:grid-cols-[1.1fr_0.9fr] lg:items-center lg:px-8 lg:py-14">
-          <div dir="rtl" className="text-right">
-            <span className="text-xs font-medium text-orange-400">
-              خدمات ما
+          <div className="max-w-2xl">
+            <span className="inline-block rounded-full bg-orange-500/20 px-3 py-1 text-xs font-medium text-orange-300">
+              خدمات تخصصی
             </span>
-            <h1 className="mt-2 text-2xl font-bold leading-tight text-black sm:text-4xl">
-              خدمات{" "}
-              <span className="text-orange-500">تخصصی کوره القایی پارسیان</span>
+            <h1 className="mt-4 text-3xl font-bold leading-tight text-white sm:text-4xl lg:text-5xl">
+              خدمات <span className="text-orange-400">پارسیان</span>
             </h1>
-            <p className="mt-3 max-w-xl text-sm leading-7 text-gray-500 sm:text-base">
-              فراتر از ساخت تجهیزات، شریک فنی پروژه‌های شما هستیم. با ارائه
-              خدمات مهندسی، طراحی، ساخت، نصب و پشتیبانی، عملکرد سیستم‌های القایی
-              را به حداکثر می‌رسانیم.
+            <p className="mt-5 text-sm leading-7 text-white/80 sm:text-base">
+              از مشاوره و طراحی تا ساخت، نصب و پشتیبانی؛ همراه شما هستیم تا
+              بهترین عملکرد را از تجهیزات القایی خود بگیرید.
             </p>
-            <div className="mt-7 flex flex-wrap gap-3">
-              <Link
-                href="/projects"
-                className="inline-flex items-center gap-2 rounded-full bg-orange-500 px-6 py-3 text-sm font-medium text-white transition hover:bg-orange-600">
-                مشاهده نمونه پروژه‌ها
-                <ArrowLeft className="h-4 w-4" />
-              </Link>
-            </div>
-          </div>
-
-          <div className="relative flex justify-center">
-            <div
-              className="pointer-events-none absolute inset-0 flex items-center justify-center"
-              aria-hidden="true">
-              <div className="h-64 w-64 rounded-full border border-orange-100 sm:h-80 sm:w-80" />
-              <div className="absolute h-48 w-48 rounded-full bg-orange-50 sm:h-60 sm:w-60" />
-            </div>
-
-            <ProjectHeroSlideshow
-              images={[
-                "/images/services/services1.webp",
-                "/images/services/services2.webp",
-                "/images/services/services3.webp",
-                "/images/services/services4.webp",
-              ]}
-              alt="خدمات تخصصی پارسیان"
-            />
           </div>
         </div>
-      </div>
+      </section>
+
+      {/* فیلتر + کارت‌ها */}
+      <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+        <div className="flex flex-wrap gap-3">
+          {serviceTabs.map((tab) => {
+            const isActive = activeCategory === tab.value;
+            return (
+              <Link
+                key={tab.value}
+                href={`/services?category=${tab.value}`}
+                scroll={false}
+                className={
+                  isActive
+                    ? "rounded-full bg-orange-500 px-5 py-2.5 text-sm font-medium text-white"
+                    : "rounded-full border border-gray-200 px-5 py-2.5 text-sm font-medium text-slate-600 transition hover:border-orange-300 hover:text-orange-500"
+                }>
+                {tab.label}
+              </Link>
+            );
+          })}
+        </div>
+
+        <div className="mt-10">
+          {items.length > 0 ? (
+            <div className="grid grid-cols-2 gap-5 sm:grid-cols-3 lg:grid-cols-4">
+              {items.map((item) => (
+                <ProductCard key={item.id} product={item} />
+              ))}
+            </div>
+          ) : (
+            <p className="rounded-xl border border-dashed border-gray-200 py-16 text-center text-sm text-gray-400">
+              موردی در این دسته ثبت نشده است.
+            </p>
+          )}
+        </div>
+      </section>
 
       {/* خدمات ما */}
       <section className="bg-white">
@@ -217,13 +225,10 @@ export default function ServicesPage() {
             خدمات ما
           </h2>
 
-          <div
-            dir="ltr"
-            className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-6">
+          <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-6">
             {services.map((service) => (
               <div
                 key={service.title}
-                dir="rtl"
                 className="rounded-2xl border border-gray-100 p-4 text-center transition-all duration-300 hover:-translate-y-2 hover:shadow-xl">
                 <span
                   className={`mx-auto flex h-12 w-12 items-center justify-center rounded-xl ${service.color}`}>
@@ -251,13 +256,10 @@ export default function ServicesPage() {
             چرا خدمات ما؟
           </h2>
 
-          <div
-            dir="ltr"
-            className="mt-10 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="mt-10 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
             {whyUs.map((item) => (
               <div
                 key={item.title}
-                dir="rtl"
                 className="group rounded-2xl border border-white/10 bg-white/5 p-6 text-center backdrop-blur-md transition-all duration-300 hover:-translate-y-2 hover:border-orange-400/40 hover:bg-white/10">
                 <span className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-orange-500/20 to-red-500/20 ring-1 ring-orange-400/20 transition-all duration-300 group-hover:scale-110 group-hover:ring-orange-400/50">
                   <item.icon className="h-6 w-6 text-orange-400" />
@@ -274,21 +276,18 @@ export default function ServicesPage() {
         </div>
       </section>
 
-      {/* فرآیند همکاری با ما */}
+      {/* فرآیند همکاری */}
       <section className="bg-white">
         <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
           <h2 className="text-center text-xl font-bold text-slate-900 sm:text-2xl">
             فرآیند همکاری با ما
           </h2>
 
-          <div
-            dir="ltr"
-            className="relative mt-10 grid grid-cols-1 gap-8 sm:grid-cols-5">
+          <div className="relative mt-10 grid grid-cols-1 gap-8 sm:grid-cols-5">
             <div className="pointer-events-none absolute inset-x-0 top-6 hidden h-px bg-gray-200 sm:block" />
             {process.map((step) => (
               <div
                 key={step.title}
-                dir="rtl"
                 className="relative flex flex-col items-center text-center">
                 <div className="relative z-10 flex h-12 w-12 items-center justify-center rounded-full border border-gray-200 bg-white shadow-sm">
                   <step.icon className="h-5 w-5 text-slate-700" />
@@ -304,54 +303,6 @@ export default function ServicesPage() {
                 </p>
               </div>
             ))}
-          </div>
-        </div>
-      </section>
-
-      {/* سوالات متداول + کارت تماس */}
-      <section className="bg-gray-50">
-        <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
-          <div
-            dir="rtl"
-            className="grid gap-8 items-start lg:grid-cols-[1.6fr_0.9fr]">
-            <div>
-              <h2 className="text-xl font-bold text-slate-900 sm:text-2xl">
-                سوالات متداول
-              </h2>
-              <div className="mt-6 space-y-3">
-                {faqs.map((faq) => (
-                  <details
-                    key={faq.q}
-                    className="group rounded-xl border border-gray-100 bg-white px-5 py-4 shadow-sm transition hover:shadow-md [&_summary::-webkit-details-marker]:hidden">
-                    <summary className="flex cursor-pointer list-none items-center justify-between gap-3 text-sm font-medium text-slate-900">
-                      <span>{faq.q}</span>
-                      <ArrowLeft className="h-4 w-4 shrink-0 text-gray-400 transition-transform duration-300 group-open:-rotate-90" />
-                    </summary>
-                    <p className="mt-3 text-sm leading-7 text-gray-500">
-                      {faq.a}
-                    </p>
-                  </details>
-                ))}
-              </div>
-            </div>
-
-            <div className="flex flex-col items-center justify-center rounded-2xl border border-gray-100 bg-white p-6 text-center shadow-sm">
-              <span className="flex h-12 w-12 items-center justify-center rounded-full bg-orange-50">
-                <Headset className="h-5 w-5 text-orange-500" />
-              </span>
-              <h3 className="mt-3 text-sm font-bold text-slate-900">
-                سوالی دارید؟
-              </h3>
-              <p className="mt-1 max-w-xs text-xs leading-6 text-gray-400">
-                کارشناسان ما آماده پاسخگویی و راهنمایی شما هستند.
-              </p>
-              <Link
-                href="/contact"
-                className="mt-4 inline-flex items-center gap-2 rounded-full bg-orange-500 px-5 py-2.5 text-xs font-medium text-white transition hover:bg-orange-600">
-                <Phone className="h-3.5 w-3.5" />
-                تماس با ما
-              </Link>
-            </div>
           </div>
         </div>
       </section>

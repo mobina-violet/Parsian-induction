@@ -11,13 +11,15 @@ const categoryLabels: Record<string, string> = {
   MELTING_FURNACE: "کوره القایی ذوب",
   FORGING_FURNACE: "کوره القایی فورج",
   HARDENING_FURNACE: "کوره القایی سخت‌کاری",
+  FORMING_FURNACE: "کوره القایی فورمینگ",
+  SERVICE_EQUIPMENT: "خدمات و تجهیزات",
+  SPARE_PARTS: "لوازم یدکی",
   COOLING_SYSTEM: "سیستم خنک‌کننده",
   FREQUENCY_CONVERTER: "سیستم مبدل فرکانس",
   CRUCIBLE: "بوته",
   LINK: "لینک",
   PERIPHERAL_EQUIPMENT: "قطعات و تجهیزات جانبی",
 };
-
 export async function generateStaticParams() {
   const products = await prisma.product.findMany({ select: { slug: true } });
   return products.map((p) => ({ slug: p.slug }));
@@ -58,7 +60,11 @@ export async function generateMetadata({
   };
 }
 
-type ProductVariant = { capacityKg: number; powerKw: number; frequencyHz: number };
+type ProductVariant = {
+  capacityKg: number;
+  powerKw: number;
+  frequencyHz: number;
+};
 type ProductComponent = { title: string; description: string };
 
 export default async function ProductDetailPage({
@@ -178,9 +184,7 @@ export default async function ProductDetailPage({
                         <th className="px-3 py-3 font-medium">
                           توان (کیلووات)
                         </th>
-                        <th className="px-3 py-3 font-medium">
-                          فرکانس (هرتز)
-                        </th>
+                        <th className="px-3 py-3 font-medium">فرکانس (هرتز)</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -207,7 +211,8 @@ export default async function ProductDetailPage({
                   </table>
                 </div>
                 <p className="mt-2 text-xs text-gray-400">
-                  مشخصات دقیق هر ظرفیت بر اساس نوع فلز و نیاز تولید شما تنظیم می‌شود — برای مشاوره تماس بگیرید.
+                  مشخصات دقیق هر ظرفیت بر اساس نوع فلز و نیاز تولید شما تنظیم
+                  می‌شود — برای مشاوره تماس بگیرید.
                 </p>
               </div>
             )}

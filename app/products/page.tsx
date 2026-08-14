@@ -23,6 +23,7 @@ const validCategories = [
   "MELTING_FURNACE",
   "FORGING_FURNACE",
   "HARDENING_FURNACE",
+  "FORMING_FURNACE",
 ] as const;
 
 type CategoryValue = (typeof validCategories)[number];
@@ -32,8 +33,6 @@ function isValidCategory(value: string | undefined): value is CategoryValue {
 }
 
 // کلمات کلیدی مرتبط با هر دسته‌بندی
-// توجه: خنک‌کننده/مبدل فرکانس/بوته/لینک/قطعات جانبی دیگه دسته‌ی جدا نیستن،
-// چون الان به‌عنوان اجزای شامل‌شده در صفحه‌ی «کوره القایی ذوب» معرفی می‌شن.
 const categoryKeywords: Record<CategoryValue, string[]> = {
   MELTING_FURNACE: [
     "ذوب",
@@ -63,6 +62,7 @@ const categoryKeywords: Record<CategoryValue, string[]> = {
   ],
   FORGING_FURNACE: ["فورج", "کوره فورج", "forging", "forge"],
   HARDENING_FURNACE: ["سخت کاری", "سخت‌کاری", "سختکاری", "hardening"],
+  FORMING_FURNACE: ["فورمینگ", "فرمینگ", "کوره فورمینگ", "forming", "form"],
 };
 
 // تشخیص دسته‌بندی از روی کلمه سرچ‌شده
@@ -86,8 +86,8 @@ const categoryTabs: { value?: CategoryValue; label: string }[] = [
   { value: "MELTING_FURNACE", label: "کوره‌های القایی ذوب" },
   { value: "FORGING_FURNACE", label: "کوره‌های القایی فورج" },
   { value: "HARDENING_FURNACE", label: "کوره‌های القایی سخت کاری" },
+  { value: "FORMING_FURNACE", label: "کوره‌های القایی فورمینگ" },
 ];
-
 const features = [
   { icon: Gauge, title: "راندمان بالا", desc: "مصرف انرژی بهینه" },
   { icon: Wrench, title: "طراحی اختصاصی", desc: "متناسب با نیاز شما" },

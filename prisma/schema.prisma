@@ -43,11 +43,14 @@ enum ProductCategory {
   MELTING_FURNACE        // کوره‌های القایی ذوب
   FORGING_FURNACE        // کوره‌های القایی فورج
   HARDENING_FURNACE      // کوره‌های القایی سخت‌کاری
-  COOLING_SYSTEM         // سیستم خنک‌کننده
-  FREQUENCY_CONVERTER    // سیستم‌های مبدل فرکانس
-  CRUCIBLE               // بوته
-  LINK                   // لینک
-  PERIPHERAL_EQUIPMENT   // قطعات و تجهیزات جانبی
+  FORMING_FURNACE        // کوره‌های القایی فورمینگ
+  COOLING_SYSTEM
+  SERVICE_EQUIPMENT      // خدمات و تجهیزات
+  SPARE_PARTS            // لوازم یدکی
+  FREQUENCY_CONVERTER
+  CRUCIBLE
+  LINK
+  PERIPHERAL_EQUIPMENT
 }
 model Product {
   id          String                @id @default(cuid())

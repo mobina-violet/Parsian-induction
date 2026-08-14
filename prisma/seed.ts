@@ -5,7 +5,6 @@ const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL });
 const prisma = new PrismaClient({ adapter });
 
 // ⚠️ مشخصات فنی تقریبی هستن. قبل از انتشار نهایی حتماً با اعداد تایید شده مهندسی جایگزین کن.
-// این محصولات دیگه به‌صورت جدا وجود ندارن (به «کوره القایی ذوب» ادغام شدن)، پس اول حذف می‌شن:
 const staleProductSlugs = [
   "p250",
   "p500",
@@ -26,7 +25,7 @@ const products = [
     name: "کوره القایی ذوب",
     category: "MELTING_FURNACE" as const,
     description:
-      "کوره‌های القایی ذوب پارسیان با طراحی اینورتر رزونانس موازی، ذوب تمیز و بدون آلودگی فلزات آهنی و غیرآهنی (فولاد، چدن، آلومینیوم و مس) رو با راندمان بالا و کنترل دقیق دما فراهم می‌کنن. این خط تولید از ظرفیت ۲۵۰ کیلوگرم برای کارگاه‌های کوچک تا ۵ تن برای واحدهای صنعتی بزرگ رو پوشش می‌ده؛ کنترل اتوماتیک توان از بار سرد تا ذوب کامل، حفاظت‌های الکترونیکی پیشرفته و مدیریت کامل فرآیند از طریق HMI و PLC از ویژگی‌های مشترک همه‌ی مدل‌هاست. مشخصات نهایی هر ظرفیت بر اساس نوع فلز و نیاز تولید مشتری تنظیم می‌شود.",
+      "کوره‌های القایی ذوب پارسیان با طراحی اینورتر رزونانس موازی، ذوب تمیز و بدون آلودگی فلزات آهنی و غیرآهنی (فولاد، چدن، آلومینیوم و مس) رو با راندمان بالا و کنترل دقیق دما فراهم می‌کنن. این خط تولید از ظرفیت ۲۵۰ کیلوگرم برای کارگاه‌های کوچک تا ۵ تن برای واحدهای صنعتی بزرگ رو پوشش می‌ده.",
     capacityKg: null,
     powerKw: null,
     frequencyHz: null,
@@ -45,27 +44,27 @@ const products = [
       {
         title: "سیستم خنک‌کننده",
         description:
-          "به‌صورت مدار بسته و هوشمند طراحی شده تا دمای آب کویل بوته، تابلوی مبدل فرکانس و بانک خازن رو به‌طور دقیق کنترل کنه. با حفاظت‌های چندگانه، مقاومت الکتریکی و جریان آب رو مانیتور کرده و از آسیب به تجهیزات جلوگیری می‌کنه.",
+          "به‌صورت مدار بسته و هوشمند طراحی شده تا دمای آب کویل بوته، تابلوی مبدل فرکانس و بانک خازن رو به‌طور دقیق کنترل کنه.",
       },
       {
         title: "سیستم مبدل فرکانس",
         description:
-          "تابلو مبدل فرکانس مجهز به PLC و HMI برای کنترل دقیق و ساده‌ی تمام بخش‌های کوره. کاهش حجم مدار فرمان، کاهش مصرف انرژی، کاهش خرابی‌های مکانیکی و عیب‌یابی ساده‌تر از مزایای اصلی اون‌هاست.",
+          "تابلو مبدل فرکانس مجهز به PLC و HMI برای کنترل دقیق و ساده‌ی تمام بخش‌های کوره.",
       },
       {
         title: "بوته",
         description:
-          "در سه نوع اصلی عرضه می‌شه: بدنه آلومینیومی، بدنه فولادی (یوک) و بدنه استیل. انتخاب نوع بوته بر اساس نوع فلز، ظرفیت ذوب و شرایط کاری انجام می‌شه تا بالاترین راندمان و عمر مفید حاصل بشه.",
+          "در سه نوع اصلی عرضه می‌شه: بدنه آلومینیومی، بدنه فولادی (یوک) و بدنه استیل.",
       },
       {
         title: "لینک",
         description:
-          "لینک‌های قدرت و اتصالات با طراحی استاندارد و کیفیت بالا تولید می‌شن تا انتقال جریان با حداقل تلفات و حداکثر ایمنی انجام بگیره.",
+          "لینک‌های قدرت و اتصالات با طراحی استاندارد و کیفیت بالا تولید می‌شن.",
       },
       {
         title: "قطعات و تجهیزات جانبی",
         description:
-          "شامل قطعات مصرفی و کنترلی مثل تریستور، مقاومت، خازن، متعلقات مسی و برد الکترونیکی — همه با کیفیت بالا و سازگاری کامل با سیستم پارسیان، برای عملکرد پایدار و طولانی‌مدت کوره.",
+          "شامل قطعات مصرفی و کنترلی مثل تریستور، مقاومت، خازن و برد الکترونیکی.",
       },
     ],
     images: [
@@ -81,7 +80,16 @@ const products = [
     name: "کوره القایی فورج",
     category: "FORGING_FURNACE" as const,
     description:
-      "کوره القایی فورج پارسیان با بهره‌گیری از دانش روز دنیا در ساخت کوره‌های فورج کامل و موضعی طراحی شده است. این کوره به عنوان پیش‌گرم‌کن قطعات فلزی قبل از عملیات آهنگری استفاده می‌شود و به دلیل زمان کوتاه حرارت‌دهی، اکسید بسیار کمی روی قطعه ایجاد می‌کند. از مزایای آن می‌توان به اپراتوری آسان، راندمان بالا، کنترل دقیق دما، امکان گرمایش موضعی، اشغال فضای کمتر و سازگاری با محیط زیست اشاره کرد.",
+      "کوره القایی فورج پارسیان برای پیش‌گرم‌کردن قطعات فلزی قبل از عملیات آهنگری طراحی شده است.",
+    capacityKg: null,
+    powerKw: null,
+    frequencyHz: null,
+    variants: [
+      { capacityKg: 50, powerKw: 50, frequencyHz: 8000 },
+      { capacityKg: 100, powerKw: 80, frequencyHz: 6000 },
+      { capacityKg: 200, powerKw: 150, frequencyHz: 4000 },
+      { capacityKg: 500, powerKw: 300, frequencyHz: 2500 },
+    ],
     images: ["/images/products/forging-furnace-1.webp"],
     order: 2,
   },
@@ -90,7 +98,16 @@ const products = [
     name: "کوره القایی سخت‌کاری",
     category: "HARDENING_FURNACE" as const,
     description:
-      "کوره القایی سخت‌کاری پارسیان برای انجام عملیات حرارتی دقیق روی قطعات فلزی طراحی شده است. با قابلیت کنترل دما در عمق نفوذ مورد نظر و تأثیرگذاری بر ساختار کریستالی فلز، ابزاری کارآمد در اختیار مهندسین متالورژی قرار می‌دهد. کنترل توان، سرعت حرکت خطی و دورانی قطعه، برنامه‌ریزی عملیات کوئنچ و مانیتورینگ موقعیت اینداکتور همگی از طریق HMI انجام می‌شود. کاربردهای رایج شامل محورها، یاتاقان‌ها، میل‌بادامک، پین‌ها، پیستون‌ها، بوش سیلندر، چرخ‌دنده‌ها، شفت‌ها و میل‌لنگ است.",
+      "کوره القایی سخت‌کاری پارسیان برای انجام عملیات حرارتی دقیق روی قطعات فلزی طراحی شده است.",
+    capacityKg: null,
+    powerKw: null,
+    frequencyHz: null,
+    variants: [
+      { capacityKg: 30, powerKw: 40, frequencyHz: 20000 },
+      { capacityKg: 80, powerKw: 80, frequencyHz: 15000 },
+      { capacityKg: 150, powerKw: 120, frequencyHz: 10000 },
+      { capacityKg: 300, powerKw: 200, frequencyHz: 8000 },
+    ],
     images: [
       "/images/products/hardening-furnace-1.webp",
       "/images/products/hardening-furnace-2.webp",
@@ -99,53 +116,76 @@ const products = [
     ],
     order: 3,
   },
+  {
+    slug: "forming-furnace",
+    name: "کوره القایی فورمینگ",
+    category: "FORMING_FURNACE" as const,
+    description:
+      "کوره القایی فورمینگ پارسیان برای گرم‌کردن قطعات قبل از عملیات شکل‌دهی و فرم‌دهی طراحی شده است.",
+    capacityKg: null,
+    powerKw: null,
+    frequencyHz: null,
+    variants: [
+      { capacityKg: 100, powerKw: 100, frequencyHz: 5000 },
+      { capacityKg: 250, powerKw: 200, frequencyHz: 3500 },
+      { capacityKg: 500, powerKw: 350, frequencyHz: 2500 },
+      { capacityKg: 1000, powerKw: 600, frequencyHz: 1500 },
+    ],
+    images: ["/images/products/forging-furnace-1.webp"],
+    featured: false,
+    order: 4,
+  },
+  // ===== لوازم یدکی =====
+  {
+    slug: "thyristor-and-power-parts",
+    name: "تریستور و قطعات قدرت",
+    category: "SPARE_PARTS" as const,
+    description:
+      "تامین انواع تریستور، دیود، مقاومت و قطعات قدرت اصلی کوره‌های القایی با کیفیت بالا و سازگاری کامل با سیستم‌های پارسیان.",
+    images: [
+
+    ],
+    order: 10,
+  },
+  {
+    slug: "control-boards",
+    name: "بردهای کنترل و الکترونیکی",
+    category: "SPARE_PARTS" as const,
+    description:
+      "بردهای کنترل، کارت‌های الکترونیکی و قطعات مرتبط با سیستم فرمان و مانیتورینگ کوره‌های القایی.",
+    images: [
+
+    ],
+    order: 11,
+  },
+  // ===== خدمات و تجهیزات =====
+  {
+    slug: "installation-and-commissioning",
+    name: "نصب و راه‌اندازی",
+    category: "SERVICE_EQUIPMENT" as const,
+    description:
+      "خدمات نصب، راه‌اندازی و آموزش بهره‌برداری کوره‌های القایی در محل مشتری توسط تیم متخصص پارسیان.",
+    images: [
+
+    ],
+    order: 20,
+  },
+  {
+    slug: "maintenance-and-support",
+    name: "تعمیرات و پشتیبانی فنی",
+    category: "SERVICE_EQUIPMENT" as const,
+    description:
+      "خدمات تعمیرات تخصصی، بازدید دوره‌ای و پشتیبانی فنی برای حفظ عملکرد پایدار تجهیزات.",
+    images: [
+
+    ],
+    order: 21,
+  },
 ];
 
-const projects = [
-  {
-    slug: "khouzestan-steel-complex",
-    title: "مجتمع فولاد خوزستان",
-    industry: "STEEL" as const,
-    capacityKg: 2000,
-    image: "/images/projects/project1.webp",
-    featured: true,
-    order: 1,
-    completedAt: new Date("2023-11-01"),
-  },
-  {
-    slug: "sarcheshmeh-copper",
-    title: "کارخانه مس سرچشمه",
-    industry: "COPPER" as const,
-    capacityKg: 1000,
-    image: "/images/projects/project2.webp",
-    featured: true,
-    order: 2,
-    completedAt: new Date("2022-04-01"),
-  },
-  {
-    slug: "aluminum-smelter-arak",
-    title: "کارخانه ذوب آلومینیوم اراک",
-    industry: "ALUMINUM" as const,
-    capacityKg: 1500,
-    image: "/images/projects/project3.webp",
-    featured: true,
-    order: 3,
-    completedAt: new Date("2024-06-01"),
-  },
-  {
-    slug: "pars-khodro-metal",
-    title: "صنایع فلزی پارس خودرو",
-    industry: "AUTOMOTIVE" as const,
-    capacityKg: 750,
-    image: "/images/projects/project4.webp",
-    featured: true,
-    order: 4,
-    completedAt: new Date("2022-01-01"),
-  },
-];
+
 
 async function main() {
-  // محصولاتی که به «کوره القایی ذوب» ادغام شدن رو حذف کن
   await prisma.product.deleteMany({
     where: { slug: { in: staleProductSlugs } },
   });
@@ -155,14 +195,6 @@ async function main() {
       where: { slug: product.slug },
       update: product,
       create: product,
-    });
-  }
-
-  for (const project of projects) {
-    await prisma.project.upsert({
-      where: { slug: project.slug },
-      update: project,
-      create: project,
     });
   }
 }
