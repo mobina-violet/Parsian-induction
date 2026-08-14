@@ -26,19 +26,19 @@ export const services: Service[] = [
     icon: Snowflake,
     title: "سیستم خنک‌کننده",
     description: "سیستم‌های خنک‌کننده پیشرفته و کارآمد",
-    href: "/products?category=COOLING_SYSTEM",
+    href: "/products/melting-furnace",
   },
   {
     icon: CircuitBoard,
     title: "سیستم مبدل فرکانس",
     description: "مبدل‌های فرکانس اختصاصی کوره‌های القایی",
-    href: "/products?category=FREQUENCY_CONVERTER",
+    href: "/products/melting-furnace",
   },
   {
     icon: Wrench,
     title: "قطعات و تجهیزات",
     description: "تامین قطعات اصلی با کیفیت بالا",
-    href: "/products?category=PERIPHERAL_EQUIPMENT",
+    href: "/products/melting-furnace",
   },
   {
     icon: Factory,

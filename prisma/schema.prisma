@@ -16,7 +16,7 @@ model ConsultationRequest {
   message     String?
   source      LeadSource @default(HERO_WIDGET)
   productId   String?
-  product     Product?   @relation(fields: [productId], references: [id])
+  product     Product?   @relation(fields: [productId], references: [id], onDelete: SetNull)
   status      LeadStatus @default(NEW)
   notes       String?
   createdAt   DateTime   @default(now())
@@ -58,6 +58,8 @@ model Product {
   capacityKg  Int?
   powerKw     Int?
   frequencyHz Int?
+  variants    Json?                 // ردیف‌های جدول ظرفیت‌ها: [{ capacityKg, powerKw, frequencyHz }]
+  components  Json?                 // اجزای شامل‌شده در سیستم: [{ title, description }]
   images      String[]
   featured    Boolean               @default(false)
   order       Int                   @default(0)

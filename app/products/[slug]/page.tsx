@@ -35,10 +35,7 @@ export async function generateMetadata({
     return { title: "محصول یافت نشد" };
   }
 
-  const isFurnace = product.capacityKg != null && product.powerKw != null;
-  const title = isFurnace
-    ? `کوره القایی ذوب ${product.name}`
-    : product.name;
+  const title = product.name;
   const description =
     product.description?.slice(0, 160) ||
     `${title} — ${categoryLabels[product.category] ?? ""} پارسیان پرتو الوند.`;
@@ -61,6 +58,9 @@ export async function generateMetadata({
   };
 }
 
+type ProductVariant = { capacityKg: number; powerKw: number; frequencyHz: number };
+type ProductComponent = { title: string; description: string };
+
 export default async function ProductDetailPage({
   params,
 }: {
@@ -73,7 +73,13 @@ export default async function ProductDetailPage({
     notFound();
   }
 
-  const isFurnace = product.capacityKg != null && product.powerKw != null;
+  const variants = Array.isArray(product.variants)
+    ? (product.variants as unknown as ProductVariant[])
+    : [];
+  const components = Array.isArray(product.components)
+    ? (product.components as unknown as ProductComponent[])
+    : [];
+  const hasSingleSpec = product.capacityKg != null && product.powerKw != null;
 
   const productJsonLd = {
     "@context": "https://schema.org",
@@ -123,10 +129,10 @@ export default async function ProductDetailPage({
               {categoryLabels[product.category]}
             </span>
             <h1 className="mt-3 text-2xl font-bold text-slate-900 sm:text-3xl">
-              {isFurnace ? `کوره القایی ذوب ${product.name}` : product.name}
+              {product.name}
             </h1>
 
-            {isFurnace && (
+            {hasSingleSpec && (
               <div className="mt-6 grid grid-cols-3 gap-3 rounded-2xl border border-gray-100 bg-gray-50 p-4 text-center">
                 <div>
                   <p className="text-lg font-bold text-slate-900">
@@ -155,6 +161,77 @@ export default async function ProductDetailPage({
               <p className="mt-6 text-sm leading-7 text-gray-500">
                 {product.description}
               </p>
+            )}
+
+            {variants.length > 0 && (
+              <div className="mt-8">
+                <h2 className="text-base font-bold text-slate-900">
+                  ظرفیت‌های موجود
+                </h2>
+                <div className="mt-3 overflow-hidden rounded-2xl border border-gray-100">
+                  <table className="w-full text-center text-sm">
+                    <thead>
+                      <tr className="bg-gray-50 text-xs text-gray-400">
+                        <th className="px-3 py-3 font-medium">
+                          ظرفیت (کیلوگرم)
+                        </th>
+                        <th className="px-3 py-3 font-medium">
+                          توان (کیلووات)
+                        </th>
+                        <th className="px-3 py-3 font-medium">
+                          فرکانس (هرتز)
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {variants.map((v, i) => (
+                        <tr
+                          key={v.capacityKg}
+                          className={
+                            i % 2 === 1
+                              ? "bg-gray-50/60 border-t border-gray-100"
+                              : "border-t border-gray-100"
+                          }>
+                          <td className="px-3 py-3 font-bold text-slate-900">
+                            {toPersianDigits(v.capacityKg)}
+                          </td>
+                          <td className="px-3 py-3 text-gray-600">
+                            {toPersianDigits(v.powerKw)}
+                          </td>
+                          <td className="px-3 py-3 text-gray-600">
+                            {toPersianDigits(v.frequencyHz)}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+                <p className="mt-2 text-xs text-gray-400">
+                  مشخصات دقیق هر ظرفیت بر اساس نوع فلز و نیاز تولید شما تنظیم می‌شود — برای مشاوره تماس بگیرید.
+                </p>
+              </div>
+            )}
+
+            {components.length > 0 && (
+              <div className="mt-8">
+                <h2 className="text-base font-bold text-slate-900">
+                  این سیستم شامل چه اجزایی می‌شود؟
+                </h2>
+                <div className="mt-3 space-y-3">
+                  {components.map((c) => (
+                    <div
+                      key={c.title}
+                      className="rounded-2xl border border-gray-100 bg-gray-50 p-4">
+                      <p className="text-sm font-bold text-slate-900">
+                        {c.title}
+                      </p>
+                      <p className="mt-1 text-xs leading-6 text-gray-500">
+                        {c.description}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              </div>
             )}
           </div>
         </div>

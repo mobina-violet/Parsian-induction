@@ -95,21 +95,21 @@ export function Footer() {
                 </li>
                 <li>
                   <Link
-                    href="/products?category=PERIPHERAL_EQUIPMENT"
+                    href="/products/melting-furnace"
                     className="transition hover:text-orange-500">
                     قطعات و تجهیزات
                   </Link>
                 </li>
                 <li>
                   <Link
-                    href="/products?category=FREQUENCY_CONVERTER"
+                    href="/products/melting-furnace"
                     className="transition hover:text-orange-500">
                     سیستم مبدل فرکانس
                   </Link>
                 </li>
                 <li>
                   <Link
-                    href="/products?category=COOLING_SYSTEM"
+                    href="/products/melting-furnace"
                     className="transition hover:text-orange-500">
                     سیستم خنک‌کننده
                   </Link>

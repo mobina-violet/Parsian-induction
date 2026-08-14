@@ -23,11 +23,6 @@ const validCategories = [
   "MELTING_FURNACE",
   "FORGING_FURNACE",
   "HARDENING_FURNACE",
-  "COOLING_SYSTEM",
-  "FREQUENCY_CONVERTER",
-  "CRUCIBLE",
-  "LINK",
-  "PERIPHERAL_EQUIPMENT",
 ] as const;
 
 type CategoryValue = (typeof validCategories)[number];
@@ -37,29 +32,37 @@ function isValidCategory(value: string | undefined): value is CategoryValue {
 }
 
 // کلمات کلیدی مرتبط با هر دسته‌بندی
+// توجه: خنک‌کننده/مبدل فرکانس/بوته/لینک/قطعات جانبی دیگه دسته‌ی جدا نیستن،
+// چون الان به‌عنوان اجزای شامل‌شده در صفحه‌ی «کوره القایی ذوب» معرفی می‌شن.
 const categoryKeywords: Record<CategoryValue, string[]> = {
-  MELTING_FURNACE: ["ذوب", "کوره ذوب", "کوره القایی ذوب", "melting"],
-  FORGING_FURNACE: ["فورج", "کوره فورج", "forging", "forge"],
-  HARDENING_FURNACE: ["سخت کاری", "سخت‌کاری", "سختکاری", "hardening"],
-  COOLING_SYSTEM: [
+  MELTING_FURNACE: [
+    "ذوب",
+    "کوره ذوب",
+    "کوره القایی ذوب",
+    "melting",
     "خنک",
     "خنک‌کننده",
     "خنک کننده",
     "سیستم خنک",
     "cooling",
     "کولینگ",
-  ],
-  FREQUENCY_CONVERTER: [
     "مبدل فرکانس",
     "مبدل",
     "فرکانس",
     "اینورتر",
     "frequency",
     "converter",
+    "بوته",
+    "crucible",
+    "لینک",
+    "link",
+    "جانبی",
+    "قطعات",
+    "تجهیزات جانبی",
+    "peripheral",
   ],
-  CRUCIBLE: ["بوته", "crucible"],
-  LINK: ["لینک", "link"],
-  PERIPHERAL_EQUIPMENT: ["جانبی", "قطعات", "تجهیزات جانبی", "peripheral"],
+  FORGING_FURNACE: ["فورج", "کوره فورج", "forging", "forge"],
+  HARDENING_FURNACE: ["سخت کاری", "سخت‌کاری", "سختکاری", "hardening"],
 };
 
 // تشخیص دسته‌بندی از روی کلمه سرچ‌شده
@@ -83,11 +86,6 @@ const categoryTabs: { value?: CategoryValue; label: string }[] = [
   { value: "MELTING_FURNACE", label: "کوره‌های القایی ذوب" },
   { value: "FORGING_FURNACE", label: "کوره‌های القایی فورج" },
   { value: "HARDENING_FURNACE", label: "کوره‌های القایی سخت کاری" },
-  { value: "COOLING_SYSTEM", label: "سیستم خنک‌کننده" },
-  { value: "FREQUENCY_CONVERTER", label: "سیستم‌های مبدل فرکانس" },
-  { value: "CRUCIBLE", label: "بوته" },
-  { value: "LINK", label: "لینک" },
-  { value: "PERIPHERAL_EQUIPMENT", label: "قطعات و تجهیزات جانبی" },
 ];
 
 const features = [
@@ -186,9 +184,10 @@ export default async function ProductsPage({
             </h1>
             <p className="mt-5 text-sm leading-8 text-white/80 sm:text-base">
               از کوره‌های ذوب، فورج و سخت‌کاری گرفته تا سیستم خنک‌کننده، مبدل
-              فرکانس، بوته، لینک و قطعات جانبی؛ پارسیان طیف کاملی از تجهیزات مورد
-              نیاز خط تولید ذوب فلزات شما را با ظرفیت‌های ۲۵۰ تا ۲۰۰۰ کیلوگرم و
-              امکان سفارشی‌سازی کامل ارائه می‌دهد.
+              فرکانس، بوته، لینک و قطعات جانبی که در دل هر کوره تعبیه شده‌اند؛
+              پارسیان طیف کاملی از تجهیزات مورد نیاز خط تولید ذوب فلزات شما را
+              با ظرفیت‌های ۲۵۰ کیلوگرم تا ۵ تن و امکان سفارشی‌سازی کامل ارائه
+              می‌دهد.
             </p>
 
             <div className="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-4">
