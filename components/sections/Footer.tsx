@@ -81,47 +81,37 @@ export function Footer() {
                 </li>
               </ul>
             </div>
-
+            
             {/* محصولات */}
             <div>
               <h4 className="text-sm font-bold text-slate-900">محصولات</h4>
-              <ul className="mt-4 space-y-2.5 text-sm text-gray-500">
-                <li>
-                  <Link
-                    href="/products"
-                    className="transition hover:text-orange-500">
-                    کوره‌های القایی
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/products/melting-furnace"
-                    className="transition hover:text-orange-500">
-                    قطعات و تجهیزات
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/products/melting-furnace"
-                    className="transition hover:text-orange-500">
-                    سیستم مبدل فرکانس
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/products/melting-furnace"
-                    className="transition hover:text-orange-500">
-                    سیستم خنک‌کننده
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/services"
-                    className="transition hover:text-orange-500">
-                    نصب و راه‌اندازی
-                  </Link>
-                </li>
-              </ul>
+
+              <div className="mt-4 space-y-3">
+                {/* لینک اصلی */}
+                <Link
+                  href="/products"
+                  className="block text-sm font-medium text-slate-800 transition hover:text-orange-500">
+                  کوره‌های القایی
+                </Link>
+
+                {/* زیرمجموعه‌ها */}
+                <ul className="space-y-2 border-r border-gray-100 pr-3 text-sm text-gray-500">
+                  <li>
+                    <Link
+                      href="/services"
+                      className="transition hover:text-orange-500">
+                      قطعات و تجهیزات
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      href="/projects"
+                      className="transition hover:text-orange-500">
+                      نصب و راه‌اندازی
+                    </Link>
+                  </li>
+                </ul>
+              </div>
             </div>
 
             {/* راه‌های ارتباطی */}
@@ -160,7 +150,7 @@ export function Footer() {
                     rel="noopener noreferrer"
                     className="flex items-center gap-2 hover:text-orange-500 transition-colors">
                     <FaWhatsapp className="h-4 w-4 shrink-0 text-orange-500" />
-                    <span dir="ltr">۰۹۱۲۴۳۸۴۱۹۱</span>
+                    <span>پیام در واتساپ</span>
                   </a>
                 </li>
                 <li className="flex items-center justify-center gap-2 sm:justify-start">

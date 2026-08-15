@@ -10,7 +10,7 @@ export function Hero() {
           <source media="(max-width: 767px)" srcSet="/hero-mobile.webp" />
 
           <Image
-            src="/hero-section1.webp"
+            src="/hero-desktop.webp"
             alt="کوره القایی صنعتی"
             fill
             priority
