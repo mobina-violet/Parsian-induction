@@ -1,21 +1,25 @@
-
 import Image from "next/image";
 import { Award, Users, Trophy, Target } from "lucide-react";
 import { Phone } from "lucide-react";
 export function Hero() {
   return (
     <section className="relative overflow-hidden pt-28 pb-52 md:pt-32 md:pb-44 lg:min-h-[90vh] lg:flex lg:items-center">
-      {/* Background */}
       <div className="absolute inset-0 z-0">
-        <Image
-          src="/hero-section.webp"
-          alt="کوره القایی"
-          fill
-          priority
-          quality={75}
-          sizes="100vw"
-          className="object-cover"
-        />
+        <picture>
+          {/* Mobile */}
+          <source media="(max-width: 767px)" srcSet="/hero-mobile.webp" />
+
+          <Image
+            src="/hero-section1.webp"
+            alt="کوره القایی صنعتی"
+            fill
+            priority
+            fetchPriority="high"
+            quality={75}
+            sizes="100vw"
+            className="object-cover"
+          />
+        </picture>
 
         <div className="absolute inset-0 bg-gradient-to-r from-black/75 via-black/50 to-transparent" />
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
@@ -35,10 +39,10 @@ export function Hero() {
             <span className="text-orange-500">با تکنولوژی روز دنیا</span>
           </h1>
 
-          <p className="mt-5 text-sm leading-7 text-gray-200 sm:text-base lg:text-lg">
+          <p className="mt-5 text-sm leading-7  text-gray-200 sm:text-base lg:text-lg">
             بیش از ۲۰ سال تجربه در طراحی و ساخت کوره های القایی صنعتی
             <br className="hidden sm:block" />
-            با کیفیت بالا، راندمان عالی و خدمات پس از فروش مطمئن
+            با کیفیت بالا، راندمان عالی ، قیمت مناسب و خدمات پس از فروش
           </p>
 
           {/* Buttons */}
@@ -54,7 +58,7 @@ export function Hero() {
               className="flex h-12 items-center justify-center gap-2 rounded-full border border-white/40 bg-white/10 px-8 text-white backdrop-blur transition hover:bg-white/20"
               dir="ltr">
               <Phone className="h-4 w-4 shrink-0 text-orange-500" />
-              <span>تماس با ما</span>
+              <span>دریافت مشاوره فنی</span>
             </a>
           </div>
         </div>

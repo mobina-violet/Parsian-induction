@@ -115,8 +115,6 @@ export default async function ServiceDetailPage({
                 {item.description}
               </p>
             )}
-
-
           </div>
         </div>
       </div>
