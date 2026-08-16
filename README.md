@@ -1,6 +1,6 @@
-# Parsian Induction
+# Parsian parto alvand
 
-وب‌سایت رسمی شرکت **پارسیان** — طراحی، ساخت و راه‌اندازی سیستم‌های کوره القایی
+وب‌سایت رسمی شرکت پارسیان پرتو الوند — طراحی، ساخت و راه‌اندازی سیستم‌های کوره القایی
 
 [![Next.js](https://img.shields.io/badge/Next.js-15-black?logo=next.js)](https://nextjs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5-blue?logo=typescript)](https://www.typescriptlang.org/)
@@ -30,19 +30,3 @@
 - ساختار اصلی و کامپوننت‌ها آماده است  
 - دیتای متنی و تصاویر در حال تکمیل می‌باشد  
 - هنوز روی دامنه واقعی دیپلوی نشده
-
-### راه‌اندازی محلی
-
-```bash
-# کلون کردن پروژه
-git clone https://github.com/mobina-violet/Parsian-induction.git
-cd Parsian-induction
-
-# نصب پکیج‌ها
-npm install
-
-# تولید Prisma Client
-npx prisma generate
-
-# اجرای پروژه
-npm run dev
