@@ -143,6 +143,7 @@ export function Footer() {
                     ۰۹۱۲۴۳۸۴۱۹۱
                   </a>
                 </li>
+                {/* 
                 <li className="flex items-center justify-center gap-2 sm:justify-start">
                   <a
                     href="https://wa.me/989124384191?text=%D8%B3%D9%84%D8%A7%D9%85%D8%8C%20%D9%85%DB%8C%E2%80%8C%D8%AE%D9%88%D8%A7%D8%B3%D8%AA%D9%85%20%D8%AF%D8%B1%D8%A8%D8%A7%D8%B1%D9%87%20%DA%A9%D9%88%D8%B1%D9%87%20%D8%A7%D9%84%D9%82%D8%A7%DB%8C%DB%8C%20%D8%B3%D9%88%D8%A7%D9%84%20%D8%A8%D9%BE%D8%B1%D8%B3%D9%85"
@@ -153,6 +154,7 @@ export function Footer() {
                     <span>پیام در واتساپ</span>
                   </a>
                 </li>
+                */}
                 <li className="flex items-center justify-center gap-2 sm:justify-start">
                   <a
                     href="https://instagram.com/parsian_partoalvand"

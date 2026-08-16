@@ -38,12 +38,12 @@ const galleryImages = [
 const videos = [
   {
     src: "/videos/melting-process.mp4",
-    poster: "/images/projects/project1.webp",
+    poster: "/images/projects/melting-process.webp",
     title: "فرآیند ذوب القایی",
   },
   {
     src: "/videos/forging-process.mp4",
-    poster: "/images/projects/project2.webp",
+    poster: "/images/projects/forging-process.webp",
     title: "عملیات فورج و شکل‌دهی",
   },
 ];
@@ -130,7 +130,7 @@ export default function ProjectsPage() {
               ویدیوهای عملیاتی
             </h2>
             <p className="mt-2 text-sm text-gray-500">
-              مشاهده فرآیند واقعی کار تجهیزات پارسیان
+              مشاهده فرآیند واقعی کار تجهیزات پارسیان پرتو الوند
             </p>
           </div>
 
