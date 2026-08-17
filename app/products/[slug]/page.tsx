@@ -12,14 +12,12 @@ const categoryLabels: Record<string, string> = {
   FORGING_FURNACE: "کوره القایی فورج",
   HARDENING_FURNACE: "کوره القایی سخت‌کاری",
   FORMING_FURNACE: "کوره القایی فورمینگ",
-  SERVICE_EQUIPMENT: "خدمات و تجهیزات",
-  SPARE_PARTS: "لوازم یدکی",
   COOLING_SYSTEM: "سیستم خنک‌کننده",
   FREQUENCY_CONVERTER: "سیستم مبدل فرکانس",
   CRUCIBLE: "بوته",
   LINK: "لینک",
-  PERIPHERAL_EQUIPMENT: "قطعات و تجهیزات جانبی",
 };
+
 export async function generateStaticParams() {
   const products = await prisma.product.findMany({ select: { slug: true } });
   return products.map((p) => ({ slug: p.slug }));
@@ -33,9 +31,7 @@ export async function generateMetadata({
   const { slug } = await params;
   const product = await prisma.product.findUnique({ where: { slug } });
 
-  if (!product) {
-    return { title: "محصول یافت نشد" };
-  }
+  if (!product) return { title: "محصول یافت نشد" };
 
   const title = product.name;
   const description =
@@ -46,11 +42,7 @@ export async function generateMetadata({
   return {
     title,
     description,
-    openGraph: {
-      title,
-      description,
-      images: [{ url: image }],
-    },
+    openGraph: { title, description, images: [{ url: image }] },
     twitter: {
       card: "summary_large_image",
       title,
@@ -60,11 +52,6 @@ export async function generateMetadata({
   };
 }
 
-type ProductVariant = {
-  capacityKg: number;
-  powerKw: number;
-  frequencyHz: number;
-};
 type ProductComponent = { title: string; description: string };
 
 export default async function ProductDetailPage({
@@ -75,17 +62,21 @@ export default async function ProductDetailPage({
   const { slug } = await params;
   const product = await prisma.product.findUnique({ where: { slug } });
 
-  if (!product) {
-    notFound();
-  }
+  if (!product) notFound();
 
-  const variants = Array.isArray(product.variants)
-    ? (product.variants as unknown as ProductVariant[])
-    : [];
+  const variants = Array.isArray(product.variants) ? product.variants : [];
   const components = Array.isArray(product.components)
-    ? (product.components as unknown as ProductComponent[])
+    ? (product.components as ProductComponent[])
     : [];
-  const hasSingleSpec = product.capacityKg != null && product.powerKw != null;
+
+  const isMelting = product.category === "MELTING_FURNACE";
+  const isForgingOrForming =
+    product.category === "FORGING_FURNACE" ||
+    product.category === "FORMING_FURNACE";
+  const isHardening = product.category === "HARDENING_FURNACE";
+  const isParts =
+    product.category === "SPARE_PARTS" ||
+    product.category === "PERIPHERAL_EQUIPMENT";
 
   const productJsonLd = {
     "@context": "https://schema.org",
@@ -95,10 +86,7 @@ export default async function ProductDetailPage({
     image: product.images[0]
       ? `${siteConfig.url}${product.images[0]}`
       : `${siteConfig.url}/images/placeholder-furnace.webp`,
-    brand: {
-      "@type": "Brand",
-      name: siteConfig.name,
-    },
+    brand: { "@type": "Brand", name: siteConfig.name },
     category: categoryLabels[product.category],
   };
 
@@ -108,6 +96,7 @@ export default async function ProductDetailPage({
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(productJsonLd) }}
       />
+
       {/* بردکرامب */}
       <div className="border-b border-gray-100 bg-gray-50">
         <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
@@ -125,43 +114,17 @@ export default async function ProductDetailPage({
         </div>
       </div>
 
-      {/* گالری + اطلاعات */}
       <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
         <div className="grid gap-10 lg:grid-cols-2">
           <ProductGallery images={product.images} alt={product.name} />
 
           <div>
             <span className="inline-block rounded-full bg-orange-50 px-3 py-1 text-xs font-medium text-orange-600">
-              {categoryLabels[product.category]}
+              {categoryLabels[product.category] ?? product.category}
             </span>
             <h1 className="mt-3 text-2xl font-bold text-slate-900 sm:text-3xl">
               {product.name}
             </h1>
-
-            {hasSingleSpec && (
-              <div className="mt-6 grid grid-cols-3 gap-3 rounded-2xl border border-gray-100 bg-gray-50 p-4 text-center">
-                <div>
-                  <p className="text-lg font-bold text-slate-900">
-                    {toPersianDigits(product.capacityKg!)}
-                  </p>
-                  <p className="text-xs text-gray-400">ظرفیت ذوب (کیلوگرم)</p>
-                </div>
-                <div>
-                  <p className="text-lg font-bold text-slate-900">
-                    {toPersianDigits(product.powerKw!)}
-                  </p>
-                  <p className="text-xs text-gray-400">توان (کیلووات)</p>
-                </div>
-                {product.frequencyHz != null && (
-                  <div>
-                    <p className="text-lg font-bold text-slate-900">
-                      {toPersianDigits(product.frequencyHz)}
-                    </p>
-                    <p className="text-xs text-gray-400">فرکانس کاری (هرتز)</p>
-                  </div>
-                )}
-              </div>
-            )}
 
             {product.description && (
               <p className="mt-6 text-sm leading-7 text-gray-500">
@@ -169,64 +132,150 @@ export default async function ProductDetailPage({
               </p>
             )}
 
+            {/* ========== جدول مشخصات فنی (داینامیک) ========== */}
             {variants.length > 0 && (
               <div className="mt-8">
                 <h2 className="text-base font-bold text-slate-900">
-                  ظرفیت‌های موجود
+                  مشخصات فنی
                 </h2>
-                <div className="mt-3 overflow-hidden rounded-2xl border border-gray-100">
-                  <table className="w-full text-center text-sm">
-                    <thead>
-                      <tr className="bg-gray-50 text-xs text-gray-400">
-                        <th className="px-3 py-3 font-medium">
-                          ظرفیت (کیلوگرم)
-                        </th>
-                        <th className="px-3 py-3 font-medium">
-                          توان (کیلووات)
-                        </th>
-                        <th className="px-3 py-3 font-medium">فرکانس (هرتز)</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {variants.map((v, i) => (
-                        <tr
-                          key={v.capacityKg}
-                          className={
-                            i % 2 === 1
-                              ? "bg-gray-50/60 border-t border-gray-100"
-                              : "border-t border-gray-100"
-                          }>
-                          <td className="px-3 py-3 font-bold text-slate-900">
-                            {toPersianDigits(v.capacityKg)}
-                          </td>
-                          <td className="px-3 py-3 text-gray-600">
-                            {toPersianDigits(v.powerKw)}
-                          </td>
-                          <td className="px-3 py-3 text-gray-600">
-                            {toPersianDigits(v.frequencyHz)}
-                          </td>
+                <div className="mt-3 overflow-x-auto rounded-2xl border border-gray-100">
+                  {/* جدول ذوب */}
+                  {isMelting && (
+                    <table className="w-full min-w-[500px] text-center text-sm">
+                      <thead>
+                        <tr className="bg-gray-50 text-xs text-gray-500">
+                          <th className="px-3 py-3">توان (kW)</th>
+                          <th className="px-3 py-3">فرکانس (Hz)</th>
+                          <th className="px-3 py-3">آهن ۱۶۰۰°C</th>
+                          <th className="px-3 py-3">فولاد ۱۶۰۰°C</th>
+                          <th className="px-3 py-3">برنز ۱۱۷۵°C</th>
                         </tr>
-                      ))}
-                    </tbody>
-                  </table>
+                      </thead>
+                      <tbody>
+                        {(variants as any[]).map((v, i) => (
+                          <tr
+                            key={i}
+                            className={
+                              i % 2 === 1
+                                ? "bg-gray-50/60 border-t border-gray-100"
+                                : "border-t border-gray-100"
+                            }
+                          >
+                            <td className="px-3 py-3 font-bold">
+                              {toPersianDigits(v.powerKw)}
+                            </td>
+                            <td className="px-3 py-3 whitespace-nowrap">
+                              {toPersianDigits(v.frequencyHzMin)}–
+                              {toPersianDigits(v.frequencyHzMax)}
+                            </td>
+                            <td className="px-3 py-3">
+                              {toPersianDigits(v.ironKgHr)}
+                            </td>
+                            <td className="px-3 py-3">
+                              {toPersianDigits(v.steelKgHr)}
+                            </td>
+                            <td className="px-3 py-3">
+                              {toPersianDigits(v.bronzeKgHr)}
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  )}
+
+                  {/* جدول فورج / فورمینگ */}
+                  {isForgingOrForming && (
+                    <table className="w-full min-w-[480px] text-center text-sm">
+                      <thead>
+                        <tr className="bg-gray-50 text-xs text-gray-500">
+                          <th className="px-3 py-3">توان (kW)</th>
+                          <th className="px-3 py-3">فلز</th>
+                          <th className="px-3 py-3">دما (°C)</th>
+                          <th className="px-3 py-3">قطر (mm)</th>
+                          <th className="px-3 py-3">نرخ (kg/hr)</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {(variants as any[]).map((v, i) => (
+                          <tr
+                            key={i}
+                            className={
+                              i % 2 === 1
+                                ? "bg-gray-50/60 border-t border-gray-100"
+                                : "border-t border-gray-100"
+                            }
+                          >
+                            <td className="px-3 py-3 font-bold">
+                              {toPersianDigits(v.powerKw)}
+                            </td>
+                            <td className="px-3 py-3">{v.metal}</td>
+                            <td className="px-3 py-3">
+                              {toPersianDigits(v.temperature)}
+                            </td>
+                            <td className="px-3 py-3">
+                              ≥ {toPersianDigits(v.diameterMm)}
+                            </td>
+                            <td className="px-3 py-3">
+                              {toPersianDigits(v.kgHr)}
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  )}
+
+                  {/* جدول سخت‌کاری */}
+                  {isHardening && (
+                    <table className="w-full min-w-[400px] text-center text-sm">
+                      <thead>
+                        <tr className="bg-gray-50 text-xs text-gray-500">
+                          <th className="px-3 py-3">توان (kW)</th>
+                          <th className="px-3 py-3">نوع فرکانس</th>
+                          <th className="px-3 py-3">فرکانس کاری (kHz)</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {(variants as any[]).map((v, i) => (
+                          <tr
+                            key={i}
+                            className={
+                              i % 2 === 1
+                                ? "bg-gray-50/60 border-t border-gray-100"
+                                : "border-t border-gray-100"
+                            }
+                          >
+                            <td className="px-3 py-3 font-bold">
+                              {toPersianDigits(v.powerKw)}
+                            </td>
+                            <td className="px-3 py-3">{v.frequencyRange}</td>
+                            <td className="px-3 py-3">{v.workFrequencyKHz}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  )}
                 </div>
+
                 <p className="mt-2 text-xs text-gray-400">
-                  مشخصات دقیق هر ظرفیت بر اساس نوع فلز و نیاز تولید شما تنظیم
-                  می‌شود — برای مشاوره تماس بگیرید.
+                  مشخصات دقیق بر اساس نیاز تولید شما قابل تنظیم است.
                 </p>
               </div>
             )}
 
+            {/* ========== اجزا ========== */}
             {components.length > 0 && (
               <div className="mt-8">
                 <h2 className="text-base font-bold text-slate-900">
-                  این سیستم شامل چه اجزایی می‌شود؟
+                  {isParts
+                    ? "اقلام و تجهیزات قابل تأمین"
+                    : "این سیستم شامل چه اجزایی می‌شود؟"}
                 </h2>
                 <div className="mt-3 space-y-3">
                   {components.map((c) => (
                     <div
                       key={c.title}
-                      className="rounded-2xl border border-gray-100 bg-gray-50 p-4">
+                      className="rounded-2xl border border-gray-100 bg-gray-50 p-4"
+                    >
                       <p className="text-sm font-bold text-slate-900">
                         {c.title}
                       </p>

@@ -1,6 +1,5 @@
 import Link from "next/link";
 import Image from "next/image";
-
 import {
   ChevronLeft,
   Gauge,
@@ -32,7 +31,6 @@ function isValidCategory(value: string | undefined): value is CategoryValue {
   return !!value && (validCategories as readonly string[]).includes(value);
 }
 
-// کلمات کلیدی مرتبط با هر دسته‌بندی
 const categoryKeywords: Record<CategoryValue, string[]> = {
   MELTING_FURNACE: [
     "ذوب",
@@ -41,34 +39,18 @@ const categoryKeywords: Record<CategoryValue, string[]> = {
     "melting",
     "خنک",
     "خنک‌کننده",
-    "خنک کننده",
-    "سیستم خنک",
     "cooling",
-    "کولینگ",
     "مبدل فرکانس",
-    "مبدل",
-    "فرکانس",
-    "اینورتر",
-    "frequency",
-    "converter",
     "بوته",
-    "crucible",
     "لینک",
-    "link",
-    "جانبی",
-    "قطعات",
-    "تجهیزات جانبی",
-    "peripheral",
   ],
-  FORGING_FURNACE: ["فورج", "کوره فورج", "forging", "forge"],
+  FORGING_FURNACE: ["فورج", "کوره فورج", "forging", "forge", "پیش گرم"],
   HARDENING_FURNACE: ["سخت کاری", "سخت‌کاری", "سختکاری", "hardening"],
-  FORMING_FURNACE: ["فورمینگ", "فرمینگ", "کوره فورمینگ", "forming", "form"],
+  FORMING_FURNACE: ["فورمینگ", "فرمینگ", "کوره فورمینگ", "forming"],
 };
 
-// تشخیص دسته‌بندی از روی کلمه سرچ‌شده
 function detectCategoryFromSearch(search?: string): CategoryValue | undefined {
   if (!search) return undefined;
-
   const normalized = search.trim().toLowerCase().replace(/‌/g, " ");
 
   for (const [category, keywords] of Object.entries(categoryKeywords)) {
@@ -81,13 +63,14 @@ function detectCategoryFromSearch(search?: string): CategoryValue | undefined {
   return undefined;
 }
 
-const categoryTabs: { value?: CategoryValue; label: string }[] = [
+const categoryTabs = [
   { value: undefined, label: "همه محصولات" },
   { value: "MELTING_FURNACE", label: "کوره‌های القایی ذوب" },
   { value: "FORGING_FURNACE", label: "کوره‌های القایی فورج" },
-  { value: "HARDENING_FURNACE", label: "کوره‌های القایی سخت کاری" },
+  { value: "HARDENING_FURNACE", label: "کوره‌های القایی سخت‌کاری" },
   { value: "FORMING_FURNACE", label: "کوره‌های القایی فورمینگ" },
 ];
+
 const features = [
   { icon: Gauge, title: "راندمان بالا", desc: "مصرف انرژی بهینه" },
   { icon: Wrench, title: "طراحی اختصاصی", desc: "متناسب با نیاز شما" },
@@ -137,21 +120,29 @@ export default async function ProductsPage({
   }
 
   const products = await prisma.product.findMany({
-    where: {
-      ...(category ? { category } : {}),
-      ...(!category && search
-        ? {
-            OR: [
-              { name: { contains: search, mode: "insensitive" } },
-              { description: { contains: search, mode: "insensitive" } },
-              { slug: { contains: search, mode: "insensitive" } },
-            ],
-          }
-        : {}),
-    },
-    orderBy: { order: "asc" },
-  });
-
+  where: {
+    category: category
+      ? category
+      : {
+          in: [
+            "MELTING_FURNACE",
+            "FORGING_FURNACE",
+            "HARDENING_FURNACE",
+            "FORMING_FURNACE",
+          ],
+        },
+    ...(search
+      ? {
+          OR: [
+            { name: { contains: search, mode: "insensitive" } },
+            { description: { contains: search, mode: "insensitive" } },
+            { slug: { contains: search, mode: "insensitive" } },
+          ],
+        }
+      : {}),
+  },
+  orderBy: { order: "asc" },
+});
   return (
     <main dir="rtl" className="bg-white">
       {/* هیرو */}
@@ -183,11 +174,9 @@ export default async function ProductsPage({
               محصولات <span className="text-orange-400">پارسیان</span>
             </h1>
             <p className="mt-5 text-sm leading-8 text-white/80 sm:text-base">
-              از کوره‌های ذوب، فورج و سخت‌کاری گرفته تا سیستم خنک‌کننده، مبدل
-              فرکانس، بوته، لینک و قطعات جانبی که در دل هر کوره تعبیه شده‌اند؛
-              پارسیان طیف کاملی از تجهیزات مورد نیاز خط تولید ذوب فلزات شما را
-              با ظرفیت‌های ۲۵۰ کیلوگرم تا ۵ تن و امکان سفارشی‌سازی کامل ارائه
-              می‌دهد.
+              از کوره‌های ذوب، فورج و سخت‌کاری گرفته تا لوازم یدکی و قطعات و
+              تجهیزات جانبی؛ پارسیان طیف کاملی از تجهیزات مورد نیاز خط تولید ذوب
+              فلزات شما را ارائه می‌دهد.
             </p>
 
             <div className="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-4">
@@ -221,8 +210,7 @@ export default async function ProductsPage({
                   isActive
                     ? "rounded-full bg-orange-500 px-5 py-2.5 text-sm font-medium text-white"
                     : "rounded-full border border-gray-200 px-5 py-2.5 text-sm font-medium text-slate-600 transition hover:border-orange-300 hover:text-orange-500"
-                }
-              >
+                }>
                 {tab.label}
               </Link>
             );
@@ -321,8 +309,7 @@ export default async function ProductsPage({
           {faqs.map((faq) => (
             <details
               key={faq.q}
-              className="group rounded-xl border border-gray-100 px-5 py-4 [&_summary::-webkit-details-marker]:hidden"
-            >
+              className="group rounded-xl border border-gray-100 px-5 py-4 [&_summary::-webkit-details-marker]:hidden">
               <summary className="flex cursor-pointer list-none items-center justify-between gap-3 text-sm font-medium text-slate-900">
                 {faq.q}
                 <ChevronLeft className="h-4 w-4 shrink-0 text-gray-400 transition group-open:-rotate-90" />

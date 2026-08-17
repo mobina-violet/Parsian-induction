@@ -2,7 +2,6 @@ import Link from "next/link";
 import Image from "next/image";
 import {
   ChevronLeft,
-  ArrowLeft,
   ClipboardCheck,
   Cpu,
   Factory,
@@ -27,8 +26,8 @@ export const metadata = {
 };
 
 const serviceTabs = [
-  { value: "SERVICE_EQUIPMENT", label: "خدمات و تجهیزات" },
   { value: "SPARE_PARTS", label: "لوازم یدکی" },
+  { value: "PERIPHERAL_EQUIPMENT", label: "قطعات و تجهیزات جانبی" },
 ] as const;
 
 type ServiceCategory = (typeof serviceTabs)[number]["value"];
@@ -134,8 +133,10 @@ export default async function ServicesPage({
   searchParams: Promise<{ category?: string }>;
 }) {
   const params = await searchParams;
-  const activeCategory =
-    params.category === "SPARE_PARTS" ? "SPARE_PARTS" : "SERVICE_EQUIPMENT";
+  const activeCategory: ServiceCategory =
+    params.category === "PERIPHERAL_EQUIPMENT"
+      ? "PERIPHERAL_EQUIPMENT"
+      : "SPARE_PARTS";
 
   const items = await prisma.product.findMany({
     where: { category: activeCategory },
@@ -144,7 +145,7 @@ export default async function ServicesPage({
 
   return (
     <main dir="rtl" className="bg-white">
-      {/* هیرو - عکس بزرگ + متن روش */}
+      {/* هیرو */}
       <section className="relative overflow-hidden">
         <div className="absolute inset-0">
           <Image
@@ -196,7 +197,8 @@ export default async function ServicesPage({
                   isActive
                     ? "rounded-full bg-orange-500 px-5 py-2.5 text-sm font-medium text-white"
                     : "rounded-full border border-gray-200 px-5 py-2.5 text-sm font-medium text-slate-600 transition hover:border-orange-300 hover:text-orange-500"
-                }>
+                }
+              >
                 {tab.label}
               </Link>
             );
@@ -229,9 +231,11 @@ export default async function ServicesPage({
             {services.map((service) => (
               <div
                 key={service.title}
-                className="rounded-2xl border border-gray-100 p-4 text-center transition-all duration-300 hover:-translate-y-2 hover:shadow-xl">
+                className="rounded-2xl border border-gray-100 p-4 text-center transition-all duration-300 hover:-translate-y-2 hover:shadow-xl"
+              >
                 <span
-                  className={`mx-auto flex h-12 w-12 items-center justify-center rounded-xl ${service.color}`}>
+                  className={`mx-auto flex h-12 w-12 items-center justify-center rounded-xl ${service.color}`}
+                >
                   <service.icon className="h-6 w-6" />
                 </span>
                 <h3 className="mt-2 text-[11px] font-bold text-slate-900">
@@ -260,7 +264,8 @@ export default async function ServicesPage({
             {whyUs.map((item) => (
               <div
                 key={item.title}
-                className="group rounded-2xl border border-white/10 bg-white/5 p-6 text-center backdrop-blur-md transition-all duration-300 hover:-translate-y-2 hover:border-orange-400/40 hover:bg-white/10">
+                className="group rounded-2xl border border-white/10 bg-white/5 p-6 text-center backdrop-blur-md transition-all duration-300 hover:-translate-y-2 hover:border-orange-400/40 hover:bg-white/10"
+              >
                 <span className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-orange-500/20 to-red-500/20 ring-1 ring-orange-400/20 transition-all duration-300 group-hover:scale-110 group-hover:ring-orange-400/50">
                   <item.icon className="h-6 w-6 text-orange-400" />
                 </span>
@@ -288,7 +293,8 @@ export default async function ServicesPage({
             {process.map((step) => (
               <div
                 key={step.title}
-                className="relative flex flex-col items-center text-center">
+                className="relative flex flex-col items-center text-center"
+              >
                 <div className="relative z-10 flex h-12 w-12 items-center justify-center rounded-full border border-gray-200 bg-white shadow-sm">
                   <step.icon className="h-5 w-5 text-slate-700" />
                 </div>

@@ -7,14 +7,14 @@ import { ProductGallery } from "@/components/ProductGallery";
 import { ConsultationCtaButton } from "@/components/ConsultationCtaButton";
 
 const categoryLabels: Record<string, string> = {
-  SERVICE_EQUIPMENT: "خدمات و تجهیزات",
   SPARE_PARTS: "لوازم یدکی",
+  PERIPHERAL_EQUIPMENT: "قطعات و تجهیزات جانبی",
 };
 
 export async function generateStaticParams() {
   const items = await prisma.product.findMany({
     where: {
-      category: { in: ["SERVICE_EQUIPMENT", "SPARE_PARTS"] },
+      category: { in: ["SPARE_PARTS", "PERIPHERAL_EQUIPMENT"] },
     },
     select: { slug: true },
   });
@@ -67,7 +67,8 @@ export default async function ServiceDetailPage({
 
   if (
     !item ||
-    (item.category !== "SERVICE_EQUIPMENT" && item.category !== "SPARE_PARTS")
+    (item.category !== "SPARE_PARTS" &&
+      item.category !== "PERIPHERAL_EQUIPMENT")
   ) {
     notFound();
   }
@@ -77,9 +78,13 @@ export default async function ServiceDetailPage({
       ? item.images
       : ["/images/placeholder-project.webp"];
 
+  const components = Array.isArray(item.components)
+    ? (item.components as { title: string; description: string }[])
+    : [];
+
   return (
     <main dir="rtl" className="bg-white">
-      {/* بردکرامب - دقیقاً مثل صفحه محصول */}
+      {/* بردکرامب */}
       <div className="border-b border-gray-100 bg-gray-50">
         <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
           <nav className="flex items-center gap-1.5 text-xs text-gray-400">
@@ -96,7 +101,6 @@ export default async function ServiceDetailPage({
         </div>
       </div>
 
-      {/* گالری + اطلاعات - همان چیدمان صفحه محصول */}
       <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
         <div className="grid gap-10 lg:grid-cols-2">
           <ProductGallery images={images} alt={item.name} />
@@ -114,6 +118,28 @@ export default async function ServiceDetailPage({
               <p className="mt-6 text-sm leading-7 text-gray-500">
                 {item.description}
               </p>
+            )}
+
+            {components.length > 0 && (
+              <div className="mt-8">
+                <h2 className="text-base font-bold text-slate-900">
+                  اقلام و تجهیزات قابل تأمین
+                </h2>
+                <div className="mt-3 space-y-3">
+                  {components.map((c) => (
+                    <div
+                      key={c.title}
+                      className="rounded-2xl border border-gray-100 bg-gray-50 p-4">
+                      <p className="text-sm font-bold text-slate-900">
+                        {c.title}
+                      </p>
+                      <p className="mt-1 text-xs leading-6 text-gray-500">
+                        {c.description}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              </div>
             )}
           </div>
         </div>
