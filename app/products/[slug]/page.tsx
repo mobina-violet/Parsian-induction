@@ -70,9 +70,6 @@ export default async function ProductDetailPage({
     : [];
 
   const isMelting = product.category === "MELTING_FURNACE";
-  const isForgingOrForming =
-    product.category === "FORGING_FURNACE" ||
-    product.category === "FORMING_FURNACE";
   const isHardening = product.category === "HARDENING_FURNACE";
   const isParts =
     product.category === "SPARE_PARTS" ||
@@ -132,13 +129,14 @@ export default async function ProductDetailPage({
               </p>
             )}
 
-            {/* ========== جدول مشخصات فنی (داینامیک) ========== */}
+            {/* ========== جدول مشخصات فنی ========== */}
             {variants.length > 0 && (
               <div className="mt-8">
                 <h2 className="text-base font-bold text-slate-900">
                   مشخصات فنی
                 </h2>
                 <div className="mt-3 overflow-x-auto rounded-2xl border border-gray-100">
+                  
                   {/* جدول ذوب */}
                   {isMelting && (
                     <table className="w-full min-w-[500px] text-center text-sm">
@@ -176,47 +174,6 @@ export default async function ProductDetailPage({
                             </td>
                             <td className="px-3 py-3">
                               {toPersianDigits(v.bronzeKgHr)}
-                            </td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  )}
-
-                  {/* جدول فورج / فورمینگ */}
-                  {isForgingOrForming && (
-                    <table className="w-full min-w-[480px] text-center text-sm">
-                      <thead>
-                        <tr className="bg-gray-50 text-xs text-gray-500">
-                          <th className="px-3 py-3">توان (kW)</th>
-                          <th className="px-3 py-3">فلز</th>
-                          <th className="px-3 py-3">دما (°C)</th>
-                          <th className="px-3 py-3">قطر (mm)</th>
-                          <th className="px-3 py-3">نرخ (kg/hr)</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {(variants as any[]).map((v, i) => (
-                          <tr
-                            key={i}
-                            className={
-                              i % 2 === 1
-                                ? "bg-gray-50/60 border-t border-gray-100"
-                                : "border-t border-gray-100"
-                            }
-                          >
-                            <td className="px-3 py-3 font-bold">
-                              {toPersianDigits(v.powerKw)}
-                            </td>
-                            <td className="px-3 py-3">{v.metal}</td>
-                            <td className="px-3 py-3">
-                              {toPersianDigits(v.temperature)}
-                            </td>
-                            <td className="px-3 py-3">
-                              ≥ {toPersianDigits(v.diameterMm)}
-                            </td>
-                            <td className="px-3 py-3">
-                              {toPersianDigits(v.kgHr)}
                             </td>
                           </tr>
                         ))}

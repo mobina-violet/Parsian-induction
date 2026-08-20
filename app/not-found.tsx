@@ -1,5 +1,5 @@
-import Link from 'next/link'
-import { Home, Phone } from 'lucide-react'
+import Link from "next/link";
+import { Home, Phone } from "lucide-react";
 
 export default function NotFound() {
   return (
@@ -18,21 +18,19 @@ export default function NotFound() {
         <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
           <Link
             href="/"
-            className="inline-flex items-center gap-2 rounded-full bg-orange-500 px-6 py-3 text-sm font-medium text-white transition hover:bg-orange-600"
-          >
+            className="inline-flex items-center gap-2 rounded-full bg-orange-500 px-6 py-3 text-sm font-medium text-white transition hover:bg-orange-600">
             <Home className="h-4 w-4" />
             بازگشت به صفحه اصلی
           </Link>
 
           <Link
             href="/contact"
-            className="inline-flex items-center gap-2 rounded-full border border-gray-200 px-6 py-3 text-sm font-medium text-slate-700 transition hover:border-orange-300 hover:text-orange-500"
-          >
+            className="inline-flex items-center gap-2 rounded-full border border-gray-200 px-6 py-3 text-sm font-medium text-slate-700 transition hover:border-orange-300 hover:text-orange-500">
             <Phone className="h-4 w-4" />
             تماس با ما
           </Link>
         </div>
       </div>
     </main>
-  )
+  );
 }
