@@ -14,10 +14,10 @@ import { ProductCard } from "@/components/ProductCard";
 import { ConsultationCtaButton } from "@/components/ConsultationCtaButton";
 
 export const metadata = {
-  title: "محصولات",
-  description: "مشاهده کامل انواع کوره‌های القایی و تجهیزات جانبی پارسیان",
+  title: "محصولات کوره القایی | ذوب، فورج، سخت‌کاری و فورمینگ",
+  description:
+    "انواع کوره‌های القایی ذوب، فورج، سخت‌کاری و فورمینگ پارسیان پرتو الوند. مشاهده مشخصات فنی، توان و کاربرد هر مدل برای خطوط تولید فلزات.",
 };
-
 const validCategories = [
   "MELTING_FURNACE",
   "FORGING_FURNACE",
@@ -120,29 +120,29 @@ export default async function ProductsPage({
   }
 
   const products = await prisma.product.findMany({
-  where: {
-    category: category
-      ? category
-      : {
-          in: [
-            "MELTING_FURNACE",
-            "FORGING_FURNACE",
-            "HARDENING_FURNACE",
-            "FORMING_FURNACE",
-          ],
-        },
-    ...(search
-      ? {
-          OR: [
-            { name: { contains: search, mode: "insensitive" } },
-            { description: { contains: search, mode: "insensitive" } },
-            { slug: { contains: search, mode: "insensitive" } },
-          ],
-        }
-      : {}),
-  },
-  orderBy: { order: "asc" },
-});
+    where: {
+      category: category
+        ? category
+        : {
+            in: [
+              "MELTING_FURNACE",
+              "FORGING_FURNACE",
+              "HARDENING_FURNACE",
+              "FORMING_FURNACE",
+            ],
+          },
+      ...(search
+        ? {
+            OR: [
+              { name: { contains: search, mode: "insensitive" } },
+              { description: { contains: search, mode: "insensitive" } },
+              { slug: { contains: search, mode: "insensitive" } },
+            ],
+          }
+        : {}),
+    },
+    orderBy: { order: "asc" },
+  });
   return (
     <main dir="rtl" className="bg-white">
       {/* هیرو */}
@@ -170,13 +170,14 @@ export default async function ProductsPage({
           </nav>
 
           <div className="max-w-2xl">
-            <h1 className="text-3xl font-bold text-white sm:text-4xl lg:text-5xl">
-              محصولات <span className="text-orange-400">پارسیان</span>
+            <h1 className="text-3xl font-bold text-white sm:text-4xl lg:text-4xl">
+              محصولات <span className="text-orange-400">کوره القایی</span>{" "}
+              پارسیان
             </h1>
-            <p className="mt-5 text-sm leading-8 text-white/80 sm:text-base">
-              از کوره‌های ذوب، فورج و سخت‌کاری گرفته تا لوازم یدکی و قطعات و
-              تجهیزات جانبی؛ پارسیان طیف کاملی از تجهیزات مورد نیاز خط تولید ذوب
-              فلزات شما را ارائه می‌دهد.
+            <p className="mt-5 text-sm leading-7 text-white/80 sm:text-base lg:text-lg lg:leading-8">
+              انواع کوره‌های القایی ذوب، فورج، سخت‌کاری و فورمینگ به همراه
+              تجهیزات جانبی. مشخصات فنی شفاف و امکان تنظیم بر اساس نیاز خط تولید
+              شما.
             </p>
 
             <div className="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-4">

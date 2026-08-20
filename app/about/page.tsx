@@ -103,27 +103,26 @@ export default function AboutPage() {
           dir="ltr"
           className="relative z-10 mx-auto grid max-w-7xl gap-8 px-4 pt-14 sm:px-6 lg:grid-cols-[0.9fr_1.1fr] lg:items-center lg:px-8 lg:pt-20">
           <div className="hidden lg:block" />
+<div dir="rtl" className="text-right">
+  <h1 className="mt-2 text-2xl font-bold leading-tight text-white sm:text-3xl lg:text-4xl">
+    تجربه و تخصص
+    <br />
+    <span className="text-orange-500">در صنعت کوره القایی</span>
+  </h1>
 
-          <div dir="rtl" className="text-right">
-            <h1 className="mt-2 text-2xl font-bold leading-tight text-white sm:text-3xl lg:text-4xl">
-              تجربه، تخصص و نوآوری
-              <br />
-              <span className="text-orange-500">در صنعت کوره القایی</span>
-            </h1>
+  <p className="mt-4 max-w-lg text-sm leading-7 text-slate-300 sm:text-base lg:text-lg lg:leading-8">
+    پارسیان پرتو الوند متخصص طراحی، ساخت و راه‌اندازی کوره القایی است.
+    ما با دانش فنی و تیمی مجرب، راهکارهای مطمئن برای صنایع فولاد، مس و
+    آلومینیوم ارائه می‌دهیم.
+  </p>
 
-            <p className="mt-4 max-w-lg text-sm leading-7 text-slate-300 sm:text-base">
-              شرکت پارسیان با تکیه بر دانش فنی و تجربه‌ی تیمی متخصص، از سال ۱۳۸۸
-              در زمینه‌ی طراحی، ساخت و راه‌اندازی سیستم‌های کوره القایی فعالیت
-              می‌کند.
-            </p>
-
-            <button className="mt-7 flex items-center gap-3 rounded-full border border-white/15 py-2 pl-2 pr-5 text-sm font-medium text-white transition hover:border-orange-400 hover:text-orange-400">
-              تماشای ویدیو معرفی
-              <span className="flex h-9 w-9 items-center justify-center rounded-full bg-orange-500">
-                <Play className="h-4 w-4 fill-white text-white" />
-              </span>
-            </button>
-          </div>
+  <button className="mt-7 flex items-center gap-3 rounded-full border border-white/15 py-2 pl-2 pr-5 text-sm font-medium text-white transition hover:border-orange-400 hover:text-orange-400">
+    تماشای ویدیو معرفی
+    <span className="flex h-9 w-9 items-center justify-center rounded-full bg-orange-500">
+      <Play className="h-4 w-4 fill-white text-white" />
+    </span>
+  </button>
+</div>
         </div>
       </section>
 
@@ -223,8 +222,8 @@ export default function AboutPage() {
               </h2>
               <p className="mt-3 text-sm leading-7 text-gray-500">
                 با بیش از ۲۰ سال تجربه در صنعت القایی و اجرای پروژه‌های متعدد در
-                صنایع مختلف فلزی، مهندس رضایی با رویکردی نوآورانه و مهندسی، شرکت
-                پارسیان را با هدف ارائه راهکارهای تخصصی و قابل اعتماد
+                صنایع مختلف فلزی، مهندس محققی با رویکردی نوآورانه و مهندسی، شرکت
+                پارسیان پرتو الوند را با هدف ارائه راهکارهای تخصصی و قابل اعتماد
                 بنیان‌گذاری کرد.
               </p>
               <p className="mt-3 text-sm leading-7 text-gray-500">

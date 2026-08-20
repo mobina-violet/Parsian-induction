@@ -95,26 +95,22 @@ export default function ContactPage() {
         {/* Optional Orange Glow */}
         <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/40 to-black/60" />
         {/* Content */}
-        <div className="relative z-10 mx-auto flex min-h-[500px] max-w-7xl items-center justify-center px-4 py-20 sm:px-6 lg:px-8">
-          <div dir="rtl" className="mx-auto max-w-3xl text-center">
+        <div className="relative z-10 mx-auto flex min-h-[500px] max-w-7xl items-center px-4 py-20 sm:px-6 lg:px-8">
+          <div dir="rtl" className="max-w-2xl text-right">
             <h1 className="text-3xl font-bold leading-tight text-white sm:text-4xl lg:text-4xl">
-              همیشه آماده پاسخ‌گویی و همراهی با شما
+              آماده <span className="text-orange-400">پاسخ‌گویی</span> و همراهی
+              با شما
             </h1>
 
-            <p className="mx-auto mt-10 max-w-2xl text-base leading-8 text-gray-200">
-              از مشاوره تخصصی تا طراحی، ساخت و راه‌اندازی سیستم‌های کوره القایی،
-              تیم پارسیان در تمامی مراحل پروژه در کنار شماست تا بهترین راهکار
-              متناسب با نیاز صنعت شما را ارائه دهد.
+            <p className="mt-6 text-sm leading-7 text-gray-200 sm:text-base lg:text-lg lg:leading-8">
+              از مشاوره تخصصی تا طراحی، ساخت و راه‌اندازی کوره القایی، تیم
+              پارسیان در تمام مراحل پروژه کنار شماست تا بهترین راهکار متناسب با
+              نیاز صنعت شما را ارائه دهد.
             </p>
 
-            <div
-              dir="ltr"
-              className="mt-15 flex flex-wrap justify-center gap-8">
+            <div className="mt-10 flex flex-wrap gap-8">
               {heroFeatures.map((f) => (
-                <div
-                  key={f.title}
-                  dir="rtl"
-                  className="flex items-center gap-3">
+                <div key={f.title} className="flex items-center gap-3">
                   <div className="flex h-11 w-11 items-center justify-center rounded-full bg-orange-500/20 backdrop-blur">
                     <f.icon className="h-5 w-5 text-orange-400" />
                   </div>

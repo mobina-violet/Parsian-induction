@@ -81,15 +81,16 @@ export default function ProjectsPage() {
           {/* متن روی عکس */}
           <div className="max-w-2xl">
             <span className="inline-block rounded-full bg-orange-500/20 px-3 py-1 text-xs font-medium text-orange-300">
-              نمونه پروژه‌های اجرایی
+              پروژه‌های اجرایی
             </span>
-            <h1 className="mt-4 text-3xl font-bold leading-tight text-white sm:text-4xl lg:text-5xl">
-              پروژه‌های <span className="text-orange-400">پارسیان</span>
+            <h1 className="mt-4 text-3xl font-bold leading-tight text-white sm:text-4xl lg:text-4xl">
+              پروژه‌های <span className="text-orange-400">کوره القایی</span>{" "}
+              پارسیان
             </h1>
-            <p className="mt-5 text-sm leading-7 text-white/80 sm:text-base">
-              بیش از دو دهه تجربه در طراحی، ساخت و راه‌اندازی کوره‌های القایی در
-              صنایع فولاد، مس، آلومینیوم و قطعه‌سازی. در این صفحه بخشی از
-              پروژه‌های واقعی اجراشده را مشاهده می‌کنید.
+            <p className="mt-5 text-sm leading-7 text-white/80 sm:text-base lg:text-lg lg:leading-8">
+              بیش از دو دهه طراحی، ساخت و راه‌اندازی کوره القایی در صنایع فولاد،
+              مس، آلومینیوم و قطعه‌سازی. در این صفحه نمونه‌ای از پروژه‌های واقعی
+              اجراشده را مشاهده می‌کنید.
             </p>
           </div>
         </div>
