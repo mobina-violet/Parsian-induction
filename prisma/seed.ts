@@ -282,7 +282,7 @@ const products = [
     featured: false,
     order: 2,
   },
-  {
+    {
     slug: "forming-furnace",
     name: "کوره القایی فورمینگ",
     category: "FORMING_FURNACE" as const,
@@ -291,95 +291,7 @@ const products = [
     capacityKg: null,
     powerKw: null,
     frequencyHz: null,
-    variants: [
-      // فولاد ۱۲۰۰°C
-      {
-        powerKw: 100,
-        kgHr: 300,
-        temperature: 1200,
-        metal: "STEEL",
-        diameterMm: 50,
-      },
-      {
-        powerKw: 150,
-        kgHr: 400,
-        temperature: 1200,
-        metal: "STEEL",
-        diameterMm: 50,
-      },
-      {
-        powerKw: 250,
-        kgHr: 700,
-        temperature: 1200,
-        metal: "STEEL",
-        diameterMm: 50,
-      },
-      {
-        powerKw: 350,
-        kgHr: 1100,
-        temperature: 1200,
-        metal: "STEEL",
-        diameterMm: 50,
-      },
-      {
-        powerKw: 500,
-        kgHr: 1500,
-        temperature: 1200,
-        metal: "STEEL",
-        diameterMm: 50,
-      },
-      {
-        powerKw: 600,
-        kgHr: 1800,
-        temperature: 1200,
-        metal: "STEEL",
-        diameterMm: 50,
-      },
-      {
-        powerKw: 1000,
-        kgHr: 3000,
-        temperature: 1200,
-        metal: "STEEL",
-        diameterMm: 50,
-      },
-
-      // برنج ۷۵۰°C
-      {
-        powerKw: 100,
-        kgHr: 600,
-        temperature: 750,
-        metal: "BRASS",
-        diameterMm: 50,
-      },
-      {
-        powerKw: 150,
-        kgHr: 900,
-        temperature: 750,
-        metal: "BRASS",
-        diameterMm: 50,
-      },
-      {
-        powerKw: 250,
-        kgHr: 1450,
-        temperature: 750,
-        metal: "BRASS",
-        diameterMm: 50,
-      },
-      {
-        powerKw: 350,
-        kgHr: 2000,
-        temperature: 750,
-        metal: "BRASS",
-        diameterMm: 50,
-      },
-      {
-        powerKw: 500,
-        kgHr: 2900,
-        temperature: 750,
-        metal: "BRASS",
-        diameterMm: 50,
-      },
-    ],
+    variants: [],
     components: [
       {
         title: "سیستم خنک‌کننده",
@@ -461,47 +373,15 @@ const products = [
       },
     ],
     images: [
-      "/images/products/hardening-furnace-1.webp",
-      "/images/products/hardening-furnace-2.webp",
-      "/images/products/hardening-furnace-3.webp",
-      "/images/products/hardening-furnace-4.webp",
-      "/images/products/hardening-furnace-5.webp",
+      "/images/products/hardening-furnace1.webp",
+      "/images/products/hardening-furnace2.webp",
+      "/images/products/hardening-furnace3.webp",
+      "/images/products/hardening-furnace4.webp",
+      "/images/products/hardening-furnace5.webp",
     ],
     featured: false,
     order: 3,
   },
-  {
-    slug: "forming-furnace",
-    name: "کوره القایی فورمینگ",
-    category: "FORMING_FURNACE" as const,
-    description:
-      "کوره‌های القایی فورمینگ پارسیان برای گرم کردن موضعی یا کامل قطعات قبل از عملیات شکل‌دهی و فرمینگ طراحی شدن. این کوره‌ها با کنترل دقیق دما و راندمان بالا، امکان تولید قطعات با کیفیت یکنواخت در خط تولید انبوه رو فراهم می‌کنن و فضای کمتری نسبت به کوره‌های سنتی اشغال می‌کنن.",
-    capacityKg: null,
-    powerKw: null,
-    frequencyHz: null,
-
-    components: [
-      {
-        title: "سیستم خنک‌کننده",
-        description:
-          "شامل مبدل حرارتی، قطره‌گیر برج خنک‌کننده، الکتروپمپ‌ها، فن، بدنه گالوانیزه و سختی‌گیر مغناطیسی.",
-      },
-      {
-        title: "سیستم مبدل فرکانس",
-        description:
-          "تابلو مبدل فرکانس مجهز به PLC و HMI برای کنترل دقیق و ساده تمام بخش‌ها.",
-      },
-      {
-        title: "کویل و یوک",
-        description:
-          "طراحی شده بر اساس قطر و نوع قطعه کار برای حداکثر راندمان پیش‌گرم.",
-      },
-    ],
-    images: [],
-    featured: false,
-    order: 4,
-  },
-
   // ========== خدمات ==========
   {
     slug: "spare-parts",

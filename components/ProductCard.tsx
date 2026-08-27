@@ -4,12 +4,6 @@ import { ChevronLeft } from "lucide-react";
 import type { Product } from "@/lib/generated/prisma/client";
 import { toPersianDigits } from "@/lib/format";
 
-type ProductVariant = {
-  capacityKg: number;
-  powerKw: number;
-  frequencyHz: number;
-};
-
 const SERVICE_CATEGORIES = new Set(["SERVICE_EQUIPMENT", "SPARE_PARTS"]);
 
 export function ProductCard({
@@ -25,10 +19,6 @@ export function ProductCard({
     : `/products/${product.slug}`;
   const buttonLabel = isService ? "مشاهده بیشتر" : "مشاهده مشخصات";
 
-  const variants = Array.isArray(product.variants)
-    ? (product.variants as unknown as ProductVariant[])
-    : [];
-  const hasVariants = variants.length > 0;
   const isFurnace = product.capacityKg != null && product.powerKw != null;
 
   return (
@@ -58,15 +48,7 @@ export function ProductCard({
 
       {/* توضیحات / مشخصات */}
       <div className="mt-2 flex-1">
-        {hasVariants ? (
-          <div className="space-y-1 text-center text-xs text-gray-400">
-            <p>
-              ظرفیت: {toPersianDigits(variants[0].capacityKg)} تا{" "}
-              {toPersianDigits(variants[variants.length - 1].capacityKg)} کیلوگرم
-            </p>
-            <p>{toPersianDigits(variants.length)} مدل مختلف</p>
-          </div>
-        ) : isFurnace ? (
+        {isFurnace ? (
           <div className="space-y-1 text-center text-xs text-gray-400">
             <p>ظرفیت: {toPersianDigits(product.capacityKg!)} کیلوگرم</p>
             <p>توان: {toPersianDigits(product.powerKw!)} کیلووات</p>
