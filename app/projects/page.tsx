@@ -10,27 +10,27 @@ export const metadata = {
 
 const galleryImages = [
   {
-    src: "/images/projects/project1.webp",
+    src: "/images/projects/project-1.webp",
     alt: "پروژه صنعتی ۱",
   },
   {
-    src: "/images/projects/project2.webp",
+    src: "/images/projects/project-2.webp",
     alt: "پروژه صنعتی ۲",
   },
   {
-    src: "/images/projects/project3.webp",
+    src: "/images/projects/project-3.webp",
     alt: "پروژه صنعتی ۳",
   },
   {
-    src: "/images/projects/project4.webp",
+    src: "/images/projects/project-4.webp",
     alt: "پروژه صنعتی ۴",
   },
   {
-    src: "/images/projects/project5.webp",
+    src: "/images/projects/project-5.webp",
     alt: "پروژه صنعتی ۵",
   },
   {
-    src: "/images/projects/project1.webp",
+    src: "/images/projects/project-6.webp",
     alt: "پروژه صنعتی ۶",
   },
 ];
