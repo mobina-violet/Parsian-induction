@@ -38,13 +38,13 @@ const galleryImages = [
 const videos = [
   {
     src: "/videos/melting-process.mp4",
-    poster: "/images/projects/melting-process.webp",
+    poster: "/images/projects/melting-process1.webp",
     title: "فرآیند ذوب القایی",
   },
   {
     src: "/videos/forging-process.mp4",
-    poster: "/images/projects/forging-process.webp",
-    title: "عملیات فورج و شکل‌دهی",
+    poster: "/images/projects/melting-process2.webp",
+    title: "فرآیند ذوب القایی",
   },
 ];
 

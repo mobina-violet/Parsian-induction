@@ -149,7 +149,7 @@ export default async function ServicesPage({
       <section className="relative overflow-hidden">
         <div className="absolute inset-0">
           <Image
-            src="/images/services/hero.webp"
+            src="/images/services/hero-section.webp"
             alt="خدمات پارسیان"
             fill
             priority
