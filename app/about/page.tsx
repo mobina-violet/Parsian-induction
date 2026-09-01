@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import {
-  Play,
+  Download,
   Users,
   Gauge,
   Settings,
@@ -88,7 +88,7 @@ export default function AboutPage() {
           </div>
         </div>
         <Image
-          src="/images/services/hero-section-services.webp"
+          src="/images/services/hero-section.webp"
           alt="کارخانه پارسیان"
           fill
           quality={75}
@@ -103,26 +103,29 @@ export default function AboutPage() {
           dir="ltr"
           className="relative z-10 mx-auto grid max-w-7xl gap-8 px-4 pt-14 sm:px-6 lg:grid-cols-[0.9fr_1.1fr] lg:items-center lg:px-8 lg:pt-20">
           <div className="hidden lg:block" />
-<div dir="rtl" className="text-right">
-  <h1 className="mt-2 text-2xl font-bold leading-tight text-white sm:text-3xl lg:text-4xl">
-    تجربه و تخصص
-    <br />
-    <span className="text-orange-500">در صنعت کوره القایی</span>
-  </h1>
+          <div dir="rtl" className="text-right">
+            <h1 className="mt-2 text-2xl font-bold leading-tight text-white sm:text-3xl lg:text-4xl">
+              تجربه و تخصص
+              <br />
+              <span className="text-orange-500">در صنعت کوره القایی</span>
+            </h1>
 
-  <p className="mt-4 max-w-lg text-sm leading-7 text-slate-300 sm:text-base lg:text-lg lg:leading-8">
-    پارسیان پرتو الوند متخصص طراحی، ساخت و راه‌اندازی کوره القایی است.
-    ما با دانش فنی و تیمی مجرب، راهکارهای مطمئن برای صنایع فولاد، مس و
-    آلومینیوم ارائه می‌دهیم.
-  </p>
+            <p className="mt-4 max-w-lg text-sm leading-7 text-slate-300 sm:text-base lg:text-lg lg:leading-8">
+              پارسیان پرتو الوند متخصص طراحی، ساخت و راه‌اندازی کوره القایی است.
+              ما با دانش فنی و تیمی مجرب، راهکارهای مطمئن برای صنایع فولاد، مس و
+              آلومینیوم ارائه می‌دهیم.
+            </p>
 
-  <button className="mt-7 flex items-center gap-3 rounded-full border border-white/15 py-2 pl-2 pr-5 text-sm font-medium text-white transition hover:border-orange-400 hover:text-orange-400">
-    تماشای ویدیو معرفی
-    <span className="flex h-9 w-9 items-center justify-center rounded-full bg-orange-500">
-      <Play className="h-4 w-4 fill-white text-white" />
-    </span>
-  </button>
-</div>
+            <a
+              href="/catalog.pdf"
+              download
+              className="mt-7 inline-flex items-center gap-3 rounded-full border border-white/15 py-2 pl-2 pr-5 text-sm font-medium text-white transition hover:border-orange-400 hover:text-orange-400">
+              دانلود کاتالوگ
+              <span className="flex h-9 w-9 items-center justify-center rounded-full bg-orange-500">
+                <Download className="h-4 w-4 text-white" />
+              </span>
+            </a>
+          </div>
         </div>
       </section>
 
@@ -168,7 +171,7 @@ export default function AboutPage() {
           <div dir="ltr" className="mt-8 grid gap-4 lg:grid-cols-[1.1fr_0.9fr]">
             <button className="group relative h-64 overflow-hidden rounded-2xl sm:h-full">
               <Image
-                src="/images/about/about-photo.webp"
+                src="/images/about/about-image-activity.webp"
                 alt="ویدیوی فعالیت‌های پارسیان"
                 fill
                 className="object-cover transition duration-300 group-hover:scale-105"

@@ -10,7 +10,7 @@ export function Hero() {
           <source media="(max-width: 767px)" srcSet="/hero-mobile.webp" />
 
           <Image
-            src="/heero-section.webp"
+            src="/hero-desktop1.webp"
             alt="کوره القایی صنعتی"
             fill
             priority
@@ -27,41 +27,41 @@ export function Hero() {
       </div>
 
       {/* Content */}
-<div className="relative z-10 mx-auto w-full max-w-7xl px-6 lg:px-8">
-  <div className="max-w-xl" dir="rtl">
-    <p className="mb-3 text-xs tracking-[0.2em] text-orange-400 sm:text-sm">
-      طراحی و ساخت تخصصی
-    </p>
+      <div className="relative z-10 mx-auto w-full max-w-7xl px-6 lg:px-8">
+        <div className="max-w-xl" dir="rtl">
+          <p className="mb-3 text-xs tracking-[0.2em] text-orange-400 sm:text-sm">
+            طراحی و ساخت تخصصی
+          </p>
 
-    <h1 className="text-3xl font-bold leading-tight text-white sm:text-4xl lg:text-5xl">
-      کوره‌های القایی
-      <br />
-      <span className="text-orange-500">با تکنولوژی روز دنیا</span>
-    </h1>
+          <h1 className="text-3xl font-bold leading-tight text-white sm:text-4xl lg:text-5xl">
+            کوره‌های القایی
+            <br />
+            <span className="text-orange-500">با تکنولوژی روز دنیا</span>
+          </h1>
 
-    <p className="mt-5 text-sm leading-7 text-gray-200 sm:text-base lg:text-lg lg:leading-8">
-      طراحی و ساخت کوره القایی صنعتی با کیفیت بالا، راندمان عالی و
-      خدمات پس از فروش مطمئن برای صنایع فولاد، مس و آلومینیوم.
-    </p>
+          <p className="mt-5 text-sm leading-7 text-gray-200 sm:text-base lg:text-lg lg:leading-8">
+            طراحی و ساخت کوره القایی صنعتی با کیفیت بالا، راندمان عالی و خدمات
+            پس از فروش مطمئن برای صنایع فولاد، مس و آلومینیوم.
+          </p>
 
-    {/* Buttons */}
-    <div className="mt-8 flex flex-col gap-4 sm:flex-row">
-      <a
-        href="/products"
-        className="flex h-12 items-center justify-center rounded-full bg-orange-600 px-8 text-white shadow-lg transition hover:bg-orange-700">
-        مشاهده محصولات
-      </a>
+          {/* Buttons */}
+          <div className="mt-8 flex flex-col gap-4 sm:flex-row">
+            <a
+              href="/products"
+              className="flex h-12 items-center justify-center rounded-full bg-orange-600 px-8 text-white shadow-lg transition hover:bg-orange-700">
+              مشاهده محصولات
+            </a>
 
-      <a
-        href="tel:09124384191"
-        className="flex h-12 items-center justify-center gap-2 rounded-full border border-white/40 bg-white/10 px-8 text-white backdrop-blur transition hover:bg-white/20"
-        dir="ltr">
-        <Phone className="h-4 w-4 shrink-0 text-orange-500" />
-        <span>دریافت مشاوره فنی</span>
-      </a>
-    </div>
-  </div>
-</div>
+            <a
+              href="tel:09124384191"
+              className="flex h-12 items-center justify-center gap-2 rounded-full border border-white/40 bg-white/10 px-8 text-white backdrop-blur transition hover:bg-white/20"
+              dir="ltr">
+              <Phone className="h-4 w-4 shrink-0 text-orange-500" />
+              <span>دریافت مشاوره فنی</span>
+            </a>
+          </div>
+        </div>
+      </div>
       {/* Stats */}
       <div className="absolute bottom-6 left-1/2 z-20 w-full max-w-6xl -translate-x-1/2 px-4 sm:px-6">
         <div
