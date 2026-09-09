@@ -32,6 +32,28 @@ const serviceTabs = [
 
 type ServiceCategory = (typeof serviceTabs)[number]["value"];
 
+const subFilters: Record<ServiceCategory, { value: string; label: string }[]> =
+  {
+    SPARE_PARTS: [
+      { value: "all", label: "همه" },
+      { value: "thyristor", label: "تریستورها" },
+      { value: "diode", label: "دیودها" },
+      { value: "module", label: "ماژول‌ها" },
+      { value: "igbt", label: "IGBT" },
+      { value: "capacitor", label: "خازن‌ها" },
+      { value: "board", label: "برد و الکترونیکی" },
+      { value: "coil", label: "کویل و عایق" },
+    ],
+    PERIPHERAL_EQUIPMENT: [
+      { value: "all", label: "همه" },
+      { value: "cooling", label: "سیستم خنک‌کاری" },
+      { value: "cable", label: "کابل و اتصالات" },
+      { value: "control", label: "کنترل و اندازه‌گیری" },
+      { value: "crucible", label: "بوته و بدنه" },
+      { value: "hydraulic", label: "هیدرولیک" },
+    ],
+  };
+
 const services = [
   {
     icon: ClipboardCheck,
@@ -130,16 +152,22 @@ const process = [
 export default async function ServicesPage({
   searchParams,
 }: {
-  searchParams: Promise<{ category?: string }>;
+  searchParams: Promise<{ category?: string; sub?: string }>;
 }) {
   const params = await searchParams;
+
   const activeCategory: ServiceCategory =
     params.category === "PERIPHERAL_EQUIPMENT"
       ? "PERIPHERAL_EQUIPMENT"
       : "SPARE_PARTS";
 
+  const activeSub = params.sub || "all";
+
   const items = await prisma.product.findMany({
-    where: { category: activeCategory },
+    where: {
+      category: activeCategory,
+      ...(activeSub !== "all" ? { subCategory: activeSub } : {}),
+    },
     orderBy: { order: "asc" },
   });
 
@@ -183,8 +211,9 @@ export default async function ServicesPage({
         </div>
       </section>
 
-      {/* فیلتر + کارت‌ها */}
+      {/* فیلتر اصلی + فرعی + کارت‌ها */}
       <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+        {/* تب اصلی */}
         <div className="flex flex-wrap gap-3">
           {serviceTabs.map((tab) => {
             const isActive = activeCategory === tab.value;
@@ -204,6 +233,27 @@ export default async function ServicesPage({
           })}
         </div>
 
+        {/* فیلتر فرعی */}
+        <div className="mt-5 flex flex-wrap gap-2">
+          {subFilters[activeCategory].map((sub) => {
+            const isActive = activeSub === sub.value;
+            return (
+              <Link
+                key={sub.value}
+                href={`/services?category=${activeCategory}&sub=${sub.value}`}
+                scroll={false}
+                className={
+                  isActive
+                    ? "rounded-full bg-slate-900 px-4 py-1.5 text-xs font-medium text-white"
+                    : "rounded-full border border-gray-200 px-4 py-1.5 text-xs font-medium text-slate-600 transition hover:border-orange-300 hover:text-orange-500"
+                }>
+                {sub.label}
+              </Link>
+            );
+          })}
+        </div>
+
+        {/* گرید محصولات */}
         <div className="mt-10">
           {items.length > 0 ? (
             <div className="grid grid-cols-2 gap-5 sm:grid-cols-3 lg:grid-cols-4">

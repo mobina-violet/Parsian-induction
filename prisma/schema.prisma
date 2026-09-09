@@ -47,22 +47,20 @@ enum ProductCategory {
   COOLING_SYSTEM
   SERVICE_EQUIPMENT      // خدمات و تجهیزات
   SPARE_PARTS            // لوازم یدکی
-  FREQUENCY_CONVERTER
-  CRUCIBLE
-  LINK
-  PERIPHERAL_EQUIPMENT
+
 }
 model Product {
   id          String                @id @default(cuid())
   slug        String                @unique
   name        String
   category    ProductCategory       @default(MELTING_FURNACE)
+  subCategory String?               // ← این خط رو اضافه کن
   description String?
   capacityKg  Int?
   powerKw     Int?
   frequencyHz Int?
-  variants    Json?                 // ردیف‌های جدول ظرفیت‌ها: [{ capacityKg, powerKw, frequencyHz }]
-  components  Json?                 // اجزای شامل‌شده در سیستم: [{ title, description }]
+  variants    Json?
+  components  Json?
   images      String[]
   featured    Boolean               @default(false)
   order       Int                   @default(0)
