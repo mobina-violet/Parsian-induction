@@ -25,14 +25,12 @@ export function Header() {
   const router = useRouter();
   const { open } = useConsultationModal();
 
-  // فوکوس خودکار وقتی سرچ باز می‌شه
   useEffect(() => {
     if (searchOpen && searchInputRef.current) {
       searchInputRef.current.focus();
     }
   }, [searchOpen]);
 
-  // بستن منوی موبایل با کلید Escape
   useEffect(() => {
     if (!mobileOpen) return;
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -42,7 +40,6 @@ export function Header() {
     return () => document.removeEventListener("keydown", handleKeyDown);
   }, [mobileOpen]);
 
-  // قفل اسکرول پشت صفحه وقتی منوی موبایل بازه
   useEffect(() => {
     if (!mobileOpen) return;
     const original = document.body.style.overflow;
@@ -73,8 +70,8 @@ export function Header() {
           <Image
             src="/parsian-logo.webp"
             alt="لوگوی پارسیان"
-            width={48}
-            height={48}
+            width={40}
+            height={40}
             quality={80}
             className="h-10 w-10 object-contain"
             priority
@@ -118,7 +115,6 @@ export function Header() {
 
         {/* Actions */}
         <div className="flex items-center gap-3">
-          {/* Search Button + Input */}
           <div className="relative hidden sm:flex items-center">
             {searchOpen ? (
               <form onSubmit={handleSearch} className="flex items-center">
@@ -187,7 +183,6 @@ export function Header() {
           aria-label="منوی موبایل"
           className="fixed inset-0 top-20 z-50 border-t border-gray-100 bg-white/95 backdrop-blur-md lg:hidden">
           <nav className="flex flex-col space-y-2 px-6 py-8 text-lg font-medium">
-            {/* Mobile Search */}
             <form onSubmit={handleSearch} className="mb-4 flex gap-2">
               <input
                 type="search"

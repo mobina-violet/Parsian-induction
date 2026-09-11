@@ -1,10 +1,11 @@
 generator client {
-  provider = "prisma-client"
+  provider = "prisma-client-js"
   output   = "../lib/generated/prisma"
 }
 
 datasource db {
-  provider = "postgresql"
+  provider  = "postgresql"
+
 }
 
 model ConsultationRequest {
@@ -16,11 +17,42 @@ model ConsultationRequest {
   message     String?
   source      LeadSource @default(HERO_WIDGET)
   productId   String?
-  product     Product?   @relation(fields: [productId], references: [id], onDelete: SetNull)
   status      LeadStatus @default(NEW)
   notes       String?
   createdAt   DateTime   @default(now())
   updatedAt   DateTime   @updatedAt
+  product     Product?   @relation(fields: [productId], references: [id])
+}
+
+model Product {
+  id          String                @id @default(cuid())
+  slug        String                @unique
+  name        String
+  category    ProductCategory       @default(MELTING_FURNACE)
+  description String?
+  capacityKg  Int?
+  powerKw     Int?
+  frequencyHz Int?
+  images      String[]
+  featured    Boolean               @default(false)
+  order       Int                   @default(0)
+  components  Json?
+  variants    Json?
+  subCategory String?
+  requests    ConsultationRequest[]
+}
+
+model Project {
+  id          String          @id @default(cuid())
+  slug        String          @unique
+  title       String
+  industry    ProjectIndustry @default(STEEL)
+  capacityKg  Int
+  image       String
+  videoUrl    String?
+  featured    Boolean         @default(false)
+  order       Int             @default(0)
+  completedAt DateTime?
 }
 
 enum LeadSource {
@@ -40,34 +72,19 @@ enum LeadStatus {
 }
 
 enum ProductCategory {
-  MELTING_FURNACE        // کوره‌های القایی ذوب
-  FORGING_FURNACE        // کوره‌های القایی فورج
-  HARDENING_FURNACE      // کوره‌های القایی سخت‌کاری
-  FORMING_FURNACE        // کوره‌های القایی فورمینگ
+  MELTING_FURNACE
+  FORGING_FURNACE
+  HARDENING_FURNACE
   COOLING_SYSTEM
-  SERVICE_EQUIPMENT      // خدمات و تجهیزات
-  SPARE_PARTS            // لوازم یدکی
-
-}
-model Product {
-  id          String                @id @default(cuid())
-  slug        String                @unique
-  name        String
-  category    ProductCategory       @default(MELTING_FURNACE)
-  subCategory String?               // ← این خط رو اضافه کن
-  description String?
-  capacityKg  Int?
-  powerKw     Int?
-  frequencyHz Int?
-  variants    Json?
-  components  Json?
-  images      String[]
-  featured    Boolean               @default(false)
-  order       Int                   @default(0)
-  requests    ConsultationRequest[]
+  FREQUENCY_CONVERTER
+  CRUCIBLE
+  LINK
+  PERIPHERAL_EQUIPMENT
+  FORMING_FURNACE
+  SERVICE_EQUIPMENT
+  SPARE_PARTS
 }
 
-// دسته‌بندی صنعتی پروژه‌ها — برای فیلتر صفحه پروژه‌ها
 enum ProjectIndustry {
   STEEL
   COPPER
@@ -75,17 +92,4 @@ enum ProjectIndustry {
   AUTOMOTIVE
   NON_FERROUS
   PRECISION_CASTING
-}
-
-model Project {
-  id          String          @id @default(cuid())
-  slug        String          @unique
-  title       String
-  industry    ProjectIndustry @default(STEEL)
-  capacityKg  Int
-  image       String
-  videoUrl    String?
-  featured    Boolean         @default(false)
-  order       Int             @default(0)
-  completedAt DateTime?
 }

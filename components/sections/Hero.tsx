@@ -5,12 +5,12 @@ export function Hero() {
   return (
     <section className="relative overflow-hidden pt-28 pb-52 md:pt-32 md:pb-44 lg:min-h-[90vh] lg:flex lg:items-center">
       <div className="absolute inset-0 z-0">
-        <picture>
+        <picture className="absolute inset-0 block h-full w-full">
           {/* Mobile */}
           <source media="(max-width: 767px)" srcSet="/hero-mobile.webp" />
 
           <Image
-            src="/hero-desktop1.webp"
+            src="/hero-desktop.webp"
             alt="کوره القایی صنعتی"
             fill
             priority

@@ -1,9 +1,20 @@
+import "dotenv/config";
 import { PrismaClient } from "../lib/generated/prisma/client";
 import { PrismaPg } from "@prisma/adapter-pg";
+import { Prisma } from "@/lib/generated/prisma";
 
-const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL });
+const adapter = new PrismaPg({
+  connectionString: process.env.DIRECT_URL ?? process.env.DATABASE_URL,
+  max: 1,
+  idleTimeoutMillis: 0,
+  connectionTimeoutMillis: 30_000,
+  ssl: { rejectUnauthorized: false }, // <-- این خط جدیده
+});
+
 const prisma = new PrismaClient({ adapter });
 
+// ... بقیه‌ی فایل (لیست products و تابع main) دست‌نخورده می‌مونه
+// ... بقیه کد seed بدون تغییر
 const staleProductSlugs = [
   "p250",
   "p500",
@@ -11,18 +22,17 @@ const staleProductSlugs = [
   "p1000",
   "p1500",
   "p2000",
-  "cooling-system",
   "frequency-converter",
   "crucible",
   "link",
 ];
 
-const products = [
-  // ========== کوره‌ها ==========
+// ========== کوره‌ها ==========
+const furnaces: Prisma.ProductCreateInput[] = [
   {
     slug: "melting-furnace",
     name: "کوره القایی ذوب",
-    category: "MELTING_FURNACE" as const,
+    category: "MELTING_FURNACE",
     description:
       "کوره‌های القایی ذوب , ساخت شرکت کوره القایی پارسیان پرتوالوند با طراحی اینورتر رزونانس سری و موازی، ذوب تمیز و بدون آلودگی فلزات آهنی و غیرآهنی (استیل, فولاد، چدن،آلومینیوم, برنج و مس) رو با راندمان بالا و کنترل دقیق دما فراهم می‌کنند. این روش یکی از مفیدترین و تمیزترین روش‌های گرمایش بدون تماس مواد است و باعث ایجاد ناخالصی یا آلودگی در ذوب نمی‌شود. در طراحی سیستم اینورتر رزونانس سری و موازی، انتخاب خازن مناسب بر اساس فرکانس رزونانس، توان خروجی، ضریب قدرت، کیفیت و کارایی کوره بسیار مهم است. این خط تولید از ظرفیت‌های کوچک کارگاهی تا واحدهای صنعتی بزرگ رو پوشش می دهد",
     capacityKg: null,
@@ -168,14 +178,13 @@ const products = [
   {
     slug: "forging-furnace",
     name: "کوره القایی پیش‌گرم (فورج) ",
-    category: "FORGING_FURNACE" as const,
+    category: "FORGING_FURNACE",
     description:
       "کوره‌های القایی پیش‌گرم (فورج) ساخت شرکت کوره القایی پارسیان پرتوالوند بر اساس سفارش مشتری، توان مورد نیاز و نوع کاربری طراحی و ساخته می‌شوند. این کوره‌ها با دانش روز و سال‌ها تجربه، قطعات فلزی رو تا دمای مشخص پیش‌گرم می‌کنند تا آماده عملیات فورج شوند. مزایای اصلی: اپراتوری بسیار ساده، عدم ایجاد اکسید روی قطعه به دلیل زمان کوتاه حرارت‌دهی، شروع به کار سریع، راندمان بالا، کنترل دقیق دما، اشغال فضای کمتر و قابلیت اتوماسیون با خط تولید.",
     capacityKg: null,
     powerKw: null,
     frequencyHz: null,
     variants: [
-      // فولاد ۱۲۰۰°C
       {
         powerKw: 100,
         kgHr: 300,
@@ -225,8 +234,6 @@ const products = [
         metal: "STEEL",
         diameterMm: 50,
       },
-
-      // برنج ۷۵۰°C
       {
         powerKw: 100,
         kgHr: 600,
@@ -292,7 +299,7 @@ const products = [
   {
     slug: "forming-furnace",
     name: "کوره القایی فورمینگ",
-    category: "FORMING_FURNACE" as const,
+    category: "FORMING_FURNACE",
     description:
       "کوره‌های القایی فورمینگ پارسیان برای گرم کردن موضعی یا کامل قطعات قبل از عملیات شکل‌دهی و فرمینگ طراحی شدند. این کوره‌ها با کنترل دقیق دما و راندمان بالا، امکان تولید قطعات با کیفیت یکنواخت در خط تولید انبوه رو فراهم می‌کنند و فضای کمتری نسبت به کوره‌های سنتی اشغال می‌کنند",
     capacityKg: null,
@@ -326,7 +333,7 @@ const products = [
   {
     slug: "hardening-furnace",
     name: "کوره القایی سخت‌کاری",
-    category: "HARDENING_FURNACE" as const,
+    category: "HARDENING_FURNACE",
     description:
       "کوره‌های سخت‌کاری القایی پارسیان در رنج فرکانس متوسط (MF) تولید می‌شوند. عملیات سخت‌کاری القایی یکی از شاخه‌های مهم متالورژی است که به دلیل تغییر خواص فیزیکی و افزایش راندمان قطعات، در بسیاری از صنایع استفاده می‌شود. این کوره‌ها قابلیت کنترل دقیق دما و عمق نفوذ سخت‌کاری را دارند و برای قطعاتی مثل محورها، یاتاقان‌ها، میل‌بادامک، پین‌ها، پیستون‌ها، چرخ‌دنده‌ها، شفت‌ها و میل‌لنگ موتور مناسب هستند.",
     capacityKg: null,
@@ -390,431 +397,421 @@ const products = [
     featured: false,
     order: 3,
   },
-  // ========== لوازم یدکی (SPARE_PARTS) ==========
+];
+
+// ========== لوازم یدکی (SPARE_PARTS) ==========
+const spareParts: Prisma.ProductCreateInput[] = [
   {
     slug: "phase-control-thyristor",
     name: "تریستور کنترل فاز",
-    category: "SPARE_PARTS" as const,
+    category: "SPARE_PARTS",
     subCategory: "thyristor",
     description:
-      "تریستور کنترل فاز با تحمل جریان و ولتاژ بالا، مناسب تابلوهای مبدل فرکانس کوره‌های القایی. عملکرد پایدار و طول عمر بالا.",
+      "تریستور کنترل فاز (Phase Control Thyristor) رایج‌ترین نوع تریستور برای کنترل توان در مدارهای قدرت است. این تریستورها معمولاً در فرکانس خط (۵۰/۶۰ هرتز) کار می‌کنند و با کموتاسیون طبیعی خاموش می‌شوند. زمان خاموشی آن‌ها در محدوده ۵۰ تا ۱۰۰ میکروثانیه است و برای کلیدزنی در سرعت‌های پایین مناسب هستند. نام‌های دیگر این محصول تریستور مبدل (Converter Thyristor) و یکسوکننده کنترل‌شده سیلیکونی (SCR) می‌باشد. تریستورهای کنترل فاز در رکتیفایرها، دستگاه‌های جوش، شارژرها، منابع تغذیه و کوره‌های القایی به‌طور گسترده استفاده می‌شوند.",
     capacityKg: null,
     powerKw: null,
     frequencyHz: null,
     variants: [],
     components: [],
-    images: [],
+    images: ["/images/services/phase-control-thyristor.webp"],
     featured: false,
     order: 10,
   },
   {
-    slug: "fast-turnoff-thyristor",
-    name: "تریستور Fast Turn-off",
-    category: "SPARE_PARTS" as const,
+    slug: "fast-switching-thyristor",
+    name: "تریستور فست (Fast Switching)",
+    category: "SPARE_PARTS",
     subCategory: "thyristor",
     description:
-      "تریستور Fast Turn-off با زمان خاموشی کوتاه، مناسب مدارهای قدرت کوره‌های القایی.",
+      "تریستور فست یا Fast Switching Thyristor یک قطعه نیمه‌هادی با سرعت عملکرد بسیار بالا است. این تریستور با نام Thyristor Inverter نیز شناخته می‌شود و قابلیت کار در فرکانس‌های ۱۰۰۰ تا ۸۰۰۰ هرتز را دارد. به همین دلیل برای تجهیزات فرکانس متوسط و سیستم‌های اینورتر بسیار مناسب است. تریستورهای فست معمولاً از نوع کپسولی (دیسکی) هستند. در برند وست‌کد (Westcode) معمولاً با کد R و در برند تکسم (Tecsem) با کد KK شروع می‌شوند. زمان خاموشی بسیار کوتاه این تریستورها باعث می‌شود در مدارهای قدرت کوره‌های القایی با راندمان بالا عمل کنند.",
     capacityKg: null,
     powerKw: null,
     frequencyHz: null,
     variants: [],
     components: [],
-    images: [],
+    images: ["/images/services/fast-switching-thyristor.webp"],
     featured: false,
     order: 11,
   },
   {
     slug: "high-frequency-thyristor",
-    name: "تریستور High Frequency",
-    category: "SPARE_PARTS" as const,
+    name: "تریستور فرکانس بالا (High Frequency)",
+    category: "SPARE_PARTS",
     subCategory: "thyristor",
     description:
-      "تریستور فرکانس بالا مناسب کوره‌های القایی فرکانس متوسط و بالا.",
+      "تریستور فرکانس بالا (High Frequency Thyristor) برای سیستم‌های اینورتر با فرکانس کاری بالا طراحی شده است. این تریستورها دارای زمان سوئیچینگ سریع و زمان خاموشی بسیار کوتاه هستند و در کوره‌های القایی فرکانس متوسط و بالا، اینورترهای قدرت و مدارهای رزونانس استفاده می‌شوند. عملکرد پایدار در فرکانس‌های بالا، تلفات کم و قابلیت اطمینان بالا از ویژگی‌های اصلی این محصول است.",
     capacityKg: null,
     powerKw: null,
     frequencyHz: null,
     variants: [],
     components: [],
-    images: [],
+    images: ["/images/services/high-frequency-thyristor.webp"],
     featured: false,
     order: 12,
   },
   {
     slug: "disc-thyristor",
-    name: "تریستور دیسکی",
-    category: "SPARE_PARTS" as const,
+    name: "تریستور دیسکی (کپسولی)",
+    category: "SPARE_PARTS",
     subCategory: "thyristor",
     description:
-      "تریستور دیسکی (کپسولی) با تحمل جریان بسیار بالا برای کوره‌های صنعتی سنگین.",
+      "تریستور دیسکی یا کپسولی (Disc / Capsule Thyristor) با طراحی فشرده و تحمل جریان بسیار بالا، برای کاربردهای صنعتی سنگین مناسب است. این نوع تریستور در رکتیفایرها، دستگاه‌های جوش، شارژرها، منابع تغذیه و به‌خصوص کوره‌های القایی مورد استفاده قرار می‌گیرد. تریستورهای دیسکی برند تکسم و سایر برندهای معتبر با کیفیت بالا و عمر طولانی عرضه می‌شوند و قابلیت نصب آسان روی هیت‌سینک را دارند.",
     capacityKg: null,
     powerKw: null,
     frequencyHz: null,
     variants: [],
     components: [],
-    images: [],
+    images: ["/images/services/disc-thyristor.webp"],
     featured: false,
     order: 13,
   },
   {
     slug: "rectifier-diode",
-    name: "دیود یکسوساز",
-    category: "SPARE_PARTS" as const,
+    name: "دیود یکسوساز (Rectifier Diode)",
+    category: "SPARE_PARTS",
     subCategory: "diode",
     description:
-      "دیود یکسوساز قدرت برای مدارهای یکسوسازی تابلوهای مبدل فرکانس کوره‌های القایی.",
+      "دیود یکسوساز قدرت (Rectifier Diode) از نوع دیسکی (کپسولی) برای مدارهای یکسوسازی تابلوهای مبدل فرکانس کوره‌های القایی. این دیودها تحمل جریان و ولتاژ بسیار بالا دارند و در رکتیفایرها، منابع تغذیه صنعتی، دستگاه‌های جوش و کوره‌های القایی کاربرد گسترده‌ای دارند.",
     capacityKg: null,
     powerKw: null,
     frequencyHz: null,
     variants: [],
     components: [],
-    images: [],
+    images: ["/images/services/rectifier-diode.webp"],
     featured: false,
     order: 14,
   },
   {
     slug: "fast-recovery-diode",
     name: "دیود Fast Recovery",
-    category: "SPARE_PARTS" as const,
+    category: "SPARE_PARTS",
     subCategory: "diode",
     description:
-      "دیود Fast Recovery با زمان بازیابی سریع برای مدارهای حفاظتی و یکسوسازی.",
+      "دیود Fast Recovery با زمان بازیابی بسیار سریع برای مدارهای حفاظتی، اسنابر و یکسوسازی فرکانس بالا. این دیودها در تابلوهای مبدل فرکانس کوره‌های القایی، اینورترها و مدارهای قدرت با سوئیچینگ سریع استفاده می‌شوند و تلفات سوئیچینگ را به حداقل می‌رسانند.",
     capacityKg: null,
     powerKw: null,
     frequencyHz: null,
     variants: [],
     components: [],
-    images: [],
+    images: ["/images/services/fast-recovery-diode.webp"],
     featured: false,
     order: 15,
   },
   {
     slug: "thyristor-module",
     name: "ماژول تریستوری",
-    category: "SPARE_PARTS" as const,
+    category: "SPARE_PARTS",
     subCategory: "module",
-    description: "ماژول تریستوری آماده نصب با طراحی فشرده و تحمل جریان بالا.",
+    description:
+      "ماژول تریستوری آماده نصب با طراحی فشرده، تحمل جریان بالا و نصب آسان روی هیت‌سینک. مناسب تابلوهای مبدل فرکانس کوره‌های القایی.",
     capacityKg: null,
     powerKw: null,
     frequencyHz: null,
     variants: [],
     components: [],
-    images: [],
+    images: ["/images/services/thyristor-module.webp"],
     featured: false,
     order: 16,
   },
   {
     slug: "diode-module",
     name: "ماژول دیودی",
-    category: "SPARE_PARTS" as const,
+    category: "SPARE_PARTS",
     subCategory: "module",
-    description: "ماژول دیودی قدرت مناسب مدارهای یکسوسازی و پل دیودی.",
+    description:
+      "ماژول دیودی قدرت مناسب مدارهای یکسوسازی و پل دیودی در تابلوهای مبدل فرکانس کوره‌های القایی.",
     capacityKg: null,
     powerKw: null,
     frequencyHz: null,
     variants: [],
     components: [],
-    images: [],
+    images: ["/images/services/diode-module.webp"],
     featured: false,
     order: 17,
   },
   {
     slug: "igbt-module",
-    name: "IGBT و ماژول IGBT",
-    category: "SPARE_PARTS" as const,
+    name: "ماژول IGBT",
+    category: "SPARE_PARTS",
     subCategory: "igbt",
-    description: "IGBT و ماژول IGBT صنعتی برای اینورترهای کوره‌های القایی.",
+    description:
+      "ماژول IGBT صنعتی با تلفات کم و سرعت سوئیچینگ بالا، مناسب اینورترهای مدرن کوره‌های القایی و سیستم‌های قدرت پیشرفته.",
     capacityKg: null,
     powerKw: null,
     frequencyHz: null,
     variants: [],
     components: [],
-    images: [],
+    images: ["/images/services/igbt-module.webp"],
     featured: false,
     order: 18,
   },
   {
-    slug: "water-cooled-capacitor",
-    name: "خازن آب‌خنک قدرت",
-    category: "SPARE_PARTS" as const,
+    slug: "capacitor",
+    name: "خازن ",
+    category: "SPARE_PARTS",
     subCategory: "capacitor",
     description:
-      "خازن آب‌خنک قدرت با تحمل جریان بالا برای بانک خازن کوره‌های القایی.",
+      "خازن آب‌خنک قدرت با تحمل جریان بسیار بالا برای بانک خازن کوره‌های القایی و مدارهای رزونانس. طراحی آب‌خنک باعث عملکرد پایدار در توان‌های بالا می‌شود.",
     capacityKg: null,
     powerKw: null,
     frequencyHz: null,
     variants: [],
     components: [],
-    images: [],
+    images: ["/images/services/capacitor.webp"],
     featured: false,
     order: 19,
   },
   {
     slug: "snubber-capacitor",
     name: "خازن اسنابر",
-    category: "SPARE_PARTS" as const,
+    category: "SPARE_PARTS",
     subCategory: "capacitor",
-    description: "خازن اسنابر برای محافظت از تریستورها و کاهش تنش ولتاژ.",
+    description:
+      "خازن اسنابر برای محافظت از تریستورها و IGBTها و کاهش تنش ولتاژ در لحظه سوئیچینگ. نقش حیاتی در افزایش عمر قطعات قدرت دارد.",
     capacityKg: null,
     powerKw: null,
     frequencyHz: null,
     variants: [],
     components: [],
-    images: [],
+    images: ["/images/services/snubber-capacitor.webp"],
     featured: false,
     order: 20,
   },
   {
-    slug: "control-board",
-    name: "برد کنترل و درایور",
-    category: "SPARE_PARTS" as const,
-    subCategory: "board",
+    slug: "power-fuse",
+    name: "فیوز قدرت",
+    category: "SPARE_PARTS",
+    subCategory: "fuse",
     description:
-      "برد کنترل و درایور اختصاصی پارسیان، سازگار با تابلوهای مبدل فرکانس.",
+      "فیوز قدرت با قطع سریع و تحمل جریان بالا برای حفاظت مدارهای قدرت کوره‌های القایی.",
     capacityKg: null,
     powerKw: null,
     frequencyHz: null,
     variants: [],
     components: [],
-    images: [],
+    images: ["/images/services/power-fuse.webp"],
     featured: false,
     order: 21,
   },
   {
-    slug: "copper-coil",
-    name: "کویل مسی",
-    category: "SPARE_PARTS" as const,
-    subCategory: "coil",
+    slug: "semiconductor-fuse",
+    name: "فیوز نیمه‌هادی",
+    category: "SPARE_PARTS",
+    subCategory: "fuse",
     description:
-      "کویل مسی با خلوص بالا و طراحی دقیق بر اساس توان و فرکانس کوره.",
+      "فیوز مخصوص حفاظت نیمه‌هادی‌ها (تریستور، دیود و IGBT) با قابلیت قطع بسیار سریع و جلوگیری از آسیب به قطعات گران‌قیمت.",
     capacityKg: null,
     powerKw: null,
     frequencyHz: null,
     variants: [],
     components: [],
-    images: [],
+    images: ["/images/services/semiconductor-fuse.webp"],
     featured: false,
     order: 22,
   },
   {
-    slug: "insulation-materials",
-    name: "مواد عایق‌کاری کویل",
-    category: "SPARE_PARTS" as const,
-    subCategory: "coil",
+    slug: "control-board",
+    name: "برد کنترل و درایور",
+    category: "SPARE_PARTS",
+    subCategory: "board",
     description:
-      "میکا، نوار سیلیکونی و اسپیسر مقاوم در برابر حرارت و جریان القایی.",
+      "برد کنترل و درایور اختصاصی پارسیان، سازگار با تابلوهای مبدل فرکانس و دارای حفاظت‌های کامل.",
     capacityKg: null,
     powerKw: null,
     frequencyHz: null,
     variants: [],
     components: [],
-    images: [],
+    images: ["/images/services/control-board.webp"],
     featured: false,
     order: 23,
   },
   {
-    slug: "yoke",
-    name: "یوک لایه‌ای",
-    category: "SPARE_PARTS" as const,
-    subCategory: "coil",
-    description: "یوک لایه‌ای سیلیکونی برای کاهش تلفات هسته و بهبود راندمان.",
+    slug: "driver-board",
+    name: "برد درایور تریستور و IGBT",
+    category: "SPARE_PARTS",
+    subCategory: "board",
+    description:
+      "برد درایور برای راه‌اندازی تریستور و IGBT با ایزولاسیون قوی و پالس‌های پایدار.",
     capacityKg: null,
     powerKw: null,
     frequencyHz: null,
     variants: [],
     components: [],
-    images: [],
+    images: ["/images/services/driver-board.webp"],
     featured: false,
     order: 24,
   },
   {
-    slug: "dc-choke",
-    name: "دی‌سی چوک",
-    category: "SPARE_PARTS" as const,
-    subCategory: "board",
-    description: "چوک جریان مستقیم برای فیلتر کردن ریپل جریان در مدار قدرت.",
+    slug: "copper-coil",
+    name: "کویل مسی",
+    category: "SPARE_PARTS",
+    subCategory: "coil",
+    description:
+      "کویل مسی با خلوص بالا و طراحی دقیق بر اساس توان و فرکانس کوره برای حداکثر راندمان.",
     capacityKg: null,
     powerKw: null,
     frequencyHz: null,
     variants: [],
     components: [],
-    images: [],
+    images: [
+      "/images/services/copper-coil-1.webp",
+      "/images/services/copper-coil-2.webp",
+      "/images/services/copper-coil-3.webp",
+      "/images/services/copper-coil-4.webp",
+    ],
     featured: false,
     order: 25,
   },
-
-  // ========== تجهیزات جانبی (PERIPHERAL_EQUIPMENT) ==========
   {
-    slug: "heatsink",
-    name: "هیت‌سینک",
-    category: "PERIPHERAL_EQUIPMENT" as const,
+    slug: "power-resistor",
+    name: "مقاومت قدرت آب‌خنک",
+    category: "SPARE_PARTS",
+    subCategory: "resistor",
+    description:
+      "مقاومت قدرت آب‌خنک با تحمل توان بالا برای مدارهای دشارژ، اسنابر و محدودکننده جریان در تابلوهای قدرت.",
+    capacityKg: null,
+    powerKw: null,
+    frequencyHz: null,
+    variants: [],
+    components: [],
+    images: ["/images/services/power-resistor.webp"],
+    featured: false,
+    order: 26,
+  },
+  {
+    slug: "bobbin-choke",
+    name: "بوبین چوک",
+    category: "SPARE_PARTS",
+    subCategory: "choke",
+    description:
+      "بوبین و کویل آب‌خنک با طراحی ویژه برای انتقال حرارت بالا و عملکرد پایدار در توان‌های بالا.",
+    capacityKg: null,
+    powerKw: null,
+    frequencyHz: null,
+    variants: [],
+    components: [],
+    images: ["/images/services/bobbin-choke.webp"],
+    featured: false,
+    order: 27,
+  },
+];
+
+// ========== خدمات و تجهیزات (SERVICE_EQUIPMENT) ==========
+const serviceEquipment: Prisma.ProductCreateInput[] = [
+  {
+    slug: "cooling-system",
+    name: "سیستم خنک‌کننده",
+    category: "SERVICE_EQUIPMENT",
     subCategory: "cooling",
     description:
-      "هیت‌سینک مسی و آلومینیومی برای خنک‌کاری تریستور، دیود و IGBT.",
+      "سیستم خنک‌کننده مدار بسته کامل شامل مبدل حرارتی، برج خنک‌کننده، پمپ‌ها، فن و کنترل دما برای کوره‌های القایی.",
     capacityKg: null,
     powerKw: null,
     frequencyHz: null,
     variants: [],
     components: [],
-    images: [],
+    images: [
+      "/images/services/cooling-system-1.webp",
+      "/images/services/cooling-system-2.webp",
+      "/images/services/cooling-system-3.webp",
+      "/images/services/cooling-system-4.webp",
+      "/images/services/cooling-system-5.webp",
+    ],
     featured: false,
-    order: 30,
-  },
-  {
-    slug: "carbon-free-hose",
-    name: "شیلنگ بدون کربن",
-    category: "PERIPHERAL_EQUIPMENT" as const,
-    subCategory: "cooling",
-    description: "شیلنگ آب‌گرد بدون کربن مقاوم در برابر حرارت و فشار.",
-    capacityKg: null,
-    powerKw: null,
-    frequencyHz: null,
-    variants: [],
-    components: [],
-    images: [],
-    featured: false,
-    order: 31,
-  },
-  {
-    slug: "water-pump",
-    name: "پمپ آب خنک‌کننده",
-    category: "PERIPHERAL_EQUIPMENT" as const,
-    subCategory: "cooling",
-    description: "الکتروپمپ صنعتی مخصوص مدار بسته خنک‌کننده کوره‌های القایی.",
-    capacityKg: null,
-    powerKw: null,
-    frequencyHz: null,
-    variants: [],
-    components: [],
-    images: [],
-    featured: false,
-    order: 32,
-  },
-  {
-    slug: "cooling-tower-parts",
-    name: "قطعات برج خنک‌کننده",
-    category: "PERIPHERAL_EQUIPMENT" as const,
-    subCategory: "cooling",
-    description: "مبدل حرارتی، قطره‌گیر، فن و بدنه گالوانیزه برج خنک‌کننده.",
-    capacityKg: null,
-    powerKw: null,
-    frequencyHz: null,
-    variants: [],
-    components: [],
-    images: [],
-    featured: false,
-    order: 33,
-  },
-  {
-    slug: "magnetic-hardener",
-    name: "سختی‌گیر مغناطیسی",
-    category: "PERIPHERAL_EQUIPMENT" as const,
-    subCategory: "cooling",
-    description: "سختی‌گیر مغناطیسی برای جلوگیری از رسوب در مدار آب خنک‌کننده.",
-    capacityKg: null,
-    powerKw: null,
-    frequencyHz: null,
-    variants: [],
-    components: [],
-    images: [],
-    featured: false,
-    order: 34,
-  },
-  {
-    slug: "water-cooled-cable",
-    name: "کابل آب‌خنک",
-    category: "PERIPHERAL_EQUIPMENT" as const,
-    subCategory: "cable",
-    description: "کابل قدرت آب‌خنک برای انتقال ایمن جریان بین تابلو و کویل.",
-    capacityKg: null,
-    powerKw: null,
-    frequencyHz: null,
-    variants: [],
-    components: [],
-    images: [],
-    featured: false,
-    order: 35,
-  },
-  {
-    slug: "power-link",
-    name: "لینک قدرت و اتصالات",
-    category: "PERIPHERAL_EQUIPMENT" as const,
-    subCategory: "cable",
-    description: "لینک قدرت و اتصالات استاندارد با کیفیت بالا.",
-    capacityKg: null,
-    powerKw: null,
-    frequencyHz: null,
-    variants: [],
-    components: [],
-    images: [],
-    featured: false,
-    order: 36,
+    order: 40,
   },
   {
     slug: "current-transformer",
     name: "ترانس جریان (C.T)",
-    category: "PERIPHERAL_EQUIPMENT" as const,
-    subCategory: "control",
-    description: "ترانس جریان دقیق برای اندازه‌گیری و حفاظت مدار قدرت.",
-    capacityKg: null,
-    powerKw: null,
-    frequencyHz: null,
-    variants: [],
-    components: [],
-    images: [],
-    featured: false,
-    order: 37,
-  },
-  {
-    slug: "hmi-plc",
-    name: "تابلو کنترل HMI و PLC",
-    category: "PERIPHERAL_EQUIPMENT" as const,
-    subCategory: "control",
+    category: "SERVICE_EQUIPMENT",
+    subCategory: "control_measurement",
     description:
-      "تابلو کنترل مجهز به HMI و PLC برای کنترل دقیق پارامترهای کوره.",
+      "ترانس جریان دقیق برای اندازه‌گیری، حفاظت و کنترل مدار قدرت کوره‌های القایی.",
     capacityKg: null,
     powerKw: null,
     frequencyHz: null,
     variants: [],
     components: [],
-    images: [],
+    images: ["/images/services/current-transformer.webp"],
     featured: false,
-    order: 38,
+    order: 48,
   },
   {
     slug: "crucible-body",
     name: "بدنه بوته",
-    category: "PERIPHERAL_EQUIPMENT" as const,
+    category: "SERVICE_EQUIPMENT",
     subCategory: "crucible",
-    description: "بدنه بوته در انواع آلومینیومی، فولادی و استیل.",
+    description:
+      "بدنه بوته در انواع آلومینیومی، فولادی (یوک) و استیل با طراحی مقاوم و عمر بالا.",
     capacityKg: null,
     powerKw: null,
     frequencyHz: null,
     variants: [],
     components: [],
-    images: [],
+    images: [
+      "/images/services/crucible-body-1.webp",
+      "/images/services/crucible-body-2.webp",
+    ],
     featured: false,
-    order: 39,
+    order: 51,
   },
   {
     slug: "hydraulic-parts",
     name: "تجهیزات هیدرولیک",
-    category: "PERIPHERAL_EQUIPMENT" as const,
+    category: "SERVICE_EQUIPMENT",
     subCategory: "hydraulic",
-    description: "سیلندر، پمپ و شیرآلات سیستم تیلت و جابجایی بوته.",
+    description:
+      "سیلندر، پمپ، شیرآلات و اتصالات سیستم هیدرولیک برای تیلت و جابجایی بوته.",
     capacityKg: null,
     powerKw: null,
     frequencyHz: null,
     variants: [],
     components: [],
-    images: [],
+    images: ["/images/services/hydraulic-parts.webp"],
     featured: false,
-    order: 40,
+    order: 53,
+  },
+  {
+    slug: "changeover-switch",
+    name: "کلید چنج (Changeover)",
+    category: "SERVICE_EQUIPMENT",
+    subCategory: "hydraulic",
+    description:
+      "کلید چنج و سوئیچ تغییر وضعیت برای کنترل ایمن سیستم‌های هیدرولیک و مدارهای قدرت.",
+    capacityKg: null,
+    powerKw: null,
+    frequencyHz: null,
+    variants: [],
+    components: [],
+    images: ["/images/services/changeover-switch.webp"],
+    featured: false,
+    order: 54,
   },
 ];
+const products = [...furnaces, ...spareParts, ...serviceEquipment];
+
+function assertUniqueSlugs(items: { slug: string }[]) {
+  const seen = new Set<string>();
+  for (const item of items) {
+    if (seen.has(item.slug)) {
+      throw new Error(`❌ اسلاگ تکراری پیدا شد: "${item.slug}"`);
+    }
+    seen.add(item.slug);
+  }
+}
 async function main() {
-  await prisma.product.deleteMany({
-    where: { slug: { in: staleProductSlugs } },
-  });
+  assertUniqueSlugs(products);
+
+  try {
+    const deleted = await prisma.product.deleteMany({
+      where: { slug: { in: staleProductSlugs } },
+    });
+    if (deleted.count > 0) {
+      console.log(`🗑️  ${deleted.count} محصول منسوخ پاک شد.`);
+    }
+  } catch (err) {
+    console.warn("⚠️ حذف محصولات منسوخ انجام نشد، ادامه می‌دهیم...", err);
+  }
 
   for (const product of products) {
     await prisma.product.upsert({
@@ -823,11 +820,12 @@ async function main() {
       create: product,
     });
   }
-}
 
+  console.log(`✅ ${products.length} محصول با موفقیت seed شد.`);
+}
 main()
   .catch((e) => {
-    console.error(e);
+    console.error("❌ خطا در اجرای seed:", e);
     process.exit(1);
   })
   .finally(() => prisma.$disconnect());
