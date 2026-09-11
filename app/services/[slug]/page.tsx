@@ -8,13 +8,13 @@ import { ConsultationCtaButton } from "@/components/ConsultationCtaButton";
 
 const categoryLabels: Record<string, string> = {
   SPARE_PARTS: "لوازم یدکی",
-  PERIPHERAL_EQUIPMENT: "قطعات و تجهیزات جانبی",
+  SERVICE_EQUIPMENT: "قطعات و تجهیزات جانبی",
 };
 
 export async function generateStaticParams() {
   const items = await prisma.product.findMany({
     where: {
-      category: { in: ["SPARE_PARTS", "PERIPHERAL_EQUIPMENT"] },
+      category: { in: ["SPARE_PARTS", "SERVICE_EQUIPMENT"] },
     },
     select: { slug: true },
   });
@@ -68,7 +68,7 @@ export default async function ServiceDetailPage({
   if (
     !item ||
     (item.category !== "SPARE_PARTS" &&
-      item.category !== "PERIPHERAL_EQUIPMENT")
+      item.category !== "SERVICE_EQUIPMENT")
   ) {
     notFound();
   }

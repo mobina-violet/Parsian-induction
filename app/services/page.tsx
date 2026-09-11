@@ -27,7 +27,7 @@ export const metadata = {
 
 const serviceTabs = [
   { value: "SPARE_PARTS", label: "لوازم یدکی" },
-  { value: "PERIPHERAL_EQUIPMENT", label: "قطعات و تجهیزات جانبی" },
+  { value: "SERVICE_EQUIPMENT", label: "قطعات و تجهیزات جانبی" },
 ] as const;
 
 type ServiceCategory = (typeof serviceTabs)[number]["value"];
@@ -43,14 +43,17 @@ const subFilters: Record<ServiceCategory, { value: string; label: string }[]> =
       { value: "capacitor", label: "خازن‌ها" },
       { value: "board", label: "برد و الکترونیکی" },
       { value: "coil", label: "کویل و عایق" },
+      { value: "fuse", label: "فیوزها" },
+      { value: "choke", label: "  بوبین چوک" },
     ],
-    PERIPHERAL_EQUIPMENT: [
+    SERVICE_EQUIPMENT: [
       { value: "all", label: "همه" },
       { value: "cooling", label: "سیستم خنک‌کاری" },
       { value: "cable", label: "کابل و اتصالات" },
-      { value: "control", label: "کنترل و اندازه‌گیری" },
+      { value: "control_measurement", label: "کنترل و اندازه‌گیری" },
       { value: "crucible", label: "بوته و بدنه" },
       { value: "hydraulic", label: "هیدرولیک" },
+      { value: "changeover", label: "کلید چنج" },
     ],
   };
 
@@ -157,8 +160,8 @@ export default async function ServicesPage({
   const params = await searchParams;
 
   const activeCategory: ServiceCategory =
-    params.category === "PERIPHERAL_EQUIPMENT"
-      ? "PERIPHERAL_EQUIPMENT"
+    params.category === "SERVICE_EQUIPMENT"
+      ? "SERVICE_EQUIPMENT"
       : "SPARE_PARTS";
 
   const activeSub = params.sub || "all";

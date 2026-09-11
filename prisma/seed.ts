@@ -1,7 +1,7 @@
 import "dotenv/config";
 import { PrismaClient } from "../lib/generated/prisma/client";
 import { PrismaPg } from "@prisma/adapter-pg";
-import { Prisma } from "@/lib/generated/prisma";
+import { Prisma } from "@/lib/generated/prisma/client";
 
 const adapter = new PrismaPg({
   connectionString: process.env.DIRECT_URL ?? process.env.DATABASE_URL,
@@ -450,22 +450,6 @@ const spareParts: Prisma.ProductCreateInput[] = [
     order: 12,
   },
   {
-    slug: "disc-thyristor",
-    name: "تریستور دیسکی (کپسولی)",
-    category: "SPARE_PARTS",
-    subCategory: "thyristor",
-    description:
-      "تریستور دیسکی یا کپسولی (Disc / Capsule Thyristor) با طراحی فشرده و تحمل جریان بسیار بالا، برای کاربردهای صنعتی سنگین مناسب است. این نوع تریستور در رکتیفایرها، دستگاه‌های جوش، شارژرها، منابع تغذیه و به‌خصوص کوره‌های القایی مورد استفاده قرار می‌گیرد. تریستورهای دیسکی برند تکسم و سایر برندهای معتبر با کیفیت بالا و عمر طولانی عرضه می‌شوند و قابلیت نصب آسان روی هیت‌سینک را دارند.",
-    capacityKg: null,
-    powerKw: null,
-    frequencyHz: null,
-    variants: [],
-    components: [],
-    images: ["/images/services/disc-thyristor.webp"],
-    featured: false,
-    order: 13,
-  },
-  {
     slug: "rectifier-diode",
     name: "دیود یکسوساز (Rectifier Diode)",
     category: "SPARE_PARTS",
@@ -479,7 +463,7 @@ const spareParts: Prisma.ProductCreateInput[] = [
     components: [],
     images: ["/images/services/rectifier-diode.webp"],
     featured: false,
-    order: 14,
+    order: 13,
   },
   {
     slug: "fast-recovery-diode",
@@ -495,7 +479,7 @@ const spareParts: Prisma.ProductCreateInput[] = [
     components: [],
     images: ["/images/services/fast-recovery-diode.webp"],
     featured: false,
-    order: 15,
+    order: 14,
   },
   {
     slug: "thyristor-module",
@@ -511,7 +495,7 @@ const spareParts: Prisma.ProductCreateInput[] = [
     components: [],
     images: ["/images/services/thyristor-module.webp"],
     featured: false,
-    order: 16,
+    order: 15,
   },
   {
     slug: "diode-module",
@@ -527,7 +511,7 @@ const spareParts: Prisma.ProductCreateInput[] = [
     components: [],
     images: ["/images/services/diode-module.webp"],
     featured: false,
-    order: 17,
+    order: 16,
   },
   {
     slug: "igbt-module",
@@ -543,7 +527,7 @@ const spareParts: Prisma.ProductCreateInput[] = [
     components: [],
     images: ["/images/services/igbt-module.webp"],
     featured: false,
-    order: 18,
+    order: 17,
   },
   {
     slug: "capacitor",
@@ -559,11 +543,11 @@ const spareParts: Prisma.ProductCreateInput[] = [
     components: [],
     images: ["/images/services/capacitor.webp"],
     featured: false,
-    order: 19,
+    order: 18,
   },
   {
     slug: "snubber-capacitor",
-    name: "خازن اسنابر",
+    name: "خازن و تریستوراسنابر",
     category: "SPARE_PARTS",
     subCategory: "capacitor",
     description:
@@ -573,9 +557,12 @@ const spareParts: Prisma.ProductCreateInput[] = [
     frequencyHz: null,
     variants: [],
     components: [],
-    images: ["/images/services/snubber-capacitor.webp"],
+    images: [
+      "/images/services/snubber-capacitor-1.webp",
+      "/images/services/snubber-capacitor-2.webp",
+    ],
     featured: false,
-    order: 20,
+    order: 19,
   },
   {
     slug: "power-fuse",
@@ -589,25 +576,12 @@ const spareParts: Prisma.ProductCreateInput[] = [
     frequencyHz: null,
     variants: [],
     components: [],
-    images: ["/images/services/power-fuse.webp"],
+    images: [
+      "/images/services/power-fuse-1.webp",
+      "/images/services/power-fuse-2.webp",
+    ],
     featured: false,
-    order: 21,
-  },
-  {
-    slug: "semiconductor-fuse",
-    name: "فیوز نیمه‌هادی",
-    category: "SPARE_PARTS",
-    subCategory: "fuse",
-    description:
-      "فیوز مخصوص حفاظت نیمه‌هادی‌ها (تریستور، دیود و IGBT) با قابلیت قطع بسیار سریع و جلوگیری از آسیب به قطعات گران‌قیمت.",
-    capacityKg: null,
-    powerKw: null,
-    frequencyHz: null,
-    variants: [],
-    components: [],
-    images: ["/images/services/semiconductor-fuse.webp"],
-    featured: false,
-    order: 22,
+    order: 20,
   },
   {
     slug: "control-board",
@@ -621,9 +595,14 @@ const spareParts: Prisma.ProductCreateInput[] = [
     frequencyHz: null,
     variants: [],
     components: [],
-    images: ["/images/services/control-board.webp"],
+    images: [
+      "/images/services/control-board-1.webp",
+      "/images/services/control-board-2.webp",
+      "/images/services/control-board-3.webp",
+      "/images/services/control-board-4.webp",
+    ],
     featured: false,
-    order: 23,
+    order: 22,
   },
   {
     slug: "driver-board",
@@ -637,9 +616,9 @@ const spareParts: Prisma.ProductCreateInput[] = [
     frequencyHz: null,
     variants: [],
     components: [],
-    images: ["/images/services/driver-board.webp"],
+    images: [],
     featured: false,
-    order: 24,
+    order: 23,
   },
   {
     slug: "copper-coil",
@@ -660,7 +639,7 @@ const spareParts: Prisma.ProductCreateInput[] = [
       "/images/services/copper-coil-4.webp",
     ],
     featured: false,
-    order: 25,
+    order: 24,
   },
   {
     slug: "power-resistor",
@@ -676,7 +655,7 @@ const spareParts: Prisma.ProductCreateInput[] = [
     components: [],
     images: ["/images/services/power-resistor.webp"],
     featured: false,
-    order: 26,
+    order: 25,
   },
   {
     slug: "bobbin-choke",
@@ -692,7 +671,7 @@ const spareParts: Prisma.ProductCreateInput[] = [
     components: [],
     images: ["/images/services/bobbin-choke.webp"],
     featured: false,
-    order: 27,
+    order: 26,
   },
 ];
 
@@ -742,7 +721,7 @@ const serviceEquipment: Prisma.ProductCreateInput[] = [
     category: "SERVICE_EQUIPMENT",
     subCategory: "crucible",
     description:
-      "بدنه بوته در انواع آلومینیومی، فولادی (یوک) و استیل با طراحی مقاوم و عمر بالا.",
+      "بدنه بوته در انواع آلومینیومی، فولادی (یوک) و استیل با طراحی مقاوم و عمر بالا. مناسب کوره‌های القایی ذوب با ظرفیت‌های مختلف.",
     capacityKg: null,
     powerKw: null,
     frequencyHz: null,
@@ -771,13 +750,14 @@ const serviceEquipment: Prisma.ProductCreateInput[] = [
     featured: false,
     order: 53,
   },
+  // ========== کلید چنج ==========
   {
     slug: "changeover-switch",
     name: "کلید چنج (Changeover)",
     category: "SERVICE_EQUIPMENT",
-    subCategory: "hydraulic",
+    subCategory: "changeover",
     description:
-      "کلید چنج و سوئیچ تغییر وضعیت برای کنترل ایمن سیستم‌های هیدرولیک و مدارهای قدرت.",
+      "کلید چنج و سوئیچ تغییر وضعیت برای کنترل ایمن سیستم‌های هیدرولیک و مدارهای قدرت کوره‌های القایی.",
     capacityKg: null,
     powerKw: null,
     frequencyHz: null,
@@ -786,6 +766,23 @@ const serviceEquipment: Prisma.ProductCreateInput[] = [
     images: ["/images/services/changeover-switch.webp"],
     featured: false,
     order: 54,
+  },
+  // ========== کابل و اتصالات (جدید) ==========
+  {
+    slug: "cables-and-fittings",
+    name: "کابل و اتصالات",
+    category: "SERVICE_EQUIPMENT",
+    subCategory: "cable",
+    description:
+      "کابل‌های قدرت و اتصالات استاندارد مخصوص کوره‌های القایی، شامل کابل‌های انعطاف‌پذیر آب‌خنک، اتصالات مسی، بست‌ها و تجهیزات انتقال جریان با کیفیت بالا و تحمل جریان و ولتاژ بالا.",
+    capacityKg: null,
+    powerKw: null,
+    frequencyHz: null,
+    variants: [],
+    components: [],
+    images: ["/images/services/cables-and-fittings-1.webp"],
+    featured: false,
+    order: 55,
   },
 ];
 const products = [...furnaces, ...spareParts, ...serviceEquipment];
@@ -802,12 +799,16 @@ function assertUniqueSlugs(items: { slug: string }[]) {
 async function main() {
   assertUniqueSlugs(products);
 
+  const currentSlugs = products.map((p) => p.slug);
+
   try {
     const deleted = await prisma.product.deleteMany({
-      where: { slug: { in: staleProductSlugs } },
+      where: { slug: { notIn: currentSlugs } },
     });
     if (deleted.count > 0) {
-      console.log(`🗑️  ${deleted.count} محصول منسوخ پاک شد.`);
+      console.log(
+        `🗑️  ${deleted.count} محصول قدیمی/اضافه (که دیگه توی کد نیست) پاک شد.`,
+      );
     }
   } catch (err) {
     console.warn("⚠️ حذف محصولات منسوخ انجام نشد، ادامه می‌دهیم...", err);
