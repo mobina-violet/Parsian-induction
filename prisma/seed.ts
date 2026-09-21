@@ -8,7 +8,7 @@ const adapter = new PrismaPg({
   max: 1,
   idleTimeoutMillis: 0,
   connectionTimeoutMillis: 30_000,
-  ssl: { rejectUnauthorized: false }, // <-- این خط جدیده
+  ssl: { rejectUnauthorized: false },
 });
 
 const prisma = new PrismaClient({ adapter });
@@ -328,7 +328,7 @@ const furnaces: Prisma.ProductCreateInput[] = [
       "/images/products/forming-furnace-2.webp",
     ],
     featured: false,
-    order: 4,
+    order: 3,
   },
   {
     slug: "hardening-furnace",
@@ -395,7 +395,7 @@ const furnaces: Prisma.ProductCreateInput[] = [
       "/images/products/hardening-furnace4.webp",
     ],
     featured: false,
-    order: 3,
+    order: 4,
   },
 ];
 
@@ -545,25 +545,7 @@ const spareParts: Prisma.ProductCreateInput[] = [
     featured: false,
     order: 18,
   },
-  {
-    slug: "snubber-capacitor",
-    name: "خازن و تریستوراسنابر",
-    category: "SPARE_PARTS",
-    subCategory: "capacitor",
-    description:
-      "خازن اسنابر برای محافظت از تریستورها و IGBTها و کاهش تنش ولتاژ در لحظه سوئیچینگ. نقش حیاتی در افزایش عمر قطعات قدرت دارد.",
-    capacityKg: null,
-    powerKw: null,
-    frequencyHz: null,
-    variants: [],
-    components: [],
-    images: [
-      "/images/services/snubber-capacitor-1.webp",
-      "/images/services/snubber-capacitor-2.webp",
-    ],
-    featured: false,
-    order: 19,
-  },
+
   {
     slug: "power-fuse",
     name: "فیوز قدرت",
@@ -581,7 +563,7 @@ const spareParts: Prisma.ProductCreateInput[] = [
       "/images/services/power-fuse-2.webp",
     ],
     featured: false,
-    order: 20,
+    order: 19,
   },
   {
     slug: "control-board",
@@ -602,7 +584,7 @@ const spareParts: Prisma.ProductCreateInput[] = [
       "/images/services/control-board-4.webp",
     ],
     featured: false,
-    order: 22,
+    order: 20,
   },
   {
     slug: "driver-board",
@@ -610,7 +592,7 @@ const spareParts: Prisma.ProductCreateInput[] = [
     category: "SPARE_PARTS",
     subCategory: "board",
     description:
-      "برد درایور برای راه‌اندازی تریستور و IGBT با ایزولاسیون قوی و پالس‌های پایدار.",
+      "مقاومت اسنابر (Snubber Resistor) یک مقاومت قدرت آب‌خنک با تحمل توان بسیار بالا است که در مدارهای حفاظتی و اسنابر تابلوهای مبدل فرکانس کوره‌های القایی استفاده می‌شود. این مقاومت با جذب انرژی لحظه‌ای ناشی از سوئیچینگ تریستورها و IGBTها، از ایجاد ولتاژهای گذرای خطرناک (Spike و Overvoltage) جلوگیری می‌کند و نقش حیاتی در حفاظت از قطعات نیمه‌هادی قدرت دارد. طراحی آب‌خنک آن باعث می‌شود حتی در توان‌های بالا، دمای قطعه در محدوده ایمن باقی بماند و عملکرد پایدار و طولانی‌مدت داشته باشد. مقاومت‌های اسنابر پارسیان علاوه بر مدارهای اسنابر، در مدارهای دشارژ خازن، محدودکننده جریان و حفاظت در برابر تغییرات سریع ولتاژ (dv/dt) نیز کاربرد گسترده‌ای دارند و یکی از قطعات کلیدی برای افزایش قابلیت اطمینان و عمر مفید تابلو قدرت کوره‌های القایی محسوب می‌شوند.",
     capacityKg: null,
     powerKw: null,
     frequencyHz: null,
@@ -618,7 +600,7 @@ const spareParts: Prisma.ProductCreateInput[] = [
     components: [],
     images: [],
     featured: false,
-    order: 23,
+    order: 21,
   },
   {
     slug: "copper-coil",
@@ -639,11 +621,12 @@ const spareParts: Prisma.ProductCreateInput[] = [
       "/images/services/copper-coil-4.webp",
     ],
     featured: false,
-    order: 24,
+    order: 22,
   },
+
   {
-    slug: "power-resistor",
-    name: "مقاومت قدرت آب‌خنک",
+    slug: "snubber_resistor",
+    name: "مقاومت اسنابر (Snubber Resistor)",
     category: "SPARE_PARTS",
     subCategory: "resistor",
     description:
@@ -653,9 +636,12 @@ const spareParts: Prisma.ProductCreateInput[] = [
     frequencyHz: null,
     variants: [],
     components: [],
-    images: ["/images/services/power-resistor.webp"],
+    images: [
+      "/images/services/snubber-resistor-1.webp",
+      "/images/services/snubber-resistor-2.webp",
+    ],
     featured: false,
-    order: 25,
+    order: 23,
   },
   {
     slug: "bobbin-choke",
@@ -671,7 +657,7 @@ const spareParts: Prisma.ProductCreateInput[] = [
     components: [],
     images: ["/images/services/bobbin-choke.webp"],
     featured: false,
-    order: 26,
+    order: 24,
   },
 ];
 
