@@ -104,7 +104,7 @@ export default function AboutPage() {
           className="relative z-10 mx-auto grid max-w-7xl gap-8 px-4 pt-14 sm:px-6 lg:grid-cols-[0.9fr_1.1fr] lg:items-center lg:px-8 lg:pt-20">
           <div className="hidden lg:block" />
           <div dir="rtl" className="text-right">
-            <h1 className="mt-2 text-2xl font-bold leading-tight text-white sm:text-3xl lg:text-4xl">
+            <h1 className="mt-4 text-3xl font-bold leading-tight text-white sm:text-4xl lg:text-4xl">
               تجربه و تخصص
               <br />
               <span className="text-orange-500">در صنعت کوره القایی</span>

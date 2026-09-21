@@ -29,7 +29,7 @@ export function Hero() {
       {/* Content */}
       <div className="relative z-10 mx-auto w-full max-w-7xl px-6 lg:px-8">
         <div className="max-w-xl" dir="rtl">
-          <p className="mb-3 text-xs tracking-[0.2em] text-orange-400 sm:text-sm">
+          <p className="mb-3 text-xs tracking-normal text-orange-400 sm:text-sm">
             طراحی و ساخت تخصصی
           </p>
 
@@ -112,9 +112,13 @@ function Stat({
       </div>
 
       <div>
-        <p className="text-xl font-bold text-slate-900 md:text-2xl">{number}</p>
+        <p className="text-lg font-bold text-slate-900 sm:text-xl md:text-2xl">
+          {number}
+        </p>
 
-        <p className="text-xs text-gray-600 md:text-sm">{title}</p>
+        <p className="text-[11px] text-gray-600 sm:text-xs md:text-sm">
+          {title}
+        </p>
       </div>
     </div>
   );
