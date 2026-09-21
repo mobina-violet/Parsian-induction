@@ -700,6 +700,25 @@ const serviceEquipment: Prisma.ProductCreateInput[] = [
     order: 40,
   },
   {
+    slug: "cable-connections",
+    name: "کابل و اتصالات",
+    category: "SERVICE_EQUIPMENT",
+    subCategory: "cable",
+    description:
+      "توضیحات این محصول رو اینجا بنویس — مثلاً نوع کابل‌ها (قدرت/کنترل)، سطح مقطع، عایق‌بندی و کاربردشون توی تابلوهای کوره القایی.",
+    capacityKg: null,
+    powerKw: null,
+    frequencyHz: null,
+    variants: [],
+    components: [],
+    images: [
+      "/images/services/cable-connections1.webp",
+      "/images/services/cable-connections2.webp",
+    ],
+    featured: false,
+    order: 45,
+  },
+  {
     slug: "current-transformer",
     name: "ترانس جریان (C.T)",
     category: "SERVICE_EQUIPMENT",
@@ -721,7 +740,7 @@ const serviceEquipment: Prisma.ProductCreateInput[] = [
     category: "SERVICE_EQUIPMENT",
     subCategory: "crucible",
     description:
-      "بدنه بوته در انواع آلومینیومی، فولادی (یوک) و استیل با طراحی مقاوم و عمر بالا. مناسب کوره‌های القایی ذوب با ظرفیت‌های مختلف.",
+      "بدنه بوته در انواع آلومینیومی، فولادی (یوک) و استیل با طراحی مقاوم و عمر بالا.",
     capacityKg: null,
     powerKw: null,
     frequencyHz: null,
@@ -750,14 +769,13 @@ const serviceEquipment: Prisma.ProductCreateInput[] = [
     featured: false,
     order: 53,
   },
-  // ========== کلید چنج ==========
   {
     slug: "changeover-switch",
-    name: "کلید چنج (Changeover)",
+    name: "کلید چنج",
     category: "SERVICE_EQUIPMENT",
     subCategory: "changeover",
     description:
-      "کلید چنج و سوئیچ تغییر وضعیت برای کنترل ایمن سیستم‌های هیدرولیک و مدارهای قدرت کوره‌های القایی.",
+      "کلید چنج و سوئیچ تغییر وضعیت برای کنترل ایمن سیستم‌های هیدرولیک و مدارهای قدرت.",
     capacityKg: null,
     powerKw: null,
     frequencyHz: null,
@@ -766,23 +784,6 @@ const serviceEquipment: Prisma.ProductCreateInput[] = [
     images: ["/images/services/changeover-switch.webp"],
     featured: false,
     order: 54,
-  },
-  // ========== کابل و اتصالات (جدید) ==========
-  {
-    slug: "cables-and-fittings",
-    name: "کابل و اتصالات",
-    category: "SERVICE_EQUIPMENT",
-    subCategory: "cable",
-    description:
-      "کابل‌های قدرت و اتصالات استاندارد مخصوص کوره‌های القایی، شامل کابل‌های انعطاف‌پذیر آب‌خنک، اتصالات مسی، بست‌ها و تجهیزات انتقال جریان با کیفیت بالا و تحمل جریان و ولتاژ بالا.",
-    capacityKg: null,
-    powerKw: null,
-    frequencyHz: null,
-    variants: [],
-    components: [],
-    images: ["/images/services/cables-and-fittings-1.webp"],
-    featured: false,
-    order: 55,
   },
 ];
 const products = [...furnaces, ...spareParts, ...serviceEquipment];

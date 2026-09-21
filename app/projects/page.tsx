@@ -57,7 +57,7 @@ export default function ProjectsPage() {
         {/* عکس پس‌زمینه */}
         <div className="absolute inset-0">
           <Image
-            src="/images/projects/project5.webp"
+            src="/images/projects/projects-hero.webp"
             alt="پروژه‌های پارسیان"
             fill
             priority
@@ -85,7 +85,7 @@ export default function ProjectsPage() {
             </span>
             <h1 className="mt-4 text-3xl font-bold leading-tight text-white sm:text-4xl lg:text-4xl">
               پروژه‌های <span className="text-orange-400">کوره القایی</span>{" "}
-              پارسیان
+              پارسیان پرتو الوند
             </h1>
             <p className="mt-5 text-sm leading-7 text-white/80 sm:text-base lg:text-lg lg:leading-8">
               بیش از دو دهه طراحی، ساخت و راه‌اندازی کوره القایی در صنایع فولاد،

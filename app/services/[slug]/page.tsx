@@ -5,6 +5,7 @@ import type { Metadata } from "next";
 import { prisma } from "@/lib/prisma";
 import { ProductGallery } from "@/components/ProductGallery";
 import { ConsultationCtaButton } from "@/components/ConsultationCtaButton";
+import { siteConfig } from "@/lib/site-config";
 
 const categoryLabels: Record<string, string> = {
   SPARE_PARTS: "لوازم یدکی",
@@ -82,8 +83,26 @@ export default async function ServiceDetailPage({
     ? (item.components as { title: string; description: string }[])
     : [];
 
+  const productJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name: item.name,
+    description: item.description ?? undefined,
+    image: images.map((img) => `${siteConfig.url}${img}`),
+    category: categoryLabels[item.category] || undefined,
+    brand: {
+      "@type": "Brand",
+      name: siteConfig.name,
+    },
+  };
+
   return (
     <main dir="rtl" className="bg-white">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(productJsonLd) }}
+      />
+
       {/* بردکرامب */}
       <div className="border-b border-gray-100 bg-gray-50">
         <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">

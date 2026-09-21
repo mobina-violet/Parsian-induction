@@ -43,8 +43,8 @@ const subFilters: Record<ServiceCategory, { value: string; label: string }[]> =
       { value: "capacitor", label: "خازن‌ها" },
       { value: "board", label: "برد و الکترونیکی" },
       { value: "coil", label: "کویل و عایق" },
-      { value: "fuse", label: "فیوزها" },
-      { value: "choke", label: "  بوبین چوک" },
+      { value: "resistor", label: "مقاومت‌ها" },
+      { value: "choke", label: "بوبین و چوک" },
     ],
     SERVICE_EQUIPMENT: [
       { value: "all", label: "همه" },
@@ -56,7 +56,6 @@ const subFilters: Record<ServiceCategory, { value: string; label: string }[]> =
       { value: "changeover", label: "کلید چنج" },
     ],
   };
-
 const services = [
   {
     icon: ClipboardCheck,
@@ -205,6 +204,7 @@ export default async function ServicesPage({
             </span>
             <h1 className="mt-4 text-3xl font-bold leading-tight text-white sm:text-4xl lg:text-4xl">
               خدمات <span className="text-orange-400">کوره القایی</span> پارسیان
+              پرتو الوند
             </h1>
             <p className="mt-5 text-sm leading-7 text-white/80 sm:text-base lg:text-lg lg:leading-8">
               از مشاوره و طراحی تا ساخت، نصب و پشتیبانی تخصصی. همراه شما هستیم

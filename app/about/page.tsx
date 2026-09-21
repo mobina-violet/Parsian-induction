@@ -202,23 +202,25 @@ export default function AboutPage() {
           </div>
         </div>
       </section>
-
       {/* بنیان‌گذار و مدیرعامل */}
       <section className="bg-gray-50">
         <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
+          {/* ========== بنیان‌گذار ========== */}
           <div dir="rtl" className="grid gap-8 lg:grid-cols-3 lg:items-center">
+            {/* عکس بنیان‌گذار */}
             <div className="relative h-72 overflow-hidden rounded-2xl lg:h-96">
               <Image
                 src="/images/about/founder.webp"
-                alt="بنیان‌گذار و مدیرعامل پارسیان"
+                alt="بنیان‌گذار پارسیان"
                 fill
-                className="object-cover"
+                className="object-cover transition-transform duration-500 hover:scale-105"
               />
             </div>
 
+            {/* متن بنیان‌گذار */}
             <div className="text-right">
               <span className="text-xs font-medium text-orange-500">
-                بنیان‌گذار و مدیرعامل
+                بنیان‌گذار
               </span>
               <h2 className="mt-1 text-xl font-bold text-slate-900 sm:text-2xl">
                 مهندس جواد محققی
@@ -235,6 +237,7 @@ export default function AboutPage() {
               </p>
             </div>
 
+            {/* کارت سرمه‌ای بنیان‌گذار */}
             <div dir="rtl" className="rounded-2xl bg-slate-900 p-6">
               <div className="space-y-5">
                 {credentials.map((item) => (
@@ -255,6 +258,71 @@ export default function AboutPage() {
                   </div>
                 ))}
               </div>
+            </div>
+          </div>
+
+          {/* ========== مدیرعامل ========== */}
+          <div
+            dir="rtl"
+            className="mt-16 grid gap-8 lg:grid-cols-3 lg:items-center">
+            {/* کارت سرمه‌ای نقش کلیدی مدیرعامل */}
+            <div dir="rtl" className="rounded-2xl bg-slate-900 p-6">
+              <div className="space-y-5">
+                {[
+                  {
+                    title: "مدیریت اجرایی",
+                    desc: "راهبری عملیات و فرآیندهای روزانه شرکت",
+                    icon: Briefcase,
+                  },
+                  {
+                    title: "رضایت مشتریان",
+                    desc: "تمرکز بر تجربه و ارتباط با مشتریان",
+                    icon: HeartHandshake,
+                  },
+                ].map((item) => (
+                  <div
+                    key={item.title}
+                    className="flex items-start justify-start gap-3 text-right">
+                    <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-orange-500/10">
+                      <item.icon className="h-4 w-4 text-orange-400" />
+                    </span>
+                    <div>
+                      <p className="text-sm font-bold text-white">
+                        {item.title}
+                      </p>
+                      <p className="mt-0.5 text-xs text-slate-400">
+                        {item.desc}
+                      </p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* متن مدیرعامل */}
+            <div className="text-right">
+              <span className="text-xs font-medium text-orange-500">
+                مدیرعامل
+              </span>
+              <h2 className="mt-1 text-xl font-bold text-slate-900 sm:text-2xl">
+                زهرا تقوی
+              </h2>
+              <p className="mt-3 text-sm leading-7 text-gray-500">
+                با سابقه‌ای ارزشمند در مدیریت اجرایی و توسعه کسب‌وکارهای صنعتی،
+                خانم زهرا تقوی با تمرکز بر بهبود مستمر فرآیندها، رضایت مشتریان و
+                گسترش خدمات تخصصی شرکت پارسیان پرتو الوند، راهبری این مجموعه را
+                بر عهده دارند.
+              </p>
+            </div>
+
+            {/* عکس مدیرعامل */}
+            <div className="relative h-72 overflow-hidden rounded-2xl lg:h-96">
+              <Image
+                src="/images/about/ceo.webp"
+                alt="مدیرعامل پارسیان"
+                fill
+                className="object-cover transition-transform duration-500 hover:scale-105"
+              />
             </div>
           </div>
         </div>
