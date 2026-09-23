@@ -19,7 +19,7 @@ export function StrategicCapabilityBanner() {
           هر پروژه، <span className="text-orange-500">یک راهکار مهندسی‌شده</span>
         </h2>
         <p className="mx-auto mt-3 max-w-2xl text-sm leading-7 text-slate-300 sm:text-base">
-          فارغ از نوع و مقیاس درخواست شما، تیم فنی پارسیان با بهره‌گیری از تکنولوژی روز دنیا،
+          فارغ از نوع و مقیاس درخواست شما، تیم فنی پارسیان پرتو الوند با بهره‌گیری از تکنولوژی روز دنیا،
           راهکاری اختصاصی برایتان طراحی و اجرا می‌کند.
         </p>
 

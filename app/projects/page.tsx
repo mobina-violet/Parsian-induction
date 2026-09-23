@@ -57,7 +57,7 @@ export default function ProjectsPage() {
         {/* عکس پس‌زمینه */}
         <div className="absolute inset-0">
           <Image
-            src="/images/projects/project-hero.webp"
+            src="/images/projects/hero-projects.webp"
             alt="پروژه‌های پارسیان"
             fill
             priority
