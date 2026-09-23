@@ -541,9 +541,34 @@ const spareParts: Prisma.ProductCreateInput[] = [
     frequencyHz: null,
     variants: [],
     components: [],
-    images: ["/images/services/capacitor.webp"],
+    images: [
+      "/images/services/capacitor1.webp",
+      "/images/services/capacitor2.webp",
+      "/images/services/capacitor3.webp",
+    ],
     featured: false,
     order: 18,
+  },
+  {
+    slug: "snubber-capacitor",
+    name: "خازن اسنابر (Snubber Capacitor)",
+    category: "SPARE_PARTS",
+    subCategory: "capacitor",
+    description:
+      "خازن اسنابر قدرت برای جذب و کنترل ولتاژهای گذرا و Spike ناشی از کلیدزنی در مدارهای قدرت. این خازن در مدارهای اسنابر تریستور و IGBT، مدارهای اینورتر و تابلوهای مبدل فرکانس کوره‌های القایی استفاده می‌شود و با کاهش dv/dt و محدود کردن اضافه‌ولتاژهای لحظه‌ای، از قطعات نیمه‌هادی قدرت محافظت می‌کند. خازن‌های اسنابر با توجه به فرکانس کاری، ولتاژ، جریان و انرژی مدار انتخاب می‌شوند.",
+    capacityKg: null,
+    powerKw: null,
+    frequencyHz: null,
+    variants: [],
+    components: [],
+    images: [
+      "/images/services/snubber-capacitor-1.webp",
+      "/images/services/snubber-capacitor-2.webp",
+      "/images/services/snubber-capacitor-3.webp",
+      "/images/services/snubber-capacitor-4.webp",
+    ],
+    featured: false,
+    order: 19,
   },
 
   {
@@ -563,7 +588,7 @@ const spareParts: Prisma.ProductCreateInput[] = [
       "/images/services/power-fuse-2.webp",
     ],
     featured: false,
-    order: 19,
+    order: 20,
   },
   {
     slug: "control-board",
@@ -584,7 +609,7 @@ const spareParts: Prisma.ProductCreateInput[] = [
       "/images/services/control-board-4.webp",
     ],
     featured: false,
-    order: 20,
+    order: 21,
   },
   {
     slug: "driver-board",
@@ -600,7 +625,7 @@ const spareParts: Prisma.ProductCreateInput[] = [
     components: [],
     images: [],
     featured: false,
-    order: 21,
+    order: 22,
   },
   {
     slug: "copper-coil",
@@ -621,7 +646,7 @@ const spareParts: Prisma.ProductCreateInput[] = [
       "/images/services/copper-coil-4.webp",
     ],
     featured: false,
-    order: 22,
+    order: 23,
   },
 
   {
@@ -641,7 +666,7 @@ const spareParts: Prisma.ProductCreateInput[] = [
       "/images/services/snubber-resistor-2.webp",
     ],
     featured: false,
-    order: 23,
+    order: 24,
   },
   {
     slug: "bobbin-choke",
@@ -655,9 +680,12 @@ const spareParts: Prisma.ProductCreateInput[] = [
     frequencyHz: null,
     variants: [],
     components: [],
-    images: ["/images/services/bobbin-choke.webp"],
+    images: [
+      "/images/services/bobbin-choke1.webp",
+      "/images/services/bobbin-choke2.webp",
+    ],
     featured: false,
-    order: 24,
+    order: 25,
   },
 ];
 
@@ -698,8 +726,8 @@ const serviceEquipment: Prisma.ProductCreateInput[] = [
     variants: [],
     components: [],
     images: [
-      "/images/services/cable-connections1.webp",
-      "/images/services/cable-connections2.webp",
+      "/images/services/cable-connections_1.webp",
+      "/images/services/cable-connections_2.webp",
     ],
     featured: false,
     order: 45,
@@ -716,7 +744,10 @@ const serviceEquipment: Prisma.ProductCreateInput[] = [
     frequencyHz: null,
     variants: [],
     components: [],
-    images: ["/images/services/current-transformer.webp"],
+    images: [
+      "/images/services/current-transformer1.webp",
+      "/images/services/current-transformer2.webp",
+    ],
     featured: false,
     order: 48,
   },
@@ -751,7 +782,12 @@ const serviceEquipment: Prisma.ProductCreateInput[] = [
     frequencyHz: null,
     variants: [],
     components: [],
-    images: ["/images/services/hydraulic-parts.webp"],
+    images: [
+      "/images/services/hydraulic-parts1.webp",
+      "/images/services/hydraulic-parts2.webp",
+      "/images/services/hydraulic-parts3.webp",
+      "/images/services/hydraulic-parts4.webp",
+    ],
     featured: false,
     order: 53,
   },
@@ -767,7 +803,7 @@ const serviceEquipment: Prisma.ProductCreateInput[] = [
     frequencyHz: null,
     variants: [],
     components: [],
-    images: ["/images/services/changeover-switch.webp"],
+    images: ["/images/services/changeover-switch_1.webp"],
     featured: false,
     order: 54,
   },

@@ -30,9 +30,9 @@ export const services: Service[] = [
   },
   {
     icon: CircuitBoard,
-    title: "سیستم مبدل فرکانس",
+    title: "لوازم یدکی",
     description: "مبدل‌های فرکانس اختصاصی کوره‌های القایی",
-    href: "/products/melting-furnace",
+    href: "/services?category=SPARE_PARTS",
   },
   {
     icon: Wrench,
