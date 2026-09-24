@@ -22,7 +22,7 @@ export function ProductCard({
   const isFurnace = product.capacityKg != null && product.powerKw != null;
 
   return (
-    <div className="group relative flex h-full flex-col rounded-2xl border border-gray-100 bg-white p-4 transition duration-300 hover:border-orange-100 hover:shadow-md">
+    <div className="group relative flex h-full flex-col rounded-2xl border border-gray-100 bg-white p-3 transition duration-300 hover:border-orange-100 hover:shadow-md sm:p-4">
       {product.featured && (
         <span className="absolute right-3 top-3 z-10 rounded-full bg-orange-500 px-2.5 py-1 text-[10px] font-medium text-white">
           پرفروش
@@ -30,7 +30,7 @@ export function ProductCard({
       )}
 
       {/* تصویر */}
-      <div className="flex h-36 items-center justify-center overflow-hidden rounded-xl bg-gray-50">
+      <div className="flex h-28 items-center justify-center overflow-hidden rounded-xl bg-gray-50 sm:h-32 md:h-36">
         <Image
           src={product.images[0] ?? "/images/placeholder-furnace.webp"}
           alt={product.name}
@@ -66,8 +66,7 @@ export function ProductCard({
       {/* دکمه */}
       <Link
         href={href}
-        className="mt-4 flex items-center justify-center gap-1.5 rounded-full bg-orange-500 py-2.5 text-xs font-medium text-white transition hover:bg-orange-600"
-      >
+        className="mt-4 flex items-center justify-center gap-1.5 rounded-full bg-orange-500 py-2.5 text-xs font-medium text-white transition hover:bg-orange-600">
         {buttonLabel}
         <ChevronLeft className="h-3.5 w-3.5" />
       </Link>

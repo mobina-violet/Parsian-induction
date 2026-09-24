@@ -91,6 +91,7 @@ export default function AboutPage() {
           src="/images/about/hero-image.webp"
           alt="کارخانه پارسیان"
           fill
+          priority
           quality={75}
           sizes="100vw"
           className="object-cover opacity-40"
