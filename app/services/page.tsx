@@ -48,7 +48,7 @@ const subFilters: Record<ServiceCategory, { value: string; label: string }[]> =
     ],
     SERVICE_EQUIPMENT: [
       { value: "all", label: "همه" },
-      { value: "cooling", label: "سیستم خنک‌کاری" },
+      { value: "cooling", label: "سیستم خنک‌کننده" },
       { value: "cable", label: "کابل و اتصالات" },
       { value: "control_measurement", label: "کنترل و اندازه‌گیری" },
       { value: "crucible", label: "بوته و بدنه" },

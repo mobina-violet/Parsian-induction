@@ -13,8 +13,6 @@ const adapter = new PrismaPg({
 
 const prisma = new PrismaClient({ adapter });
 
-// ... بقیه‌ی فایل (لیست products و تابع main) دست‌نخورده می‌مونه
-// ... بقیه کد seed بدون تغییر
 const staleProductSlugs = [
   "p250",
   "p500",
@@ -291,7 +289,6 @@ const furnaces: Prisma.ProductCreateInput[] = [
       "/images/products/forging-furnace1.webp",
       "/images/products/forging-furnace2.webp",
       "/images/products/forging-furnace3.webp",
-      "/images/products/forging-furnace4.webp",
     ],
     featured: false,
     order: 2,
@@ -423,7 +420,7 @@ const spareParts: Prisma.ProductCreateInput[] = [
     category: "SPARE_PARTS",
     subCategory: "thyristor",
     description:
-      "تریستور فست یا Fast Switching Thyristor یک قطعه نیمه‌هادی با سرعت عملکرد بسیار بالا است. این تریستور با نام Thyristor Inverter نیز شناخته می‌شود و قابلیت کار در فرکانس‌های ۱۰۰۰ تا ۸۰۰۰ هرتز را دارد. به همین دلیل برای تجهیزات فرکانس متوسط و سیستم‌های اینورتر بسیار مناسب است. تریستورهای فست معمولاً از نوع کپسولی (دیسکی) هستند. در برند وست‌کد (Westcode) معمولاً با کد R و در برند تکسم (Tecsem) با کد KK شروع می‌شوند. زمان خاموشی بسیار کوتاه این تریستورها باعث می‌شود در مدارهای قدرت کوره‌های القایی با راندمان بالا عمل کنند.",
+      "تریستور فست یا Fast Switching Thyristor یک قطعه نیمه‌هادی با سرعت عملکرد بسیار بالا است. این تریستور با نام Thyristor Inverter نیز شناخته می‌شود و قابلیت کار در فرکانس‌های ۵۰۰ تا ۱۰۰۰۰ هرتز را دارد. به همین دلیل برای تجهیزات فرکانس متوسط و سیستم‌های اینورتر بسیار مناسب است. تریستورهای فست معمولاً از نوع کپسولی (دیسکی) هستند. در برند وست‌کد (Westcode) معمولاً با کد R و در برند تکسم (Tecsem) با کد KK شروع می‌شوند. زمان خاموشی بسیار کوتاه این تریستورها باعث می‌شود در مدارهای قدرت کوره‌های القایی با راندمان بالا عمل کنند.",
     capacityKg: null,
     powerKw: null,
     frequencyHz: null,
@@ -591,8 +588,24 @@ const spareParts: Prisma.ProductCreateInput[] = [
     order: 20,
   },
   {
-    slug: "control-board",
-    name: "برد کنترل و درایور",
+    slug: "control-board-1",
+    name: "برد کنترل  MPU11",
+    category: "SPARE_PARTS",
+    subCategory: "board",
+    description:
+      "برد کنترل و درایور اختصاصی پارسیان، سازگار با تابلوهای مبدل فرکانس و دارای حفاظت‌های کامل.",
+    capacityKg: null,
+    powerKw: null,
+    frequencyHz: null,
+    variants: [],
+    components: [],
+    images: ["/images/services/control-board-1.webp"],
+    featured: false,
+    order: 21,
+  },
+  {
+    slug: "control-board-2",
+    name: "برد کنترل",
     category: "SPARE_PARTS",
     subCategory: "board",
     description:
@@ -603,29 +616,52 @@ const spareParts: Prisma.ProductCreateInput[] = [
     variants: [],
     components: [],
     images: [
-      "/images/services/control-board-1.webp",
       "/images/services/control-board-2.webp",
       "/images/services/control-board-3.webp",
       "/images/services/control-board-4.webp",
     ],
     featured: false,
-    order: 21,
+    order: 22,
   },
   {
-    slug: "driver-board",
-    name: "برد درایور تریستور و IGBT",
+    slug: "control-board-3",
+    name: "برد کنترل",
     category: "SPARE_PARTS",
     subCategory: "board",
     description:
-      "مقاومت اسنابر (Snubber Resistor) یک مقاومت قدرت آب‌خنک با تحمل توان بسیار بالا است که در مدارهای حفاظتی و اسنابر تابلوهای مبدل فرکانس کوره‌های القایی استفاده می‌شود. این مقاومت با جذب انرژی لحظه‌ای ناشی از سوئیچینگ تریستورها و IGBTها، از ایجاد ولتاژهای گذرای خطرناک (Spike و Overvoltage) جلوگیری می‌کند و نقش حیاتی در حفاظت از قطعات نیمه‌هادی قدرت دارد. طراحی آب‌خنک آن باعث می‌شود حتی در توان‌های بالا، دمای قطعه در محدوده ایمن باقی بماند و عملکرد پایدار و طولانی‌مدت داشته باشد. مقاومت‌های اسنابر پارسیان علاوه بر مدارهای اسنابر، در مدارهای دشارژ خازن، محدودکننده جریان و حفاظت در برابر تغییرات سریع ولتاژ (dv/dt) نیز کاربرد گسترده‌ای دارند و یکی از قطعات کلیدی برای افزایش قابلیت اطمینان و عمر مفید تابلو قدرت کوره‌های القایی محسوب می‌شوند.",
+      "برد کنترل و درایور اختصاصی پارسیان، سازگار با تابلوهای مبدل فرکانس و دارای حفاظت‌های کامل.",
     capacityKg: null,
     powerKw: null,
     frequencyHz: null,
     variants: [],
     components: [],
-    images: [],
+    images: [
+      "/images/services/control-board-2.webp",
+      "/images/services/control-board-3.webp",
+      "/images/services/control-board-4.webp",
+    ],
     featured: false,
-    order: 22,
+    order: 23,
+  },
+  {
+    slug: "control-board-4",
+    name: "برد کنترل",
+    category: "SPARE_PARTS",
+    subCategory: "board",
+    description:
+      "برد کنترل و درایور اختصاصی پارسیان، سازگار با تابلوهای مبدل فرکانس و دارای حفاظت‌های کامل.",
+    capacityKg: null,
+    powerKw: null,
+    frequencyHz: null,
+    variants: [],
+    components: [],
+    images: [
+      "/images/services/control-board-2.webp",
+      "/images/services/control-board-3.webp",
+      "/images/services/control-board-4.webp",
+    ],
+    featured: false,
+    order: 24,
   },
   {
     slug: "copper-coil",
@@ -646,12 +682,12 @@ const spareParts: Prisma.ProductCreateInput[] = [
       "/images/services/copper-coil-4.webp",
     ],
     featured: false,
-    order: 23,
+    order: 25,
   },
 
   {
     slug: "snubber_resistor",
-    name: "مقاومت اسنابر (Snubber Resistor)",
+    name: "مقاومت هیت سینک دار",
     category: "SPARE_PARTS",
     subCategory: "resistor",
     description:
@@ -666,7 +702,7 @@ const spareParts: Prisma.ProductCreateInput[] = [
       "/images/services/snubber-resistor-2.webp",
     ],
     featured: false,
-    order: 24,
+    order: 26,
   },
   {
     slug: "bobbin-choke",
@@ -674,7 +710,7 @@ const spareParts: Prisma.ProductCreateInput[] = [
     category: "SPARE_PARTS",
     subCategory: "choke",
     description:
-      "بوبین و کویل آب‌خنک با طراحی ویژه برای انتقال حرارت بالا و عملکرد پایدار در توان‌های بالا.",
+      "بوبین چوک یک سیم‌پیچ القایی روی هسته مغناطیسی است که در مدار کوره القایی برای محدود کردن جریان، کاهش هارمونیک‌ها و محافظت در برابر نوسانات ناگهانی به کار می‌رود. در توان‌های بالا از طراحی آب‌خنک استفاده می‌شود تا حرارت به‌خوبی منتقل شود، دما کنترل گردد و عملکرد پایدار و طولانی‌مدت تضمین شود.",
     capacityKg: null,
     powerKw: null,
     frequencyHz: null,
@@ -685,7 +721,7 @@ const spareParts: Prisma.ProductCreateInput[] = [
       "/images/services/bobbin-choke2.webp",
     ],
     featured: false,
-    order: 25,
+    order: 27,
   },
 ];
 
@@ -719,7 +755,7 @@ const serviceEquipment: Prisma.ProductCreateInput[] = [
     category: "SERVICE_EQUIPMENT",
     subCategory: "cable",
     description:
-      "توضیحات این محصول رو اینجا بنویس — مثلاً نوع کابل‌ها (قدرت/کنترل)، سطح مقطع، عایق‌بندی و کاربردشون توی تابلوهای کوره القایی.",
+      "کابل آب و برق ویژه انتقال قدرت الکتریکی از لوله‌های مسی به سر کویل القایی است.این کابل همزمان جریان الکتریکی بالا را منتقل می‌کند و با گردش آب داخل خود، حرارت ناشی از جریان سنگین را دفع می‌نماید تا عملکرد پایدار و ایمن در کوره‌های القایی توان بالا تضمین شود.",
     capacityKg: null,
     powerKw: null,
     frequencyHz: null,
@@ -734,11 +770,11 @@ const serviceEquipment: Prisma.ProductCreateInput[] = [
   },
   {
     slug: "current-transformer",
-    name: "ترانس جریان (C.T)",
+    name: " اندازه‌گیری دستگاه ",
     category: "SERVICE_EQUIPMENT",
     subCategory: "control_measurement",
     description:
-      "ترانس جریان دقیق برای اندازه‌گیری، حفاظت و کنترل مدار قدرت کوره‌های القایی.",
+      "در کوره‌های القایی برای کنترل دقیق فرآیند ذوب و ایمنی سیستم، از چندین دستگاه و سنسور اندازه‌گیری استفاده می‌شود.",
     capacityKg: null,
     powerKw: null,
     frequencyHz: null,
@@ -797,7 +833,7 @@ const serviceEquipment: Prisma.ProductCreateInput[] = [
     category: "SERVICE_EQUIPMENT",
     subCategory: "changeover",
     description:
-      "کلید چنج و سوئیچ تغییر وضعیت برای کنترل ایمن سیستم‌های هیدرولیک و مدارهای قدرت.",
+      "کلید چنج یا سوئیچ انتخاب بوته در کوره القایی برای تغییر سریع وضعیت و اتصال منبع تغذیه به بوته‌های مختلف استفاده می‌شود. این کلید امکان تعویض سریع بوته را فراهم می‌کند تا زمان توقف کوره کاهش یابد و بهره‌وری تولید افزایش پیدا کند.",
     capacityKg: null,
     powerKw: null,
     frequencyHz: null,
