@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
+
 import {
   ChevronLeft,
   ClipboardCheck,
@@ -16,8 +17,10 @@ import {
   Compass,
   Wrench,
 } from "lucide-react";
+
 import { prisma } from "@/lib/prisma";
 import { ProductCard } from "@/components/ProductCard";
+import { ServiceCategoryMenu } from "@/components/ServiceCategoryMenu";
 
 export const metadata = {
   title: "خدمات",
@@ -32,30 +35,34 @@ const serviceTabs = [
 
 type ServiceCategory = (typeof serviceTabs)[number]["value"];
 
-const subFilters: Record<ServiceCategory, { value: string; label: string }[]> =
-  {
-    SPARE_PARTS: [
-      { value: "all", label: "همه" },
-      { value: "thyristor", label: "تریستورها" },
-      { value: "diode", label: "دیودها" },
-      { value: "module", label: "ماژول‌ها" },
-      { value: "igbt", label: "IGBT" },
-      { value: "capacitor", label: "خازن‌ها" },
-      { value: "board", label: "برد و الکترونیکی" },
-      { value: "coil", label: "کویل و عایق" },
-      { value: "resistor", label: "مقاومت‌ها" },
-      { value: "choke", label: "بوبین و چوک" },
-    ],
-    SERVICE_EQUIPMENT: [
-      { value: "all", label: "همه" },
-      { value: "cooling", label: "سیستم خنک‌کننده" },
-      { value: "cable", label: "کابل و اتصالات" },
-      { value: "control_measurement", label: "کنترل و اندازه‌گیری" },
-      { value: "crucible", label: "بوته و بدنه" },
-      { value: "hydraulic", label: "هیدرولیک" },
-      { value: "changeover", label: "کلید چنج" },
-    ],
-  };
+const subFilters: Record<
+  ServiceCategory,
+  { value: string; label: string }[]
+> = {
+  SPARE_PARTS: [
+    { value: "all", label: "همه" },
+    { value: "thyristor", label: "تریستورها" },
+    { value: "diode", label: "دیودها" },
+    { value: "module", label: "ماژول‌ها" },
+    { value: "igbt", label: "IGBT" },
+    { value: "capacitor", label: "خازن‌ها" },
+    { value: "board", label: "برد و الکترونیکی" },
+    { value: "coil", label: "کویل و عایق" },
+    { value: "resistor", label: "مقاومت‌ها" },
+    { value: "choke", label: "بوبین و چوک" },
+  ],
+
+  SERVICE_EQUIPMENT: [
+    { value: "all", label: "همه" },
+    { value: "cooling", label: "سیستم خنک‌کننده" },
+    { value: "cable", label: "کابل و اتصالات" },
+    { value: "control_measurement", label: "کنترل و اندازه‌گیری" },
+    { value: "crucible", label: "بوته و بدنه" },
+    { value: "hydraulic", label: "هیدرولیک" },
+    { value: "changeover", label: "کلید چنج" },
+  ],
+};
+
 const services = [
   {
     icon: ClipboardCheck,
@@ -154,28 +161,55 @@ const process = [
 export default async function ServicesPage({
   searchParams,
 }: {
-  searchParams: Promise<{ category?: string; sub?: string }>;
+  searchParams: Promise<{
+    category?: string;
+    sub?: string;
+  }>;
 }) {
   const params = await searchParams;
 
+  /*
+   * دسته اصلی فعال
+   */
   const activeCategory: ServiceCategory =
     params.category === "SERVICE_EQUIPMENT"
       ? "SERVICE_EQUIPMENT"
       : "SPARE_PARTS";
 
-  const activeSub = params.sub || "all";
+  /*
+   * زیر‌دسته فعال
+   */
+  const activeSub =
+    subFilters[activeCategory].some(
+      (sub) => sub.value === params.sub,
+    )
+      ? params.sub!
+      : "all";
 
+  /*
+   * دریافت محصولات
+   */
   const items = await prisma.product.findMany({
     where: {
       category: activeCategory,
-      ...(activeSub !== "all" ? { subCategory: activeSub } : {}),
+
+      ...(activeSub !== "all"
+        ? {
+            subCategory: activeSub,
+          }
+        : {}),
     },
-    orderBy: { order: "asc" },
+
+    orderBy: {
+      order: "asc",
+    },
   });
 
   return (
     <main dir="rtl" className="bg-white">
-      {/* هیرو */}
+      {/* =========================
+          Hero
+      ========================== */}
       <section className="relative overflow-hidden">
         <div className="absolute inset-0">
           <Image
@@ -186,82 +220,70 @@ export default async function ServicesPage({
             className="object-cover"
             sizes="100vw"
           />
+
           <div className="absolute inset-0 bg-gradient-to-l from-black/80 via-black/60 to-black/40" />
         </div>
 
         <div className="relative mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-20 lg:px-8 lg:py-28">
           <nav className="mb-8 flex items-center gap-1.5 text-xs text-white/70">
-            <Link href="/" className="transition hover:text-orange-400">
+            <Link
+              href="/"
+              className="transition hover:text-orange-400"
+            >
               خانه
             </Link>
+
             <ChevronLeft className="h-3 w-3" />
-            <span className="text-white">خدمات</span>
+
+            <span className="text-white">
+              خدمات
+            </span>
           </nav>
 
           <div className="max-w-2xl">
             <span className="inline-block rounded-full bg-orange-500/20 px-3 py-1 text-xs font-medium text-orange-300">
               خدمات تخصصی
             </span>
+
             <h1 className="mt-4 text-3xl font-bold leading-tight text-white sm:text-4xl lg:text-4xl">
-              خدمات <span className="text-orange-400">کوره القایی</span> پارسیان
-              پرتو الوند
+              خدمات{" "}
+              <span className="text-orange-400">
+                کوره القایی
+              </span>{" "}
+              پارسیان پرتو الوند
             </h1>
+
             <p className="mt-5 text-sm leading-7 text-white/80 sm:text-base lg:text-lg lg:leading-8">
-              از مشاوره و طراحی تا ساخت، نصب و پشتیبانی تخصصی. همراه شما هستیم
-              تا بهترین عملکرد را از کوره القایی و تجهیزات خط تولید خود بگیرید.
+              از مشاوره و طراحی تا ساخت، نصب و پشتیبانی تخصصی.
+              همراه شما هستیم تا بهترین عملکرد را از کوره القایی
+              و تجهیزات خط تولید خود بگیرید.
             </p>
           </div>
         </div>
       </section>
 
-      {/* فیلتر اصلی + فرعی + کارت‌ها */}
+      {/* =========================
+          Products / Service Categories
+      ========================== */}
       <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-        {/* تب اصلی */}
-        <div className="flex flex-wrap gap-3">
-          {serviceTabs.map((tab) => {
-            const isActive = activeCategory === tab.value;
-            return (
-              <Link
-                key={tab.value}
-                href={`/services?category=${tab.value}`}
-                scroll={false}
-                className={
-                  isActive
-                    ? "rounded-full bg-orange-500 px-5 py-2.5 text-sm font-medium text-white"
-                    : "rounded-full border border-gray-200 px-5 py-2.5 text-sm font-medium text-slate-600 transition hover:border-orange-300 hover:text-orange-500"
-                }>
-                {tab.label}
-              </Link>
-            );
-          })}
-        </div>
+        <ServiceCategoryMenu
+          tabs={serviceTabs}
+          activeValue={activeCategory}
+          subFilters={subFilters}
+          activeSub={activeSub}
+        />
 
-        {/* فیلتر فرعی */}
-        <div className="mt-5 flex flex-wrap gap-2">
-          {subFilters[activeCategory].map((sub) => {
-            const isActive = activeSub === sub.value;
-            return (
-              <Link
-                key={sub.value}
-                href={`/services?category=${activeCategory}&sub=${sub.value}`}
-                scroll={false}
-                className={
-                  isActive
-                    ? "rounded-full bg-slate-900 px-4 py-1.5 text-xs font-medium text-white"
-                    : "rounded-full border border-gray-200 px-4 py-1.5 text-xs font-medium text-slate-600 transition hover:border-orange-300 hover:text-orange-500"
-                }>
-                {sub.label}
-              </Link>
-            );
-          })}
-        </div>
-
-        {/* گرید محصولات */}
+        {/* =========================
+            Products Grid
+        ========================== */}
         <div className="mt-10">
           {items.length > 0 ? (
             <div className="grid grid-cols-2 gap-5 sm:grid-cols-3 lg:grid-cols-4">
               {items.map((item) => (
-                <ProductCard key={item.id} product={item} />
+                <ProductCard
+                  key={item.id}
+                  product={item}
+                />
               ))}
             </div>
           ) : (
@@ -272,7 +294,9 @@ export default async function ServicesPage({
         </div>
       </section>
 
-      {/* خدمات ما */}
+      {/* =========================
+          Our Services
+      ========================== */}
       <section className="bg-white">
         <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
           <h2 className="text-center text-xl font-bold text-slate-900 sm:text-2xl">
@@ -283,14 +307,18 @@ export default async function ServicesPage({
             {services.map((service) => (
               <div
                 key={service.title}
-                className="rounded-2xl border border-gray-100 p-4 text-center transition-all duration-300 hover:-translate-y-2 hover:shadow-xl">
+                className="rounded-2xl border border-gray-100 p-4 text-center transition-all duration-300 hover:-translate-y-2 hover:shadow-xl"
+              >
                 <span
-                  className={`mx-auto flex h-12 w-12 items-center justify-center rounded-xl ${service.color}`}>
+                  className={`mx-auto flex h-12 w-12 items-center justify-center rounded-xl ${service.color}`}
+                >
                   <service.icon className="h-6 w-6" />
                 </span>
+
                 <h3 className="mt-2 text-[11px] font-bold text-slate-900">
                   {service.title}
                 </h3>
+
                 <p className="mt-2 text-xs leading-6 text-gray-400">
                   {service.desc}
                 </p>
@@ -300,9 +328,12 @@ export default async function ServicesPage({
         </div>
       </section>
 
-      {/* چرا خدمات ما؟ */}
+      {/* =========================
+          Why Us
+      ========================== */}
       <section className="relative overflow-hidden bg-[#0D0D0D]">
         <div className="absolute -top-40 right-0 h-[450px] w-[450px] rounded-full bg-orange-500/15 blur-[180px]" />
+
         <div className="absolute bottom-0 left-0 h-[400px] w-[400px] rounded-full bg-red-500/10 blur-[180px]" />
 
         <div className="relative mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
@@ -314,13 +345,16 @@ export default async function ServicesPage({
             {whyUs.map((item) => (
               <div
                 key={item.title}
-                className="group rounded-2xl border border-white/10 bg-white/5 p-6 text-center backdrop-blur-md transition-all duration-300 hover:-translate-y-2 hover:border-orange-400/40 hover:bg-white/10">
+                className="group rounded-2xl border border-white/10 bg-white/5 p-6 text-center backdrop-blur-md transition-all duration-300 hover:-translate-y-2 hover:border-orange-400/40 hover:bg-white/10"
+              >
                 <span className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-orange-500/20 to-red-500/20 ring-1 ring-orange-400/20 transition-all duration-300 group-hover:scale-110 group-hover:ring-orange-400/50">
                   <item.icon className="h-6 w-6 text-orange-400" />
                 </span>
+
                 <h3 className="mt-5 text-sm font-bold text-white">
                   {item.title}
                 </h3>
+
                 <p className="mt-2 text-xs leading-6 text-slate-300">
                   {item.desc}
                 </p>
@@ -330,7 +364,9 @@ export default async function ServicesPage({
         </div>
       </section>
 
-      {/* فرآیند همکاری */}
+      {/* =========================
+          Process
+      ========================== */}
       <section className="bg-white">
         <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
           <h2 className="text-center text-xl font-bold text-slate-900 sm:text-2xl">
@@ -339,19 +375,24 @@ export default async function ServicesPage({
 
           <div className="relative mt-10 grid grid-cols-1 gap-8 sm:grid-cols-5">
             <div className="pointer-events-none absolute inset-x-0 top-6 hidden h-px bg-gray-200 sm:block" />
+
             {process.map((step) => (
               <div
                 key={step.title}
-                className="relative flex flex-col items-center text-center">
+                className="relative flex flex-col items-center text-center"
+              >
                 <div className="relative z-10 flex h-12 w-12 items-center justify-center rounded-full border border-gray-200 bg-white shadow-sm">
                   <step.icon className="h-5 w-5 text-slate-700" />
                 </div>
+
                 <span className="absolute -top-1 right-1/3 z-20 flex h-5 w-5 translate-x-1/2 items-center justify-center rounded-full bg-orange-500 text-[10px] font-bold text-white">
                   {step.number}
                 </span>
+
                 <h3 className="mt-4 text-sm font-bold text-slate-900">
                   {step.title}
                 </h3>
+
                 <p className="mt-1.5 text-xs leading-6 text-gray-400">
                   {step.desc}
                 </p>

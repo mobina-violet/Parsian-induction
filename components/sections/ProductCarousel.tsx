@@ -36,8 +36,32 @@ export function ProductCarousel({ products }: { products: Product[] }) {
     };
   }, [emblaApi, onSelect]);
 
+  // جابه‌جایی با کلیدهای چپ/راست کیبورد در کل صفحه (نه فقط وقتی موس روی کاروسله)
+  // فقط وقتی داخل یه اینپوت/تکست‌باکس داری تایپ می‌کنی غیرفعال می‌مونه که تایپینگ خراب نشه
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      const target = e.target as HTMLElement | null;
+      const tag = target?.tagName;
+      if (tag === "INPUT" || tag === "TEXTAREA" || target?.isContentEditable) {
+        return;
+      }
+      if (e.key === "ArrowRight") {
+        e.preventDefault();
+        scrollPrev();
+      } else if (e.key === "ArrowLeft") {
+        e.preventDefault();
+        scrollNext();
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [scrollPrev, scrollNext]);
+
   return (
-    <div className="relative">
+    <div
+      className="relative"
+      role="region"
+      aria-label="محصولات پرطرفدار — با کلیدهای چپ و راست کیبورد جابه‌جا کنید">
       {/* دکمه سمت راست: چون محتوا راست‌چین است، این دکمه به سمت آیتم‌های قبلی می‌رود */}
       <button
         onClick={scrollPrev}

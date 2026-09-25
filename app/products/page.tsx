@@ -12,7 +12,7 @@ import {
 import { prisma } from "@/lib/prisma";
 import { ProductCard } from "@/components/ProductCard";
 import { ConsultationCtaButton } from "@/components/ConsultationCtaButton";
-
+import { ProductFaq } from "@/components/ProductFaq";
 export const metadata = {
   title: "محصولات کوره القایی | ذوب، فورج، سخت‌کاری و فورمینگ",
   description:
@@ -194,8 +194,10 @@ export default async function ProductsPage({
       </div>
 
       {/* تب‌های دسته‌بندی */}
-      <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-        <div className="flex flex-wrap gap-3">
+      <div
+        id="products"
+        className="mx-auto scroll-mt-24 max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+        <div className="flex flex-wrap gap-3 ">
           {categoryTabs.map((tab) => {
             const isActive = category === tab.value;
             const href = tab.value
@@ -306,19 +308,7 @@ export default async function ProductsPage({
         <h2 className="text-xl font-bold text-orange-500 sm:text-2xl">
           سوالات متداول
         </h2>
-        <div className="mt-6 grid gap-3 sm:grid-cols-2">
-          {faqs.map((faq) => (
-            <details
-              key={faq.q}
-              className="group rounded-xl border border-gray-100 px-5 py-4 [&_summary::-webkit-details-marker]:hidden">
-              <summary className="flex cursor-pointer list-none items-center justify-between gap-3 text-sm font-medium text-slate-900">
-                {faq.q}
-                <ChevronLeft className="h-4 w-4 shrink-0 text-gray-400 transition group-open:-rotate-90" />
-              </summary>
-              <p className="mt-3 text-sm leading-7 text-gray-500">{faq.a}</p>
-            </details>
-          ))}
-        </div>
+        <ProductFaq faqs={faqs} />
       </div>
 
       {/* مشاوره */}

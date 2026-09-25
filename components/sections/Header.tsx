@@ -2,29 +2,70 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { Menu, X, Search } from "lucide-react";
+import { Menu, X, Search, ChevronDown } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { useConsultationModal } from "@/lib/store/consultation-modal";
 
-const navItems = [
+type NavChild = { label: string; href: string };
+type NavItem = { label: string; href: string; children?: NavChild[] };
+
+const navItems: NavItem[] = [
   { label: "خانه", href: "/" },
-  { label: "محصولات", href: "/products" },
-  { label: "پروژه ها", href: "/projects" },
-  { label: "خدمات", href: "/services" },
+  {
+    label: "محصولات",
+    href: "/products",
+    children: [
+      {
+        label: "کوره‌های القایی ذوب",
+        href: "/products?category=MELTING_FURNACE#products",
+      },
+      {
+        label: "کوره‌های القایی فورج",
+        href: "/products?category=FORGING_FURNACE#products",
+      },
+      {
+        label: "کوره‌های القایی سخت‌کاری",
+        href: "/products?category=HARDENING_FURNACE#products",
+      },
+      {
+        label: "کوره‌های القایی فورمینگ",
+        href: "/products?category=FORMING_FURNACE#products",
+      },
+    ],
+  },
+  {
+    label: "خدمات",
+    href: "/services",
+    children: [
+      {
+        label: "لوازم یدکی",
+        href: "/services?category=SPARE_PARTS&sub=all",
+      },
+      {
+        label: "قطعات و تجهیزات جانبی",
+        href: "/services?category=SERVICE_EQUIPMENT&sub=all",
+      },
+    ],
+  },
   { label: "درباره ما", href: "/about" },
   { label: "تماس با ما", href: "/contact" },
 ];
 
 export function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [openMobileSubmenu, setOpenMobileSubmenu] = useState<string | null>(
+    null,
+  );
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const searchInputRef = useRef<HTMLInputElement>(null);
   const pathname = usePathname();
   const router = useRouter();
   const { open } = useConsultationModal();
-
+  const [openDesktopSubmenu, setOpenDesktopSubmenu] = useState<string | null>(
+    null,
+  );
   useEffect(() => {
     if (searchOpen && searchInputRef.current) {
       searchInputRef.current.focus();
@@ -47,6 +88,10 @@ export function Header() {
     return () => {
       document.body.style.overflow = original;
     };
+  }, [mobileOpen]);
+
+  useEffect(() => {
+    if (!mobileOpen) setOpenMobileSubmenu(null);
   }, [mobileOpen]);
 
   const handleSearch = (e: React.FormEvent) => {
@@ -93,6 +138,58 @@ export function Header() {
               item.href === "/"
                 ? pathname === "/"
                 : pathname.startsWith(item.href);
+            if (item.children) {
+              const isSubmenuOpen = openDesktopSubmenu === item.href;
+
+              return (
+                <div
+                  key={item.href}
+                  className="relative"
+                  onMouseEnter={() => setOpenDesktopSubmenu(item.href)}
+                  onMouseLeave={() => setOpenDesktopSubmenu(null)}>
+                  <Link
+                    href={item.href}
+                    className={`relative flex items-center gap-1 pb-2 text-sm font-medium transition-all duration-300 ${
+                      isActive
+                        ? "text-orange-500"
+                        : "text-slate-600 hover:text-orange-500"
+                    }`}>
+                    {item.label}
+
+                    <ChevronDown
+                      className={`h-3.5 w-3.5 transition-transform duration-200 ${
+                        isSubmenuOpen ? "-rotate-180" : ""
+                      }`}
+                    />
+
+                    <span
+                      className={`absolute bottom-0 left-1/2 h-0.5 -translate-x-1/2 rounded-full bg-orange-500 transition-all duration-300 ${
+                        isActive ? "w-6 opacity-100" : "w-0 opacity-0"
+                      }`}
+                    />
+                  </Link>
+
+                  <div
+                    className={`absolute right-0 top-full z-50 w-64 pt-3 transition-all duration-200 ${
+                      isSubmenuOpen
+                        ? "visible opacity-100"
+                        : "pointer-events-none invisible opacity-0"
+                    }`}>
+                    <div className="rounded-2xl border border-gray-100 bg-white p-2 shadow-lg shadow-black/5">
+                      {item.children.map((child) => (
+                        <Link
+                          key={child.href}
+                          href={child.href}
+                          onClick={() => setOpenDesktopSubmenu(null)}
+                          className="block rounded-xl px-4 py-2.5 text-sm text-slate-600 transition hover:bg-orange-50 hover:text-orange-600">
+                          {child.label}
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              );
+            }
             return (
               <Link
                 key={item.href}
@@ -206,6 +303,62 @@ export function Header() {
                 item.href === "/"
                   ? pathname === "/"
                   : pathname.startsWith(item.href);
+
+              if (item.children) {
+                const isOpen = openMobileSubmenu === item.href;
+                return (
+                  <div key={item.href}>
+                    <div
+                      className={`flex items-center gap-2 rounded-2xl px-2 py-1 transition-all duration-200 ${
+                        isActive
+                          ? "bg-orange-50 text-orange-600"
+                          : "text-slate-700"
+                      }`}>
+                      <Link
+                        href={item.href}
+                        onClick={() => setMobileOpen(false)}
+                        className="flex-1 rounded-2xl px-3 py-3">
+                        {item.label}
+                      </Link>
+                      <button
+                        type="button"
+                        onClick={() =>
+                          setOpenMobileSubmenu((prev) =>
+                            prev === item.href ? null : item.href,
+                          )
+                        }
+                        aria-label={
+                          isOpen
+                            ? `بستن زیرمنوی ${item.label}`
+                            : `باز کردن زیرمنوی ${item.label}`
+                        }
+                        aria-expanded={isOpen}
+                        className="flex h-10 w-10 items-center justify-center rounded-xl text-slate-500 transition hover:bg-orange-50 hover:text-orange-600">
+                        <ChevronDown
+                          className={`h-4 w-4 transition-transform duration-200 ${
+                            isOpen ? "rotate-180" : ""
+                          }`}
+                        />
+                      </button>
+                    </div>
+
+                    {isOpen && (
+                      <div className="mr-5 mt-1 flex flex-col space-y-1 border-r-2 border-orange-100 pr-4">
+                        {item.children.map((child) => (
+                          <Link
+                            key={child.href}
+                            href={child.href}
+                            onClick={() => setMobileOpen(false)}
+                            className="rounded-xl px-4 py-3 text-base font-normal text-slate-600 transition hover:bg-orange-50 hover:text-orange-600">
+                            {child.label}
+                          </Link>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                );
+              }
+
               return (
                 <Link
                   key={item.href}
