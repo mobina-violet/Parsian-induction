@@ -35,33 +35,31 @@ const serviceTabs = [
 
 type ServiceCategory = (typeof serviceTabs)[number]["value"];
 
-const subFilters: Record<
-  ServiceCategory,
-  { value: string; label: string }[]
-> = {
-  SPARE_PARTS: [
-    { value: "all", label: "همه" },
-    { value: "thyristor", label: "تریستورها" },
-    { value: "diode", label: "دیودها" },
-    { value: "module", label: "ماژول‌ها" },
-    { value: "igbt", label: "IGBT" },
-    { value: "capacitor", label: "خازن‌ها" },
-    { value: "board", label: "برد و الکترونیکی" },
-    { value: "coil", label: "کویل و عایق" },
-    { value: "resistor", label: "مقاومت‌ها" },
-    { value: "choke", label: "بوبین و چوک" },
-  ],
+const subFilters: Record<ServiceCategory, { value: string; label: string }[]> =
+  {
+    SPARE_PARTS: [
+      { value: "all", label: "همه" },
+      { value: "thyristor", label: "تریستورها" },
+      { value: "diode", label: "دیودها" },
+      { value: "module", label: "ماژول‌ها" },
+      { value: "igbt", label: "IGBT" },
+      { value: "capacitor", label: "خازن‌ها" },
+      { value: "board", label: "برد و الکترونیکی" },
+      { value: "coil", label: "کویل و عایق" },
+      { value: "resistor", label: "مقاومت‌ها" },
+      { value: "choke", label: "بوبین و چوک" },
+    ],
 
-  SERVICE_EQUIPMENT: [
-    { value: "all", label: "همه" },
-    { value: "cooling", label: "سیستم خنک‌کننده" },
-    { value: "cable", label: "کابل و اتصالات" },
-    { value: "control_measurement", label: "کنترل و اندازه‌گیری" },
-    { value: "crucible", label: "بوته و بدنه" },
-    { value: "hydraulic", label: "هیدرولیک" },
-    { value: "changeover", label: "کلید چنج" },
-  ],
-};
+    SERVICE_EQUIPMENT: [
+      { value: "all", label: "همه" },
+      { value: "cooling", label: "سیستم خنک‌کننده" },
+      { value: "cable", label: "کابل و اتصالات" },
+      { value: "control_measurement", label: "کنترل و اندازه‌گیری" },
+      { value: "crucible", label: "بوته و بدنه" },
+      { value: "hydraulic", label: "هیدرولیک" },
+      { value: "changeover", label: "کلید چنج" },
+    ],
+  };
 
 const services = [
   {
@@ -179,12 +177,11 @@ export default async function ServicesPage({
   /*
    * زیر‌دسته فعال
    */
-  const activeSub =
-    subFilters[activeCategory].some(
-      (sub) => sub.value === params.sub,
-    )
-      ? params.sub!
-      : "all";
+  const activeSub = subFilters[activeCategory].some(
+    (sub) => sub.value === params.sub,
+  )
+    ? params.sub!
+    : "all";
 
   /*
    * دریافت محصولات
@@ -226,18 +223,13 @@ export default async function ServicesPage({
 
         <div className="relative mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-20 lg:px-8 lg:py-28">
           <nav className="mb-8 flex items-center gap-1.5 text-xs text-white/70">
-            <Link
-              href="/"
-              className="transition hover:text-orange-400"
-            >
+            <Link href="/" className="transition hover:text-orange-400">
               خانه
             </Link>
 
             <ChevronLeft className="h-3 w-3" />
 
-            <span className="text-white">
-              خدمات
-            </span>
+            <span className="text-white">خدمات</span>
           </nav>
 
           <div className="max-w-2xl">
@@ -246,17 +238,13 @@ export default async function ServicesPage({
             </span>
 
             <h1 className="mt-4 text-3xl font-bold leading-tight text-white sm:text-4xl lg:text-4xl">
-              خدمات{" "}
-              <span className="text-orange-400">
-                کوره القایی
-              </span>{" "}
-              پارسیان پرتو الوند
+              خدمات <span className="text-orange-400">کوره القایی</span> پارسیان
+              پرتو الوند
             </h1>
 
             <p className="mt-5 text-sm leading-7 text-white/80 sm:text-base lg:text-lg lg:leading-8">
-              از مشاوره و طراحی تا ساخت، نصب و پشتیبانی تخصصی.
-              همراه شما هستیم تا بهترین عملکرد را از کوره القایی
-              و تجهیزات خط تولید خود بگیرید.
+              از مشاوره و طراحی تا ساخت، نصب و پشتیبانی تخصصی. همراه شما هستیم
+              تا بهترین عملکرد را از کوره القایی و تجهیزات خط تولید خود بگیرید.
             </p>
           </div>
         </div>
@@ -265,7 +253,9 @@ export default async function ServicesPage({
       {/* =========================
           Products / Service Categories
       ========================== */}
-      <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+      <section
+        id="services-catalog"
+        className="mx-auto scroll-mt-28 max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
         <ServiceCategoryMenu
           tabs={serviceTabs}
           activeValue={activeCategory}
@@ -280,10 +270,7 @@ export default async function ServicesPage({
           {items.length > 0 ? (
             <div className="grid grid-cols-2 gap-5 sm:grid-cols-3 lg:grid-cols-4">
               {items.map((item) => (
-                <ProductCard
-                  key={item.id}
-                  product={item}
-                />
+                <ProductCard key={item.id} product={item} />
               ))}
             </div>
           ) : (
@@ -307,11 +294,9 @@ export default async function ServicesPage({
             {services.map((service) => (
               <div
                 key={service.title}
-                className="rounded-2xl border border-gray-100 p-4 text-center transition-all duration-300 hover:-translate-y-2 hover:shadow-xl"
-              >
+                className="rounded-2xl border border-gray-100 p-4 text-center transition-all duration-300 hover:-translate-y-2 hover:shadow-xl">
                 <span
-                  className={`mx-auto flex h-12 w-12 items-center justify-center rounded-xl ${service.color}`}
-                >
+                  className={`mx-auto flex h-12 w-12 items-center justify-center rounded-xl ${service.color}`}>
                   <service.icon className="h-6 w-6" />
                 </span>
 
@@ -345,8 +330,7 @@ export default async function ServicesPage({
             {whyUs.map((item) => (
               <div
                 key={item.title}
-                className="group rounded-2xl border border-white/10 bg-white/5 p-6 text-center backdrop-blur-md transition-all duration-300 hover:-translate-y-2 hover:border-orange-400/40 hover:bg-white/10"
-              >
+                className="group rounded-2xl border border-white/10 bg-white/5 p-6 text-center backdrop-blur-md transition-all duration-300 hover:-translate-y-2 hover:border-orange-400/40 hover:bg-white/10">
                 <span className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-orange-500/20 to-red-500/20 ring-1 ring-orange-400/20 transition-all duration-300 group-hover:scale-110 group-hover:ring-orange-400/50">
                   <item.icon className="h-6 w-6 text-orange-400" />
                 </span>
@@ -379,8 +363,7 @@ export default async function ServicesPage({
             {process.map((step) => (
               <div
                 key={step.title}
-                className="relative flex flex-col items-center text-center"
-              >
+                className="relative flex flex-col items-center text-center">
                 <div className="relative z-10 flex h-12 w-12 items-center justify-center rounded-full border border-gray-200 bg-white shadow-sm">
                   <step.icon className="h-5 w-5 text-slate-700" />
                 </div>

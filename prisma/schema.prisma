@@ -39,6 +39,19 @@ model Product {
   variants    Json?
   subCategory String?
   requests    ConsultationRequest[]
+  reviews     Review[]
+}
+model Review {
+  id        String   @id @default(cuid())
+  productId String
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  name      String?
+  email     String
+  rating    Int      @default(5)
+  message   String
+  createdAt DateTime @default(now())
+
+  @@index([productId])
 }
 
 model Project {

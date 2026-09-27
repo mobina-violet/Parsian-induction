@@ -33,30 +33,21 @@ export function ServiceCategoryMenu({
         const isActive = tab.value === activeValue;
         const isOpen = openMenu === tab.value;
 
-        const currentSubFilters =
-          subFilters[tab.value] ?? [];
+        const currentSubFilters = subFilters[tab.value] ?? [];
 
         return (
-          <div
-            key={tab.value}
-            className="relative"
-          >
+          <div key={tab.value} className="relative">
             {/* دکمه اصلی */}
             <button
               type="button"
-              onClick={() =>
-                setOpenMenu(
-                  isOpen ? null : tab.value,
-                )
-              }
+              onClick={() => setOpenMenu(isOpen ? null : tab.value)}
               aria-haspopup="menu"
               aria-expanded={isOpen}
               className={`flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-medium transition ${
-                isOpen
+                isOpen || isActive
                   ? "bg-orange-500 text-white"
                   : "bg-white text-slate-700 ring-1 ring-gray-200 hover:bg-orange-50 hover:text-orange-600 hover:ring-orange-200"
-              }`}
-            >
+              }`}>
               <span>{tab.label}</span>
 
               <ChevronDown
@@ -76,9 +67,7 @@ export function ServiceCategoryMenu({
 
                 <div className="absolute right-0 top-full z-50 mt-2 w-64 overflow-hidden rounded-2xl border border-gray-100 bg-white p-2 shadow-xl shadow-black/10">
                   {currentSubFilters.map((sub) => {
-                    const isActiveSub =
-                      isActive &&
-                      sub.value === activeSub;
+                    const isActiveSub = isActive && sub.value === activeSub;
 
                     return (
                       <Link
@@ -90,8 +79,7 @@ export function ServiceCategoryMenu({
                           isActiveSub
                             ? "bg-orange-50 font-medium text-orange-600"
                             : "text-slate-600 hover:bg-orange-50 hover:text-orange-600"
-                        }`}
-                      >
+                        }`}>
                         <span>{sub.label}</span>
 
                         {isActiveSub && (

@@ -4,7 +4,6 @@ import { ChevronLeft } from "lucide-react";
 import type { Metadata } from "next";
 import { prisma } from "@/lib/prisma";
 import { ProductGallery } from "@/components/ProductGallery";
-import { ConsultationCtaButton } from "@/components/ConsultationCtaButton";
 import { siteConfig } from "@/lib/site-config";
 
 const categoryLabels: Record<string, string> = {
@@ -14,9 +13,7 @@ const categoryLabels: Record<string, string> = {
 
 export async function generateStaticParams() {
   const items = await prisma.product.findMany({
-    where: {
-      category: { in: ["SPARE_PARTS", "SERVICE_EQUIPMENT"] },
-    },
+    where: { category: { in: ["SPARE_PARTS", "SERVICE_EQUIPMENT"] } },
     select: { slug: true },
   });
 
@@ -62,26 +59,19 @@ export default async function ServiceDetailPage({
 }) {
   const { slug } = await params;
 
-  const item = await prisma.product.findUnique({
-    where: { slug },
-  });
+  const item = await prisma.product.findUnique({ where: { slug } });
 
   if (
     !item ||
-    (item.category !== "SPARE_PARTS" &&
-      item.category !== "SERVICE_EQUIPMENT")
+    (item.category !== "SPARE_PARTS" && item.category !== "SERVICE_EQUIPMENT")
   ) {
     notFound();
   }
 
-  const images =
-    item.images?.length > 0
-      ? item.images
-      : ["/images/placeholder-project.webp"];
+  const hasSpecs = Array.isArray(item.components) && item.components.length > 0;
 
-  const components = Array.isArray(item.components)
-    ? (item.components as { title: string; description: string }[])
-    : [];
+  const images =
+    item.images?.length > 0 ? item.images : ["/images/placeholder-project.webp"];
 
   const productJsonLd = {
     "@context": "https://schema.org",
@@ -90,10 +80,7 @@ export default async function ServiceDetailPage({
     description: item.description ?? undefined,
     image: images.map((img) => `${siteConfig.url}${img}`),
     category: categoryLabels[item.category] || undefined,
-    brand: {
-      "@type": "Brand",
-      name: siteConfig.name,
-    },
+    brand: { "@type": "Brand", name: siteConfig.name },
   };
 
   return (
@@ -125,9 +112,25 @@ export default async function ServiceDetailPage({
           <ProductGallery images={images} alt={item.name} />
 
           <div>
-            <span className="inline-block rounded-full bg-orange-50 px-3 py-1 text-xs font-medium text-orange-600">
-              {categoryLabels[item.category] || "خدمات"}
-            </span>
+            <div className="flex flex-wrap items-center gap-2">
+              <span className="inline-block rounded-full bg-orange-50 px-3 py-1 text-xs font-medium text-orange-600">
+                {categoryLabels[item.category] || "خدمات"}
+              </span>
+
+              {hasSpecs && (
+                <Link
+                  href={`/services/${slug}/specs`}
+                  className="inline-block rounded-full bg-orange-50 px-3 py-1 text-xs font-medium text-orange-600 transition hover:bg-orange-100">
+                  مشخصات فنی
+                </Link>
+              )}
+
+              <Link
+                href={`/services/${slug}/reviews`}
+                className="inline-block rounded-full bg-orange-50 px-3 py-1 text-xs font-medium text-orange-600 transition hover:bg-orange-100">
+                نظرات و پیشنهادات
+              </Link>
+            </div>
 
             <h1 className="mt-3 text-2xl font-bold text-slate-900 sm:text-3xl">
               {item.name}
@@ -137,28 +140,6 @@ export default async function ServiceDetailPage({
               <p className="mt-6 text-sm leading-7 text-gray-500">
                 {item.description}
               </p>
-            )}
-
-            {components.length > 0 && (
-              <div className="mt-8">
-                <h2 className="text-base font-bold text-slate-900">
-                  اقلام و تجهیزات قابل تأمین
-                </h2>
-                <div className="mt-3 space-y-3">
-                  {components.map((c) => (
-                    <div
-                      key={c.title}
-                      className="rounded-2xl border border-gray-100 bg-gray-50 p-4">
-                      <p className="text-sm font-bold text-slate-900">
-                        {c.title}
-                      </p>
-                      <p className="mt-1 text-xs leading-6 text-gray-500">
-                        {c.description}
-                      </p>
-                    </div>
-                  ))}
-                </div>
-              </div>
             )}
           </div>
         </div>

@@ -34,17 +34,19 @@ const navItems: NavItem[] = [
       },
     ],
   },
+  { label: "پروژه ها", href: "/projects" },
+
   {
     label: "خدمات",
     href: "/services",
     children: [
       {
         label: "لوازم یدکی",
-        href: "/services?category=SPARE_PARTS&sub=all",
+        href: "/services?category=SPARE_PARTS&sub=all#services-catalog",
       },
       {
         label: "قطعات و تجهیزات جانبی",
-        href: "/services?category=SERVICE_EQUIPMENT&sub=all",
+        href: "/services?category=SERVICE_EQUIPMENT&sub=all#services-catalog",
       },
     ],
   },
