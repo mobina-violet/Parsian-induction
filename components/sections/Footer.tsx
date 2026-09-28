@@ -79,9 +79,16 @@ export function Footer() {
                     تماس با ما
                   </Link>
                 </li>
+                <li>
+                  <Link
+                    href="/articles"
+                    className="transition hover:text-orange-500">
+                    مقالات
+                  </Link>
+                </li>
               </ul>
             </div>
-            
+
             {/* محصولات */}
             <div>
               <h4 className="text-sm font-bold text-slate-900">محصولات</h4>
@@ -91,23 +98,56 @@ export function Footer() {
                 <Link
                   href="/products"
                   className="block text-sm font-medium text-slate-800 transition hover:text-orange-500">
-                  کوره‌های القایی
+                  محصولات
                 </Link>
-
-                {/* زیرمجموعه‌ها */}
-                <ul className="space-y-2 border-r border-gray-100 pr-3 text-sm text-gray-500">
+                <ul className="space-y-2 border-r border-gray-200 pr-3">
                   <li>
                     <Link
-                      href="/services"
-                      className="transition hover:text-orange-500">
-                      قطعات و تجهیزات
+                      href="/products?category=MELTING_FURNACE#products"
+                      className="block text-sm text-gray-500 transition hover:text-orange-500">
+                      کوره‌های القایی ذوب
                     </Link>
                   </li>
                   <li>
                     <Link
-                      href="/projects"
-                      className="transition hover:text-orange-500">
-                      نصب و راه‌اندازی
+                      href="/products?category=FORGING_FURNACE#products"
+                      className="block text-sm text-gray-500 transition hover:text-orange-500">
+                      کوره‌های القایی فورج
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      href="/products?category=HARDENING_FURNACE#products"
+                      className="block text-sm text-gray-500 transition hover:text-orange-500">
+                      کوره‌های القایی سخت‌کاری
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      href="/products?category=FORMING_FURNACE#products"
+                      className="block text-sm text-gray-500 transition hover:text-orange-500">
+                      کوره‌های القایی فورمینگ
+                    </Link>
+                  </li>
+                </ul>
+                <Link
+                  href="/services"
+                  className="block text-sm font-medium text-slate-800 transition hover:text-orange-500">
+                  خدمات
+                </Link>
+                <ul className="space-y-2 border-r border-gray-200 pr-3">
+                  <li>
+                    <Link
+                      href="/services?category=SPARE_PARTS&#services"
+                      className="block text-sm text-gray-500 transition hover:text-orange-500">
+                      لوازم یدکی
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      href="/services?category=SERVICE_EQUIPMENT&#services"
+                      className="block text-sm text-gray-500 transition hover:text-orange-500">
+                      قطعات و تجهیزات جانبی
                     </Link>
                   </li>
                 </ul>
