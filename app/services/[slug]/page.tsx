@@ -5,7 +5,7 @@ import type { Metadata } from "next";
 import { prisma } from "@/lib/prisma";
 import { ProductGallery } from "@/components/ProductGallery";
 import { siteConfig } from "@/lib/site-config";
-
+import { ProductDescription } from "@/components/ProductDescription";
 const categoryLabels: Record<string, string> = {
   SPARE_PARTS: "لوازم یدکی",
   SERVICE_EQUIPMENT: "قطعات و تجهیزات جانبی",
@@ -71,7 +71,9 @@ export default async function ServiceDetailPage({
   const hasSpecs = Array.isArray(item.components) && item.components.length > 0;
 
   const images =
-    item.images?.length > 0 ? item.images : ["/images/placeholder-project.webp"];
+    item.images?.length > 0
+      ? item.images
+      : ["/images/placeholder-project.webp"];
 
   const productJsonLd = {
     "@context": "https://schema.org",
@@ -108,7 +110,7 @@ export default async function ServiceDetailPage({
       </div>
 
       <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
-        <div className="grid gap-10 lg:grid-cols-2">
+        <div className="grid grid-cols-1 gap-10 lg:grid-cols-2">
           <ProductGallery images={images} alt={item.name} />
 
           <div>
@@ -135,12 +137,7 @@ export default async function ServiceDetailPage({
             <h1 className="mt-3 text-2xl font-bold text-slate-900 sm:text-3xl">
               {item.name}
             </h1>
-
-            {item.description && (
-              <p className="mt-6 text-sm leading-7 text-gray-500">
-                {item.description}
-              </p>
-            )}
+            {item.description && <ProductDescription text={item.description} />}
           </div>
         </div>
       </div>

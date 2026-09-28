@@ -1,6 +1,6 @@
 "use client";
 
-import { useState ,useEffect } from "react";
+import { useState } from "react";
 import Image from "next/image";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
@@ -20,43 +20,15 @@ export function ProductGallery({
     setActiveIndex((index + gallery.length) % gallery.length);
   };
 
-  useEffect(() => {
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (gallery.length <= 1) return;
-
-      if (event.key === "ArrowLeft") {
-        goTo(activeIndex + 1);
-      }
-
-      if (event.key === "ArrowRight") {
-        goTo(activeIndex - 1);
-      }
-
-      if (event.key === "ArrowUp") {
-        goTo(activeIndex - 1);
-      }
-
-      if (event.key === "ArrowDown") {
-        goTo(activeIndex + 1);
-      }
-    };
-
-    window.addEventListener("keydown", handleKeyDown);
-
-    return () => {
-      window.removeEventListener("keydown", handleKeyDown);
-    };
-  }, [activeIndex, gallery.length]);
-
   return (
-    <div>
-      <div className="relative aspect-square w-full overflow-hidden rounded-2xl border border-gray-100 bg-gray-50">
+    <div className="mx-auto w-full min-w-0 max-w-md">
+      <div className="relative aspect-[4/3] w-full overflow-hidden rounded-2xl border border-gray-100 bg-gray-50">
         <Image
           src={active}
           alt={alt}
           fill
           className="object-cover"
-          sizes="(max-width: 1024px) 100vw, 50vw"
+          sizes="(max-width: 448px) 100vw, 448px"
           priority
         />
 
@@ -82,15 +54,16 @@ export function ProductGallery({
       </div>
 
       {gallery.length > 1 && (
-        <div className="mt-3 flex gap-2">
+        <div className="mt-3 flex gap-2 overflow-x-auto pb-1">
           {gallery.map((img, index) => (
             <button
               key={img}
+              type="button"
               onClick={() => setActiveIndex(index)}
               className={
                 activeIndex === index
-                  ? "h-16 w-16 shrink-0 overflow-hidden rounded-lg border-2 border-orange-500"
-                  : "h-16 w-16 shrink-0 overflow-hidden rounded-lg border border-gray-200"
+                  ? "h-14 w-14 shrink-0 overflow-hidden rounded-lg border-2 border-orange-500 sm:h-16 sm:w-16"
+                  : "h-14 w-14 shrink-0 overflow-hidden rounded-lg border border-gray-200 sm:h-16 sm:w-16"
               }>
               <Image
                 src={img}

@@ -2,9 +2,10 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { Menu, X, Search, ChevronDown } from "lucide-react";
-import { useState, useRef, useEffect } from "react";
-import { usePathname, useRouter } from "next/navigation";
+import { Menu, X, ChevronDown } from "lucide-react";
+import { useState } from "react";
+import { usePathname } from "next/navigation";
+import { SearchBox } from "@/components/SearchBox";
 import { useConsultationModal } from "@/lib/store/consultation-modal";
 
 type NavChild = { label: string; href: string };
@@ -35,7 +36,6 @@ const navItems: NavItem[] = [
     ],
   },
   { label: "پروژه ها", href: "/projects" },
-
   {
     label: "خدمات",
     href: "/services",
@@ -52,6 +52,7 @@ const navItems: NavItem[] = [
   },
   { label: "درباره ما", href: "/about" },
   { label: "تماس با ما", href: "/contact" },
+  { label: "مقالات", href: "/articles" },
 ];
 
 export function Header() {
@@ -59,53 +60,12 @@ export function Header() {
   const [openMobileSubmenu, setOpenMobileSubmenu] = useState<string | null>(
     null,
   );
-  const [searchOpen, setSearchOpen] = useState(false);
-  const [searchQuery, setSearchQuery] = useState("");
-  const searchInputRef = useRef<HTMLInputElement>(null);
-  const pathname = usePathname();
-  const router = useRouter();
-  const { open } = useConsultationModal();
   const [openDesktopSubmenu, setOpenDesktopSubmenu] = useState<string | null>(
     null,
   );
-  useEffect(() => {
-    if (searchOpen && searchInputRef.current) {
-      searchInputRef.current.focus();
-    }
-  }, [searchOpen]);
 
-  useEffect(() => {
-    if (!mobileOpen) return;
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setMobileOpen(false);
-    };
-    document.addEventListener("keydown", handleKeyDown);
-    return () => document.removeEventListener("keydown", handleKeyDown);
-  }, [mobileOpen]);
-
-  useEffect(() => {
-    if (!mobileOpen) return;
-    const original = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-    return () => {
-      document.body.style.overflow = original;
-    };
-  }, [mobileOpen]);
-
-  useEffect(() => {
-    if (!mobileOpen) setOpenMobileSubmenu(null);
-  }, [mobileOpen]);
-
-  const handleSearch = (e: React.FormEvent) => {
-    e.preventDefault();
-    const q = searchQuery.trim();
-    if (q) {
-      router.push(`/products?search=${encodeURIComponent(q)}`);
-      setSearchOpen(false);
-      setSearchQuery("");
-      setMobileOpen(false);
-    }
-  };
+  const pathname = usePathname();
+  const { open } = useConsultationModal();
 
   return (
     <header
@@ -214,42 +174,8 @@ export function Header() {
 
         {/* Actions */}
         <div className="flex items-center gap-3">
-          <div className="relative hidden sm:flex items-center">
-            {searchOpen ? (
-              <form onSubmit={handleSearch} className="flex items-center">
-                <input
-                  ref={searchInputRef}
-                  type="search"
-                  aria-label="جستجوی محصول"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  placeholder="جستجوی محصول..."
-                  className="h-10 w-48 rounded-full border border-orange-300 bg-white px-4 text-sm text-slate-700 outline-none transition focus:border-orange-500 focus:ring-2 focus:ring-orange-200 lg:w-56"
-                />
-                <button
-                  type="submit"
-                  aria-label="جستجو"
-                  className="mr-2 flex h-10 w-10 items-center justify-center rounded-full bg-orange-500 text-white transition hover:bg-orange-600">
-                  <Search className="h-4 w-4" />
-                </button>
-                <button
-                  type="button"
-                  onClick={() => {
-                    setSearchOpen(false);
-                    setSearchQuery("");
-                  }}
-                  className="mr-1 flex h-8 w-8 items-center justify-center rounded-full text-slate-400 hover:bg-gray-100 hover:text-slate-600">
-                  <X className="h-4 w-4" />
-                </button>
-              </form>
-            ) : (
-              <button
-                aria-label="جستجو"
-                onClick={() => setSearchOpen(true)}
-                className="flex h-10 w-10 items-center justify-center rounded-full border border-gray-200 text-slate-500 transition hover:border-orange-300 hover:text-orange-500">
-                <Search className="h-4 w-4" />
-              </button>
-            )}
+          <div className="hidden items-center sm:flex">
+            <SearchBox variant="desktop" />
           </div>
 
           <button
@@ -282,14 +208,10 @@ export function Header() {
           aria-label="منوی موبایل"
           className="fixed inset-0 top-20 z-50 border-t border-gray-100 bg-white/95 backdrop-blur-md lg:hidden">
           <nav className="flex flex-col space-y-2 px-6 py-8 text-lg font-medium">
-            <form onSubmit={handleSearch} className="mb-4 flex gap-2">
-              <input
-                type="search"
-                aria-label="جستجوی محصول"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="جستجوی محصول..."
-                className="h-12 flex-1 rounded-2xl border border-gray-200 bg-white px-4 text-base text-slate-700 outline-none focus:border-orange-400"
+            <div className="mb-4 flex gap-2">
+              <SearchBox
+                variant="mobile"
+                onNavigate={() => setMobileOpen(false)}
               />
               <button
                 type="button"
@@ -298,7 +220,7 @@ export function Header() {
                 className="flex h-10 w-10 items-center justify-center rounded-xl border border-gray-200 text-slate-700 transition hover:bg-gray-50 lg:hidden">
                 <X className="h-5 w-5" />
               </button>
-            </form>
+            </div>
 
             {navItems.map((item) => {
               const isActive =

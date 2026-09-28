@@ -16,7 +16,6 @@ const metalLabels: Record<string, string> = {
   CAST_IRON: "چدن",
 };
 
-type ProductComponent = { title: string; description: string };
 type ProductVariant = Record<string, unknown>;
 
 export async function generateMetadata({
@@ -51,18 +50,11 @@ export default async function ProductSpecsPage({
     ? (product.variants as ProductVariant[])
     : [];
 
-  const components: ProductComponent[] = Array.isArray(product.components)
-    ? (product.components as ProductComponent[])
-    : [];
-
   const isMelting = product.category === "MELTING_FURNACE";
   const isPreheating =
     product.category === "FORGING_FURNACE" ||
     product.category === "FORMING_FURNACE";
   const isHardening = product.category === "HARDENING_FURNACE";
-  const isParts =
-    product.category === "SPARE_PARTS" ||
-    product.category === "PERIPHERAL_EQUIPMENT";
 
   return (
     <main dir="rtl" className="bg-white">
@@ -100,10 +92,9 @@ export default async function ProductSpecsPage({
           مشخصات فنی {product.name}
         </h1>
 
-        {variants.length > 0 && (
+        {variants.length > 0 ? (
           <div className="mt-8">
             <div className="overflow-x-auto rounded-2xl border border-gray-100">
-              {/* Melting Furnace */}
               {isMelting && (
                 <table className="w-full min-w-[500px] text-center text-sm">
                   <thead>
@@ -146,7 +137,6 @@ export default async function ProductSpecsPage({
                 </table>
               )}
 
-              {/* Forging / Forming Furnace */}
               {isPreheating && (
                 <table className="w-full min-w-[480px] text-center text-sm">
                   <thead>
@@ -188,7 +178,6 @@ export default async function ProductSpecsPage({
                 </table>
               )}
 
-              {/* Hardening Furnace */}
               {isHardening && (
                 <table className="w-full min-w-[400px] text-center text-sm">
                   <thead>
@@ -227,33 +216,7 @@ export default async function ProductSpecsPage({
               مشخصات دقیق بر اساس نیاز تولید شما قابل تنظیم است.
             </p>
           </div>
-        )}
-
-        {components.length > 0 && (
-          <div className="mt-8">
-            <h2 className="text-base font-bold text-slate-900">
-              {isParts
-                ? "اقلام و تجهیزات قابل تأمین"
-                : "این سیستم شامل چه اجزایی می‌شود؟"}
-            </h2>
-            <div className="mt-3 space-y-3">
-              {components.map((component) => (
-                <div
-                  key={component.title}
-                  className="rounded-2xl border border-gray-100 bg-gray-50 p-4">
-                  <p className="text-sm font-bold text-slate-900">
-                    {component.title}
-                  </p>
-                  <p className="mt-1 text-xs leading-6 text-gray-500">
-                    {component.description}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {variants.length === 0 && components.length === 0 && (
+        ) : (
           <p className="mt-8 rounded-2xl border border-dashed border-gray-200 py-10 text-center text-sm text-gray-400">
             مشخصات فنی این محصول به‌زودی تکمیل می‌شود.
           </p>

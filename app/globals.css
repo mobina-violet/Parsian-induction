@@ -145,3 +145,9 @@ body {
     @apply font-sans;
   }
 }
+@layer base {
+  p {
+    text-align: justify;
+    text-wrap: pretty;
+  }
+}

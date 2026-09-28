@@ -124,12 +124,21 @@ export default async function ProductsPage({
       category: category
         ? category
         : {
-            in: [
-              "MELTING_FURNACE",
-              "FORGING_FURNACE",
-              "HARDENING_FURNACE",
-              "FORMING_FURNACE",
-            ],
+            in: search
+              ? [
+                  "MELTING_FURNACE",
+                  "FORGING_FURNACE",
+                  "HARDENING_FURNACE",
+                  "FORMING_FURNACE",
+                  "SPARE_PARTS",
+                  "SERVICE_EQUIPMENT",
+                ]
+              : [
+                  "MELTING_FURNACE",
+                  "FORGING_FURNACE",
+                  "HARDENING_FURNACE",
+                  "FORMING_FURNACE",
+                ],
           },
       ...(search
         ? {

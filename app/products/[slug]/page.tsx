@@ -5,6 +5,7 @@ import type { Metadata } from "next";
 
 import { prisma } from "@/lib/prisma";
 import { ProductGallery } from "@/components/ProductGallery";
+import { ProductDescription } from "@/components/ProductDescription";
 import { siteConfig } from "@/lib/site-config";
 
 const categoryLabels: Record<string, string> = {
@@ -19,6 +20,8 @@ const categoryLabels: Record<string, string> = {
   CRUCIBLE: "بوته",
   LINK: "لینک",
 };
+
+type ProductComponent = { title: string; description: string };
 
 export async function generateStaticParams() {
   const products = await prisma.product.findMany({
@@ -83,9 +86,16 @@ export default async function ProductDetailPage({
     notFound();
   }
 
+  const components: ProductComponent[] = Array.isArray(product.components)
+    ? (product.components as ProductComponent[])
+    : [];
+
+  const isParts =
+    product.category === "SPARE_PARTS" ||
+    product.category === "PERIPHERAL_EQUIPMENT";
+
   const hasSpecs =
-    (Array.isArray(product.variants) && product.variants.length > 0) ||
-    (Array.isArray(product.components) && product.components.length > 0);
+    Array.isArray(product.variants) && product.variants.length > 0;
 
   const productImage = product.images[0]
     ? product.images[0].startsWith("http")
@@ -129,7 +139,7 @@ export default async function ProductDetailPage({
 
       {/* Product */}
       <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
-        <div className="grid gap-10 lg:grid-cols-2">
+        <div className="grid grid-cols-1 gap-10 lg:grid-cols-2">
           <ProductGallery images={product.images} alt={product.name} />
 
           <div>
@@ -158,9 +168,31 @@ export default async function ProductDetailPage({
             </h1>
 
             {product.description && (
-              <p className="mt-6 text-sm leading-7 text-gray-500">
-                {product.description}
-              </p>
+              <ProductDescription text={product.description} />
+            )}
+
+            {components.length > 0 && (
+              <div className="mt-8">
+                <h2 className="text-base font-bold text-slate-900">
+                  {isParts
+                    ? "اقلام و تجهیزات قابل تأمین"
+                    : "این سیستم شامل چه اجزایی می‌شود؟"}
+                </h2>
+                <div className="mt-3 space-y-3">
+                  {components.map((component) => (
+                    <div
+                      key={component.title}
+                      className="rounded-2xl border border-gray-100 bg-gray-50 p-4">
+                      <p className="text-sm font-bold text-slate-900">
+                        {component.title}
+                      </p>
+                      <p className="mt-1 text-xs leading-6 text-gray-500">
+                        {component.description}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              </div>
             )}
           </div>
         </div>
