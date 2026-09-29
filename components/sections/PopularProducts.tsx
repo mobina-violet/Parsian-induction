@@ -12,13 +12,13 @@ export async function PopularProducts() {
   return (
     <section dir="rtl" className="bg-white">
       <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between">
-          <h2 className="text-xl font-bold text-slate-900 sm:text-2xl">
+        <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-2">
+          <h2 className="text-lg font-bold text-slate-900 sm:text-2xl">
             محصولات پرطرفدار
           </h2>
           <Link
             href="/products"
-            className="flex items-center gap-1 text-sm font-medium text-orange-500 transition hover:text-orange-600">
+            className="flex shrink-0 items-center gap-1 text-xs font-medium text-orange-500 transition hover:text-orange-600 sm:text-sm">
             مشاهده همه محصولات
             <ChevronLeft className="h-4 w-4" />
           </Link>

@@ -2,6 +2,15 @@
 
 import { prisma } from '@/lib/prisma'
 import { consultationSchema, type ConsultationFormData } from '@/lib/validations/consultation'
+import { sendTelegramMessage } from '@/lib/telegram'
+
+const sourceLabels: Record<string, string> = {
+  HEADER_BUTTON: 'دکمه هدر',
+  HERO_WIDGET: 'صفحه اصلی',
+  PRODUCT_PAGE: 'صفحه محصول',
+  PROJECT_PAGE: 'صفحه پروژه',
+  CONTACT_PAGE: 'صفحه تماس',
+}
 
 export async function submitConsultationRequest(data: Partial<ConsultationFormData>) {
   const parsed = consultationSchema.safeParse(data)
@@ -22,6 +31,20 @@ export async function submitConsultationRequest(data: Partial<ConsultationFormDa
         productId: parsed.data.productId || null,
       },
     })
+
+    const lines = [
+      '📩 <b>درخواست مشاوره جدید</b>',
+      parsed.data.fullName ? `👤 نام: ${parsed.data.fullName}` : null,
+      parsed.data.phoneNumber ? `📱 موبایل: ${parsed.data.phoneNumber}` : null,
+      parsed.data.email ? `✉️ ایمیل: ${parsed.data.email}` : null,
+      parsed.data.subject ? `📌 موضوع: ${parsed.data.subject}` : null,
+      parsed.data.message ? `💬 پیام: ${parsed.data.message}` : null,
+      `🔗 منبع: ${sourceLabels[parsed.data.source] ?? parsed.data.source}`,
+    ].filter(Boolean)
+
+    // اگه تلگرام هم خطا بده، خودِ ثبت درخواست بی‌اثر نمی‌مونه
+    await sendTelegramMessage(lines.join('\n'))
+
     return { success: true }
   } catch (err) {
     console.error('submitConsultationRequest failed:', err)

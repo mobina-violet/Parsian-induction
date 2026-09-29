@@ -174,9 +174,7 @@ export function Header() {
 
         {/* Actions */}
         <div className="flex items-center gap-3">
-          <div className="hidden items-center sm:flex">
-            <SearchBox variant="desktop" />
-          </div>
+          <SearchBox />
 
           <button
             onClick={() => open("HEADER_BUTTON")}
@@ -208,20 +206,6 @@ export function Header() {
           aria-label="منوی موبایل"
           className="fixed inset-0 top-20 z-50 border-t border-gray-100 bg-white/95 backdrop-blur-md lg:hidden">
           <nav className="flex flex-col space-y-2 px-6 py-8 text-lg font-medium">
-            <div className="mb-4 flex gap-2">
-              <SearchBox
-                variant="mobile"
-                onNavigate={() => setMobileOpen(false)}
-              />
-              <button
-                type="button"
-                onClick={() => setMobileOpen(false)}
-                aria-label="بستن منو"
-                className="flex h-10 w-10 items-center justify-center rounded-xl border border-gray-200 text-slate-700 transition hover:bg-gray-50 lg:hidden">
-                <X className="h-5 w-5" />
-              </button>
-            </div>
-
             {navItems.map((item) => {
               const isActive =
                 item.href === "/"

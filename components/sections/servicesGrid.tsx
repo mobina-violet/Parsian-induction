@@ -6,7 +6,8 @@ export function ServicesGrid() {
     <section className="bg-white">
       <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
         {/* dir="ltr" روی خود گرید، تا ترتیب فیزیکی کارت‌ها (نصب و راه‌اندازی چپ ... کوره القایی راست)
-            دقیقاً مطابق دیزاین تایید‌شده بماند و برعکس نشود */}
+            دقیقاً مطابق دیزاین تایید‌شده بماند و برعکس نشود.
+            چون کوره القایی راست‌ترین کارته، برای کاربر راست‌به‌چپ همین اولین چیزیه که دیده می‌شود. */}
         <div dir="ltr" className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
           {services.map((service) => (
             <Link
@@ -15,7 +16,7 @@ export function ServicesGrid() {
               dir="rtl"
               className={
                 service.highlighted
-                  ? 'flex flex-col items-center rounded-2xl bg-orange-50 px-4 py-8 text-center transition hover:shadow-md'
+                  ? 'order-first flex flex-col items-center rounded-2xl bg-orange-50 px-4 py-8 text-center transition hover:shadow-md sm:order-none'
                   : 'flex flex-col items-center rounded-2xl border border-gray-100 px-4 py-8 text-center transition hover:border-orange-200 hover:shadow-md'
               }
             >
@@ -39,7 +40,9 @@ export function ServicesGrid() {
               >
                 {service.title}
               </h3>
-              <p className="mt-1.5 text-xs leading-5 text-gray-400">{service.description}</p>
+              <p className="mt-1.5 text-center text-xs leading-5 text-gray-400">
+                {service.description}
+              </p>
             </Link>
           ))}
         </div>

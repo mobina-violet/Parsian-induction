@@ -34,7 +34,6 @@ export function Footer() {
                 صنایع ذوب فلزات با راندمان بالا و مصرف انرژی بهینه.
               </p>
             </div>
-
             {/* دسترسی سریع */}
             <div>
               <h4 className="text-sm font-bold text-slate-900">دسترسی سریع</h4>
@@ -89,18 +88,15 @@ export function Footer() {
               </ul>
             </div>
 
-            {/* محصولات */}
+            {/* محصولات و خدمات */}
             <div>
-              <h4 className="text-sm font-bold text-slate-900">محصولات</h4>
-
               <div className="mt-4 space-y-3">
-                {/* لینک اصلی */}
                 <Link
                   href="/products"
-                  className="block text-sm font-medium text-slate-800 transition hover:text-orange-500">
+                  className="block text-sm font-bold text-slate-900 transition hover:text-orange-500">
                   محصولات
                 </Link>
-                <ul className="space-y-2 border-r border-gray-200 pr-3">
+                <ul className="space-y-2 sm:border-r sm:border-gray-200 sm:pr-3">
                   <li>
                     <Link
                       href="/products?category=MELTING_FURNACE#products"
@@ -130,22 +126,23 @@ export function Footer() {
                     </Link>
                   </li>
                 </ul>
+
                 <Link
                   href="/services"
-                  className="block text-sm font-medium text-slate-800 transition hover:text-orange-500">
+                  className="block pt-2 text-sm font-bold text-slate-900 transition hover:text-orange-500">
                   خدمات
                 </Link>
-                <ul className="space-y-2 border-r border-gray-200 pr-3">
+                <ul className="space-y-2 sm:border-r sm:border-gray-200 sm:pr-3">
                   <li>
                     <Link
-                      href="/services?category=SPARE_PARTS&#services"
+                      href="/services?category=SPARE_PARTS&sub=all#services-catalog"
                       className="block text-sm text-gray-500 transition hover:text-orange-500">
                       لوازم یدکی
                     </Link>
                   </li>
                   <li>
                     <Link
-                      href="/services?category=SERVICE_EQUIPMENT&#services"
+                      href="/services?category=SERVICE_EQUIPMENT&sub=all#services-catalog"
                       className="block text-sm text-gray-500 transition hover:text-orange-500">
                       قطعات و تجهیزات جانبی
                     </Link>
@@ -153,7 +150,6 @@ export function Footer() {
                 </ul>
               </div>
             </div>
-
             {/* راه‌های ارتباطی */}
             <div>
               <h4 className="text-sm font-bold text-slate-900">

@@ -37,15 +37,8 @@ function compact(text: string) {
   return normalizeQuery(text).replace(/[\u200c\s]/g, "").toLowerCase();
 }
 
-export function SearchBox({
-  variant,
-  onNavigate,
-}: {
-  variant: "desktop" | "mobile";
-  onNavigate?: () => void;
-}) {
+export function SearchBox() {
   const router = useRouter();
-  const isMobile = variant === "mobile";
 
   const [expanded, setExpanded] = useState(false);
   const [query, setQuery] = useState("");
@@ -102,20 +95,24 @@ export function SearchBox({
 
   // بستن با کلیک بیرون از باکس
   useEffect(() => {
-    const handleMouseDown = (e: MouseEvent) => {
+    const handlePointerDown = (e: MouseEvent | TouchEvent) => {
       if (rootRef.current && !rootRef.current.contains(e.target as Node)) {
         setShowList(false);
-        if (!isMobile) setExpanded(false);
+        setExpanded(false);
       }
     };
-    document.addEventListener("mousedown", handleMouseDown);
-    return () => document.removeEventListener("mousedown", handleMouseDown);
-  }, [isMobile]);
+    document.addEventListener("mousedown", handlePointerDown);
+    document.addEventListener("touchstart", handlePointerDown);
+    return () => {
+      document.removeEventListener("mousedown", handlePointerDown);
+      document.removeEventListener("touchstart", handlePointerDown);
+    };
+  }, []);
 
-  // فوکوس خودکار وقتی کارت سرچ دسکتاپ باز می‌شه
+  // فوکوس خودکار وقتی کارت سرچ باز می‌شه
   useEffect(() => {
-    if (expanded && !isMobile) inputRef.current?.focus();
-  }, [expanded, isMobile]);
+    if (expanded) inputRef.current?.focus();
+  }, [expanded]);
 
   function reset() {
     setQuery("");
@@ -123,7 +120,6 @@ export function SearchBox({
     setShowList(false);
     setActiveIndex(-1);
     setExpanded(false);
-    onNavigate?.();
   }
 
   function go(href: string) {
@@ -145,8 +141,7 @@ export function SearchBox({
   }
 
   function handleKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
-    // تو دسکتاپ یه ردیف «جستجو در همه محصولات» هم آخر لیسته
-    const lastIndex = isMobile ? suggestions.length - 1 : suggestions.length;
+    const lastIndex = suggestions.length; // ردیف «جستجو در همه محصولات» هم آخر لیسته
 
     if (e.key === "ArrowDown") {
       e.preventDefault();
@@ -158,36 +153,9 @@ export function SearchBox({
     } else if (e.key === "Escape") {
       setShowList(false);
       setActiveIndex(-1);
-      if (!isMobile) setExpanded(false);
+      setExpanded(false);
     }
   }
-
-  const inputEl = (
-    <input
-      ref={inputRef}
-      type="search"
-      role="combobox"
-      aria-label="جستجوی محصول"
-      aria-expanded={isMobile ? showList && suggestions.length > 0 : expanded}
-      aria-controls="search-suggestions"
-      aria-autocomplete="list"
-      autoComplete="off"
-      value={query}
-      onChange={(e) => {
-        setQuery(e.target.value);
-        setActiveIndex(-1);
-        setShowList(true);
-      }}
-      onFocus={() => setShowList(true)}
-      onKeyDown={handleKeyDown}
-      placeholder="جستجوی محصول..."
-      className={
-        isMobile
-          ? "h-12 w-full rounded-2xl border border-gray-200 bg-white px-4 text-base text-slate-700 outline-none focus:border-orange-400"
-          : "h-11 w-full rounded-xl border border-gray-200 bg-gray-50 pr-10 pl-4 text-sm text-slate-700 outline-none transition focus:border-orange-400 focus:bg-white focus:ring-2 focus:ring-orange-100"
-      }
-    />
-  );
 
   const rows = suggestions.map((s, i) => (
     <li key={s.href} role="option" aria-selected={i === activeIndex}>
@@ -209,25 +177,77 @@ export function SearchBox({
     </li>
   ));
 
-  // موبایل: فیلد همیشه داخل منوی موبایل دیده می‌شه
-  if (isMobile) {
-    return (
-      <div ref={rootRef} className="relative flex-1">
-        <form onSubmit={handleSubmit}>{inputEl}</form>
+  const panelBody = (
+    <>
+      <form onSubmit={handleSubmit} className="relative">
+        <Search className="pointer-events-none absolute right-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+        <input
+          ref={inputRef}
+          type="search"
+          role="combobox"
+          aria-label="جستجوی محصول"
+          aria-expanded={expanded}
+          aria-controls="search-suggestions"
+          aria-autocomplete="list"
+          autoComplete="off"
+          value={query}
+          onChange={(e) => {
+            setQuery(e.target.value);
+            setActiveIndex(-1);
+            setShowList(true);
+          }}
+          onFocus={() => setShowList(true)}
+          onKeyDown={handleKeyDown}
+          placeholder="جستجوی محصول..."
+          className="h-11 w-full rounded-xl border border-gray-200 bg-gray-50 pr-10 pl-4 text-sm text-slate-700 outline-none transition focus:border-orange-400 focus:bg-white focus:ring-2 focus:ring-orange-100"
+        />
+      </form>
 
-        {showList && suggestions.length > 0 && (
-          <ul
-            id="search-suggestions"
-            role="listbox"
-            className="absolute right-0 top-full z-50 mt-2 w-full space-y-0.5 overflow-hidden rounded-2xl border border-gray-100 bg-white p-1.5 shadow-lg">
-            {rows}
-          </ul>
+      <div className="mt-3">
+        {cleaned ? (
+          <>
+            {suggestions.length > 0 && (
+              <ul id="search-suggestions" role="listbox" className="space-y-0.5">
+                {rows}
+              </ul>
+            )}
+
+            <button
+              type="button"
+              onMouseDown={(e) => e.preventDefault()}
+              onClick={() => go(searchAllHref)}
+              onMouseEnter={() => setActiveIndex(suggestions.length)}
+              className={`mt-1 flex w-full items-center gap-2 rounded-xl px-3 py-2.5 text-right text-sm transition ${
+                activeIndex === suggestions.length
+                  ? "bg-orange-50 text-orange-600"
+                  : "text-slate-500 hover:bg-orange-50 hover:text-orange-600"
+              }`}>
+              <Search className="h-3.5 w-3.5 shrink-0" />
+              <span className="truncate">
+                جستجوی «{cleaned}» در همه محصولات
+              </span>
+            </button>
+          </>
+        ) : (
+          <div>
+            <p className="mb-2 px-1 text-xs text-gray-400">جستجوی سریع</p>
+            <div className="flex flex-wrap gap-2">
+              {shortcuts.map((s) => (
+                <button
+                  key={s.href}
+                  type="button"
+                  onClick={() => go(s.href)}
+                  className="rounded-full bg-orange-50 px-3 py-1.5 text-xs font-medium text-orange-600 transition hover:bg-orange-100">
+                  {s.label}
+                </button>
+              ))}
+            </div>
+          </div>
         )}
       </div>
-    );
-  }
+    </>
+  );
 
-  // دسکتاپ: آیکون سر جاشه و یه کارت کوچیک زیرش باز می‌شه (چیدمان هدر عوض نمی‌شه)
   return (
     <div ref={rootRef} className="relative">
       <button
@@ -244,58 +264,17 @@ export function SearchBox({
       </button>
 
       {expanded && (
-        <div className="absolute left-0 top-full z-50 mt-3 w-[min(22rem,calc(100vw-2rem))] rounded-2xl border border-gray-100 bg-white p-3 shadow-xl shadow-black/5 animate-in fade-in-0 slide-in-from-top-2 duration-150">
-          <form onSubmit={handleSubmit} className="relative">
-            <Search className="pointer-events-none absolute right-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
-            {inputEl}
-          </form>
-
-          <div className="mt-3">
-            {cleaned ? (
-              <>
-                {suggestions.length > 0 && (
-                  <ul
-                    id="search-suggestions"
-                    role="listbox"
-                    className="space-y-0.5">
-                    {rows}
-                  </ul>
-                )}
-
-                <button
-                  type="button"
-                  onMouseDown={(e) => e.preventDefault()}
-                  onClick={() => go(searchAllHref)}
-                  onMouseEnter={() => setActiveIndex(suggestions.length)}
-                  className={`mt-1 flex w-full items-center gap-2 rounded-xl px-3 py-2.5 text-right text-sm transition ${
-                    activeIndex === suggestions.length
-                      ? "bg-orange-50 text-orange-600"
-                      : "text-slate-500 hover:bg-orange-50 hover:text-orange-600"
-                  }`}>
-                  <Search className="h-3.5 w-3.5 shrink-0" />
-                  <span className="truncate">
-                    جستجوی «{cleaned}» در همه محصولات
-                  </span>
-                </button>
-              </>
-            ) : (
-              <div>
-                <p className="mb-2 px-1 text-xs text-gray-400">جستجوی سریع</p>
-                <div className="flex flex-wrap gap-2">
-                  {shortcuts.map((s) => (
-                    <button
-                      key={s.href}
-                      type="button"
-                      onClick={() => go(s.href)}
-                      className="rounded-full bg-orange-50 px-3 py-1.5 text-xs font-medium text-orange-600 transition hover:bg-orange-100">
-                      {s.label}
-                    </button>
-                  ))}
-                </div>
-              </div>
-            )}
+        <>
+          {/* موبایل: کارت تمام‌عرض، ثابت زیر هدر (به مختصات دکمه وابسته نیست) */}
+          <div className="fixed inset-x-4 top-24 z-[60] rounded-2xl border border-gray-100 bg-white p-3 shadow-xl shadow-black/10 sm:hidden">
+            {panelBody}
           </div>
-        </div>
+
+          {/* دسکتاپ: کارت کوچیک درست زیر خود آیکون */}
+          <div className="absolute left-0 top-full z-[60] mt-3 hidden w-[22rem] rounded-2xl border border-gray-100 bg-white p-3 shadow-xl shadow-black/5 sm:block">
+            {panelBody}
+          </div>
+        </>
       )}
     </div>
   );
