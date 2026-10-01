@@ -1,211 +1,327 @@
 import Link from "next/link";
 import Image from "next/image";
-import { MapPin, Phone } from "lucide-react";
+import { MapPin, Phone, ChevronDown } from "lucide-react";
 import { FaInstagram, FaWhatsapp } from "react-icons/fa";
+
+const quickLinks = [
+  { label: "خانه", href: "/" },
+  { label: "محصولات", href: "/products" },
+  { label: "پروژه‌ها", href: "/projects" },
+  { label: "خدمات", href: "/services" },
+  { label: "مقالات", href: "/articles" },
+  { label: "درباره ما", href: "/about" },
+  { label: "تماس با ما", href: "/contact" },
+];
+
 export function Footer() {
   return (
-    <>
-      {/* فوتر اصلی */}
-      <footer dir="rtl" className="bg-white">
-        <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 gap-10 text-center sm:grid-cols-2 sm:text-right lg:grid-cols-4">
-            {/* لوگو و توضیحات */}
+    <footer dir="rtl" className="bg-white">
+      <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+        {/* لوگو و توضیحات — همیشه و همه‌جا دیده می‌شه */}
+        <div className="text-center sm:hidden">
+          <div className="flex items-center justify-center gap-2">
+            <span className="flex h-9 w-9 items-center justify-center rounded-full bg-orange-500">
+              <Image
+                src="/parsian-logo.webp"
+                alt="لوگوی پارسیان"
+                width={36}
+                height={36}
+                className="h-10 w-10 rounded-full object-contain"
+              />
+            </span>
             <div>
-              <div className="flex items-center justify-center gap-2 sm:justify-start">
-                <span className="flex h-9 w-9 items-center justify-center rounded-full bg-orange-500">
-                  <Image
-                    src="/parsian-logo.webp"
-                    alt="لوگوی پارسیان"
-                    width={36}
-                    height={36}
-                    className="h-10 w-10 object-contain rounded-full"
-                    priority
-                  />
-                </span>
-                <div>
-                  <p className="text-[11px] text-red-600">کوره القایی</p>
-                  <p className="text-base font-bold text-slate-900">
-                    پارسیان پرتو الوند
-                  </p>
-                </div>
-              </div>
-              <p className="mt-4 text-sm leading-7 text-gray-500">
-                طراحی و تولید انواع کوره‌های القایی با فناوری روز دنیا برای
-                صنایع ذوب فلزات با راندمان بالا و مصرف انرژی بهینه.
+              <p className="text-[11px] text-red-600">کوره القایی</p>
+              <p className="text-base font-bold text-slate-900">
+                پارسیان پرتو الوند
               </p>
             </div>
-            {/* دسترسی سریع */}
-            <div>
-              <h4 className="text-sm font-bold text-slate-900">دسترسی سریع</h4>
-              <ul className="mt-4 space-y-2.5 text-sm text-gray-500">
-                <li>
-                  <Link href="/" className="transition hover:text-orange-500">
-                    خانه
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/products"
-                    className="transition hover:text-orange-500">
-                    محصولات
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/projects"
-                    className="transition hover:text-orange-500">
-                    پروژه‌ها
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/services"
-                    className="transition hover:text-orange-500">
-                    خدمات
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/about"
-                    className="transition hover:text-orange-500">
-                    درباره ما
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/contact"
-                    className="transition hover:text-orange-500">
-                    تماس با ما
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/articles"
-                    className="transition hover:text-orange-500">
-                    مقالات
-                  </Link>
-                </li>
-              </ul>
-            </div>
+          </div>
+          <p className="mt-4 text-sm leading-7 text-gray-500">
+            طراحی و تولید انواع کوره‌های القایی با فناوری روز دنیا برای صنایع
+            ذوب فلزات با راندمان بالا و مصرف انرژی بهینه.
+          </p>
+        </div>
 
-            {/* محصولات و خدمات */}
-            <div>
-              <div className="mt-4 space-y-3">
+        {/* =========================
+            موبایل: آکاردئون
+        ========================== */}
+        <div className="mt-8 divide-y divide-gray-100 border-t border-gray-100 sm:hidden">
+          <details className="group py-4">
+            <summary className="flex cursor-pointer list-none items-center justify-between text-sm font-bold text-slate-900 [&::-webkit-details-marker]:hidden">
+              دسترسی سریع
+              <ChevronDown className="h-4 w-4 text-gray-400 transition-transform duration-200 group-open:rotate-180" />
+            </summary>
+            <ul className="mt-4 space-y-3 text-sm text-gray-500">
+              {quickLinks.map((link) => (
+                <li key={link.href}>
+                  <Link
+                    href={link.href}
+                    className="block transition hover:text-orange-500">
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </details>
+
+          <details className="group py-4">
+            <summary className="flex cursor-pointer list-none items-center justify-between text-sm font-bold text-slate-900 [&::-webkit-details-marker]:hidden">
+              محصولات و خدمات
+              <ChevronDown className="h-4 w-4 text-gray-400 transition-transform duration-200 group-open:rotate-180" />
+            </summary>
+
+            <div className="mt-4 space-y-4">
+              <div>
                 <Link
                   href="/products"
-                  className="block text-sm font-bold text-slate-900 transition hover:text-orange-500">
-                  محصولات
+                  className="block text-sm font-medium text-slate-800 transition hover:text-orange-500">
+                  کوره‌های القایی
                 </Link>
-                <ul className="space-y-2 sm:border-r sm:border-gray-200 sm:pr-3">
+                <ul className="mt-2 space-y-2.5 text-sm text-gray-500">
                   <li>
                     <Link
                       href="/products?category=MELTING_FURNACE#products"
-                      className="block text-sm text-gray-500 transition hover:text-orange-500">
+                      className="transition hover:text-orange-500">
                       کوره‌های القایی ذوب
                     </Link>
                   </li>
                   <li>
                     <Link
                       href="/products?category=FORGING_FURNACE#products"
-                      className="block text-sm text-gray-500 transition hover:text-orange-500">
+                      className="transition hover:text-orange-500">
                       کوره‌های القایی فورج
                     </Link>
                   </li>
                   <li>
                     <Link
                       href="/products?category=HARDENING_FURNACE#products"
-                      className="block text-sm text-gray-500 transition hover:text-orange-500">
+                      className="transition hover:text-orange-500">
                       کوره‌های القایی سخت‌کاری
                     </Link>
                   </li>
                   <li>
                     <Link
                       href="/products?category=FORMING_FURNACE#products"
-                      className="block text-sm text-gray-500 transition hover:text-orange-500">
+                      className="transition hover:text-orange-500">
                       کوره‌های القایی فورمینگ
                     </Link>
                   </li>
                 </ul>
+              </div>
 
+              <div>
                 <Link
                   href="/services"
-                  className="block pt-2 text-sm font-bold text-slate-900 transition hover:text-orange-500">
+                  className="block text-sm font-medium text-slate-800 transition hover:text-orange-500">
                   خدمات
                 </Link>
-                <ul className="space-y-2 sm:border-r sm:border-gray-200 sm:pr-3">
+                <ul className="mt-2 space-y-2.5 text-sm text-gray-500">
                   <li>
                     <Link
                       href="/services?category=SPARE_PARTS&sub=all#services-catalog"
-                      className="block text-sm text-gray-500 transition hover:text-orange-500">
+                      className="transition hover:text-orange-500">
                       لوازم یدکی
                     </Link>
                   </li>
                   <li>
                     <Link
                       href="/services?category=SERVICE_EQUIPMENT&sub=all#services-catalog"
-                      className="block text-sm text-gray-500 transition hover:text-orange-500">
+                      className="transition hover:text-orange-500">
                       قطعات و تجهیزات جانبی
                     </Link>
                   </li>
                 </ul>
               </div>
             </div>
-            {/* راه‌های ارتباطی */}
-            <div>
-              <h4 className="text-sm font-bold text-slate-900">
-                راه‌های ارتباطی
-              </h4>
-              <ul className="mt-4 space-y-3 text-sm text-gray-500">
-                <li className="flex items-start justify-center gap-2 sm:justify-start">
-                  <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-orange-500" />
+          </details>
+
+          <details className="group py-4">
+            <summary className="flex cursor-pointer list-none items-center justify-between text-sm font-bold text-slate-900 [&::-webkit-details-marker]:hidden">
+              راه‌های ارتباطی
+              <ChevronDown className="h-4 w-4 text-gray-400 transition-transform duration-200 group-open:rotate-180" />
+            </summary>
+            <ul className="mt-4 space-y-3 text-sm text-gray-500">
+              <li className="flex items-start gap-2">
+                <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-orange-500" />
+                <Link
+                  href="https://nshn.ir/ae_bQV-eyx5bku"
+                  className="flex flex-col transition hover:text-orange-500">
+                  <span>رباط کریم میدان غدیر</span>
+                  <span>مجتمع صنعتی و تجاری نور</span>
+                  <span>واحد ۱۷</span>
+                </Link>
+              </li>
+              <li className="flex items-center gap-2">
+                <Phone className="h-4 w-4 shrink-0 text-orange-500" />
+                <a
+                  href="tel:09124384191"
+                  className="transition-colors hover:text-orange-500"
+                  dir="ltr">
+                  ۰۹۱۲۴۳۸۴۱۹۱
+                </a>
+              </li>
+              <li className="flex items-center gap-2">
+                <a
+                  href="https://instagram.com/parsian_partoalvand"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 transition-colors hover:text-orange-500">
+                  <FaInstagram className="h-4 w-4 shrink-0 text-orange-500" />
+                  <span>parsian_partoalvand</span>
+                </a>
+              </li>
+            </ul>
+          </details>
+        </div>
+
+        {/* =========================
+            دسکتاپ و تبلت: گرید ثابت (بدون تغییر)
+        ========================== */}
+        <div className="hidden sm:grid sm:grid-cols-2 sm:gap-10 sm:text-right lg:grid-cols-4">
+          {/* لوگو و توضیحات */}
+          <div>
+            <div className="flex items-center gap-2">
+              <span className="flex h-9 w-9 items-center justify-center rounded-full bg-orange-500">
+                <Image
+                  src="/parsian-logo.webp"
+                  alt="لوگوی پارسیان"
+                  width={36}
+                  height={36}
+                  className="h-10 w-10 rounded-full object-contain"
+                  priority
+                />
+              </span>
+              <div>
+                <p className="text-[11px] text-red-600">کوره القایی</p>
+                <p className="text-base font-bold text-slate-900">
+                  پارسیان پرتو الوند
+                </p>
+              </div>
+            </div>
+            <p className="mt-4 text-sm leading-7 text-gray-500">
+              طراحی و تولید انواع کوره‌های القایی با فناوری روز دنیا برای
+              صنایع ذوب فلزات با راندمان بالا و مصرف انرژی بهینه.
+            </p>
+          </div>
+
+          {/* دسترسی سریع */}
+          <div>
+            <h4 className="text-sm font-bold text-slate-900">دسترسی سریع</h4>
+            <ul className="mt-4 space-y-2.5 text-sm text-gray-500">
+              {quickLinks.map((link) => (
+                <li key={link.href}>
                   <Link
-                    href="https://nshn.ir/ae_bQV-eyx5bku"
-                    className="flex flex-col transition hover:text-orange-500">
-                    <div className="flex flex-col">
-                      {" "}
-                      <span>رباط کریم میدان غدیر</span>
-                      <span>مجتمع صنعتی و تجاری نور</span>
-                      <span>واحد ۱۷</span>
-                    </div>
+                    href={link.href}
+                    className="transition hover:text-orange-500">
+                    {link.label}
                   </Link>
                 </li>
+              ))}
+            </ul>
+          </div>
 
-                <li className="flex items-center justify-center gap-2 sm:justify-start">
-                  <Phone className="h-4 w-4 shrink-0 text-orange-500" />
-                  <a
-                    href="tel:09124384191"
-                    className="hover:text-orange-500 transition-colors"
-                    dir="ltr">
-                    ۰۹۱۲۴۳۸۴۱۹۱
-                  </a>
+          {/* محصولات و خدمات */}
+          <div>
+            <div className="space-y-3">
+              <Link
+                href="/products"
+                className="block text-sm font-bold text-slate-900 transition hover:text-orange-500">
+                محصولات
+              </Link>
+              <ul className="space-y-2 sm:border-r sm:border-gray-200 sm:pr-3">
+                <li>
+                  <Link
+                    href="/products?category=MELTING_FURNACE#products"
+                    className="block text-sm text-gray-500 transition hover:text-orange-500">
+                    کوره‌های القایی ذوب
+                  </Link>
                 </li>
-                {/* 
-                <li className="flex items-center justify-center gap-2 sm:justify-start">
-                  <a
-                    href="https://wa.me/989124384191?text=%D8%B3%D9%84%D8%A7%D9%85%D8%8C%20%D9%85%DB%8C%E2%80%8C%D8%AE%D9%88%D8%A7%D8%B3%D8%AA%D9%85%20%D8%AF%D8%B1%D8%A8%D8%A7%D8%B1%D9%87%20%DA%A9%D9%88%D8%B1%D9%87%20%D8%A7%D9%84%D9%82%D8%A7%DB%8C%DB%8C%20%D8%B3%D9%88%D8%A7%D9%84%20%D8%A8%D9%BE%D8%B1%D8%B3%D9%85"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-2 hover:text-orange-500 transition-colors">
-                    <FaWhatsapp className="h-4 w-4 shrink-0 text-orange-500" />
-                    <span>پیام در واتساپ</span>
-                  </a>
+                <li>
+                  <Link
+                    href="/products?category=FORGING_FURNACE#products"
+                    className="block text-sm text-gray-500 transition hover:text-orange-500">
+                    کوره‌های القایی فورج
+                  </Link>
                 </li>
-                */}
-                <li className="flex items-center justify-center gap-2 sm:justify-start">
-                  <a
-                    href="https://instagram.com/parsian_partoalvand"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-2 hover:text-orange-500 transition-colors">
-                    <FaInstagram className="h-4 w-4 shrink-0 text-orange-500" />
-                    <span>parsian_partoalvand</span>
-                  </a>
+                <li>
+                  <Link
+                    href="/products?category=HARDENING_FURNACE#products"
+                    className="block text-sm text-gray-500 transition hover:text-orange-500">
+                    کوره‌های القایی سخت‌کاری
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="/products?category=FORMING_FURNACE#products"
+                    className="block text-sm text-gray-500 transition hover:text-orange-500">
+                    کوره‌های القایی فورمینگ
+                  </Link>
+                </li>
+              </ul>
+
+              <Link
+                href="/services"
+                className="block pt-2 text-sm font-bold text-slate-900 transition hover:text-orange-500">
+                خدمات
+              </Link>
+              <ul className="space-y-2 sm:border-r sm:border-gray-200 sm:pr-3">
+                <li>
+                  <Link
+                    href="/services?category=SPARE_PARTS&sub=all#services-catalog"
+                    className="block text-sm text-gray-500 transition hover:text-orange-500">
+                    لوازم یدکی
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="/services?category=SERVICE_EQUIPMENT&sub=all#services-catalog"
+                    className="block text-sm text-gray-500 transition hover:text-orange-500">
+                    قطعات و تجهیزات جانبی
+                  </Link>
                 </li>
               </ul>
             </div>
           </div>
+
+          {/* راه‌های ارتباطی */}
+          <div>
+            <h4 className="text-sm font-bold text-slate-900">
+              راه‌های ارتباطی
+            </h4>
+            <ul className="mt-4 space-y-3 text-sm text-gray-500">
+              <li className="flex items-start gap-2">
+                <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-orange-500" />
+                <Link
+                  href="https://nshn.ir/ae_bQV-eyx5bku"
+                  className="flex flex-col transition hover:text-orange-500">
+                  <span>رباط کریم میدان غدیر</span>
+                  <span>مجتمع صنعتی و تجاری نور</span>
+                  <span>واحد ۱۷</span>
+                </Link>
+              </li>
+              <li className="flex items-center gap-2">
+                <Phone className="h-4 w-4 shrink-0 text-orange-500" />
+                <a
+                  href="tel:09124384191"
+                  className="transition-colors hover:text-orange-500"
+                  dir="ltr">
+                  ۰۹۱۲۴۳۸۴۱۹۱
+                </a>
+              </li>
+              <li className="flex items-center gap-2">
+                <a
+                  href="https://instagram.com/parsian_partoalvand"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 transition-colors hover:text-orange-500">
+                  <FaInstagram className="h-4 w-4 shrink-0 text-orange-500" />
+                  <span>parsian_partoalvand</span>
+                </a>
+              </li>
+            </ul>
+          </div>
         </div>
-      </footer>
-    </>
+      </div>
+    </footer>
   );
 }

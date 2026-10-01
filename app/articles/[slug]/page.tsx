@@ -113,18 +113,16 @@ export default async function ArticleDetailPage({
       </div>
 
       <article className="mx-auto max-w-3xl px-4 py-10 sm:px-6">
-        {article.coverImage && (
-          <div className="relative aspect-[16/9] w-full overflow-hidden rounded-2xl border border-gray-100 bg-gray-50">
-            <Image
-              src={article.coverImage}
-              alt={article.title}
-              fill
-              priority
-              className="object-cover"
-              sizes="(max-width: 768px) 100vw, 768px"
-            />
-          </div>
-        )}
+        <div className="relative aspect-[16/9] w-full overflow-hidden rounded-2xl border border-gray-100 bg-gray-50">
+          <Image
+            src={article.coverImage || "/images/placeholder-project.webp"}
+            alt={article.title}
+            fill
+            priority
+            className="object-cover"
+            sizes="(max-width: 768px) 100vw, 768px"
+          />
+        </div>
 
         <h1 className="mt-8 text-2xl font-bold leading-10 text-slate-900 sm:text-3xl">
           {article.title}

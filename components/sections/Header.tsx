@@ -2,13 +2,14 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { Menu, X, ChevronDown } from "lucide-react";
+import { Menu, X, ChevronDown, ChevronLeft } from "lucide-react";
 import { useState } from "react";
 import { usePathname } from "next/navigation";
 import { SearchBox } from "@/components/SearchBox";
 import { useConsultationModal } from "@/lib/store/consultation-modal";
 
-type NavChild = { label: string; href: string };
+type NavGrandchild = { label: string; href: string };
+type NavChild = { label: string; href: string; children?: NavGrandchild[] };
 type NavItem = { label: string; href: string; children?: NavChild[] };
 
 const navItems: NavItem[] = [
@@ -43,10 +44,29 @@ const navItems: NavItem[] = [
       {
         label: "لوازم یدکی",
         href: "/services?category=SPARE_PARTS&sub=all#services-catalog",
+        children: [
+          { label: "تریستورها", href: "/services?category=SPARE_PARTS&sub=thyristor#services-catalog" },
+          { label: "دیودها", href: "/services?category=SPARE_PARTS&sub=diode#services-catalog" },
+          { label: "ماژول‌ها", href: "/services?category=SPARE_PARTS&sub=module#services-catalog" },
+          { label: "IGBT", href: "/services?category=SPARE_PARTS&sub=igbt#services-catalog" },
+          { label: "خازن‌ها", href: "/services?category=SPARE_PARTS&sub=capacitor#services-catalog" },
+          { label: "برد و الکترونیکی", href: "/services?category=SPARE_PARTS&sub=board#services-catalog" },
+          { label: "کویل و عایق", href: "/services?category=SPARE_PARTS&sub=coil#services-catalog" },
+          { label: "مقاومت‌ها", href: "/services?category=SPARE_PARTS&sub=resistor#services-catalog" },
+          { label: "بوبین و چوک", href: "/services?category=SPARE_PARTS&sub=choke#services-catalog" },
+        ],
       },
       {
         label: "قطعات و تجهیزات جانبی",
         href: "/services?category=SERVICE_EQUIPMENT&sub=all#services-catalog",
+        children: [
+          { label: "سیستم خنک‌کننده", href: "/services?category=SERVICE_EQUIPMENT&sub=cooling#services-catalog" },
+          { label: "کابل و اتصالات", href: "/services?category=SERVICE_EQUIPMENT&sub=cable#services-catalog" },
+          { label: "کنترل و اندازه‌گیری", href: "/services?category=SERVICE_EQUIPMENT&sub=control_measurement#services-catalog" },
+          { label: "بوته و بدنه", href: "/services?category=SERVICE_EQUIPMENT&sub=crucible#services-catalog" },
+          { label: "هیدرولیک", href: "/services?category=SERVICE_EQUIPMENT&sub=hydraulic#services-catalog" },
+          { label: "کلید چنج", href: "/services?category=SERVICE_EQUIPMENT&sub=changeover#services-catalog" },
+        ],
       },
     ],
   },
@@ -57,12 +77,10 @@ const navItems: NavItem[] = [
 
 export function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [openMobileSubmenu, setOpenMobileSubmenu] = useState<string | null>(
-    null,
-  );
-  const [openDesktopSubmenu, setOpenDesktopSubmenu] = useState<string | null>(
-    null,
-  );
+  const [openMobileSubmenu, setOpenMobileSubmenu] = useState<string | null>(null);
+  const [openMobileSubChild, setOpenMobileSubChild] = useState<string | null>(null);
+  const [openDesktopSubmenu, setOpenDesktopSubmenu] = useState<string | null>(null);
+  const [openDesktopSubChild, setOpenDesktopSubChild] = useState<string | null>(null);
 
   const pathname = usePathname();
   const { open } = useConsultationModal();
@@ -108,7 +126,10 @@ export function Header() {
                   key={item.href}
                   className="relative"
                   onMouseEnter={() => setOpenDesktopSubmenu(item.href)}
-                  onMouseLeave={() => setOpenDesktopSubmenu(null)}>
+                  onMouseLeave={() => {
+                    setOpenDesktopSubmenu(null);
+                    setOpenDesktopSubChild(null);
+                  }}>
                   <Link
                     href={item.href}
                     className={`relative flex items-center gap-1 pb-2 text-sm font-medium transition-all duration-300 ${
@@ -138,15 +159,56 @@ export function Header() {
                         : "pointer-events-none invisible opacity-0"
                     }`}>
                     <div className="rounded-2xl border border-gray-100 bg-white p-2 shadow-lg shadow-black/5">
-                      {item.children.map((child) => (
-                        <Link
-                          key={child.href}
-                          href={child.href}
-                          onClick={() => setOpenDesktopSubmenu(null)}
-                          className="block rounded-xl px-4 py-2.5 text-sm text-slate-600 transition hover:bg-orange-50 hover:text-orange-600">
-                          {child.label}
-                        </Link>
-                      ))}
+                      {item.children.map((child) =>
+                        child.children ? (
+                          <div
+                            key={child.href}
+                            className="relative"
+                            onMouseEnter={() => setOpenDesktopSubChild(child.href)}
+                            onMouseLeave={() => setOpenDesktopSubChild(null)}>
+                            <Link
+                              href={child.href}
+                              onClick={() => {
+                                setOpenDesktopSubmenu(null);
+                                setOpenDesktopSubChild(null);
+                              }}
+                              className="flex items-center justify-between gap-2 rounded-xl px-4 py-2.5 text-sm text-slate-600 transition hover:bg-orange-50 hover:text-orange-600">
+                              {child.label}
+                              <ChevronLeft className="h-3.5 w-3.5 text-gray-300" />
+                            </Link>
+
+                            <div
+                              className={`absolute right-full top-0 z-50 w-60 pr-2 transition-all duration-150 ${
+                                openDesktopSubChild === child.href
+                                  ? "visible opacity-100"
+                                  : "pointer-events-none invisible opacity-0"
+                              }`}>
+                              <div className="rounded-2xl border border-gray-100 bg-white p-2 shadow-lg shadow-black/5">
+                                {child.children.map((grandchild) => (
+                                  <Link
+                                    key={grandchild.href}
+                                    href={grandchild.href}
+                                    onClick={() => {
+                                      setOpenDesktopSubmenu(null);
+                                      setOpenDesktopSubChild(null);
+                                    }}
+                                    className="block rounded-xl px-4 py-2.5 text-sm text-slate-600 transition hover:bg-orange-50 hover:text-orange-600">
+                                    {grandchild.label}
+                                  </Link>
+                                ))}
+                              </div>
+                            </div>
+                          </div>
+                        ) : (
+                          <Link
+                            key={child.href}
+                            href={child.href}
+                            onClick={() => setOpenDesktopSubmenu(null)}
+                            className="block rounded-xl px-4 py-2.5 text-sm text-slate-600 transition hover:bg-orange-50 hover:text-orange-600">
+                            {child.label}
+                          </Link>
+                        ),
+                      )}
                     </div>
                   </div>
                 </div>
@@ -204,7 +266,7 @@ export function Header() {
           role="dialog"
           aria-modal="true"
           aria-label="منوی موبایل"
-          className="fixed inset-0 top-20 z-50 border-t border-gray-100 bg-white/95 backdrop-blur-md lg:hidden">
+          className="fixed inset-0 top-20 z-50 overflow-y-auto border-t border-gray-100 bg-white/95 backdrop-blur-md lg:hidden">
           <nav className="flex flex-col space-y-2 px-6 py-8 text-lg font-medium">
             {navItems.map((item) => {
               const isActive =
@@ -230,11 +292,12 @@ export function Header() {
                       </Link>
                       <button
                         type="button"
-                        onClick={() =>
+                        onClick={() => {
                           setOpenMobileSubmenu((prev) =>
                             prev === item.href ? null : item.href,
-                          )
-                        }
+                          );
+                          setOpenMobileSubChild(null);
+                        }}
                         aria-label={
                           isOpen
                             ? `بستن زیرمنوی ${item.label}`
@@ -252,15 +315,62 @@ export function Header() {
 
                     {isOpen && (
                       <div className="mr-5 mt-1 flex flex-col space-y-1 border-r-2 border-orange-100 pr-4">
-                        {item.children.map((child) => (
-                          <Link
-                            key={child.href}
-                            href={child.href}
-                            onClick={() => setMobileOpen(false)}
-                            className="rounded-xl px-4 py-3 text-base font-normal text-slate-600 transition hover:bg-orange-50 hover:text-orange-600">
-                            {child.label}
-                          </Link>
-                        ))}
+                        {item.children.map((child) =>
+                          child.children ? (
+                            <div key={child.href}>
+                              <div className="flex items-center gap-1">
+                                <Link
+                                  href={child.href}
+                                  onClick={() => setMobileOpen(false)}
+                                  className="flex-1 rounded-xl px-4 py-3 text-base font-normal text-slate-600 transition hover:bg-orange-50 hover:text-orange-600">
+                                  {child.label}
+                                </Link>
+                                <button
+                                  type="button"
+                                  onClick={() =>
+                                    setOpenMobileSubChild((prev) =>
+                                      prev === child.href ? null : child.href,
+                                    )
+                                  }
+                                  aria-label={
+                                    openMobileSubChild === child.href
+                                      ? `بستن زیرمنوی ${child.label}`
+                                      : `باز کردن زیرمنوی ${child.label}`
+                                  }
+                                  aria-expanded={openMobileSubChild === child.href}
+                                  className="flex h-9 w-9 items-center justify-center rounded-lg text-slate-400 transition hover:bg-orange-50 hover:text-orange-600">
+                                  <ChevronDown
+                                    className={`h-3.5 w-3.5 transition-transform duration-200 ${
+                                      openMobileSubChild === child.href ? "rotate-180" : ""
+                                    }`}
+                                  />
+                                </button>
+                              </div>
+
+                              {openMobileSubChild === child.href && (
+                                <div className="mr-4 mt-1 flex flex-col space-y-1 border-r-2 border-orange-50 pr-3">
+                                  {child.children.map((grandchild) => (
+                                    <Link
+                                      key={grandchild.href}
+                                      href={grandchild.href}
+                                      onClick={() => setMobileOpen(false)}
+                                      className="rounded-lg px-4 py-2.5 text-sm font-normal text-slate-500 transition hover:bg-orange-50 hover:text-orange-600">
+                                      {grandchild.label}
+                                    </Link>
+                                  ))}
+                                </div>
+                              )}
+                            </div>
+                          ) : (
+                            <Link
+                              key={child.href}
+                              href={child.href}
+                              onClick={() => setMobileOpen(false)}
+                              className="rounded-xl px-4 py-3 text-base font-normal text-slate-600 transition hover:bg-orange-50 hover:text-orange-600">
+                              {child.label}
+                            </Link>
+                          ),
+                        )}
                       </div>
                     )}
                   </div>

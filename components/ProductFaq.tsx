@@ -9,7 +9,7 @@ export function ProductFaq({ faqs }: { faqs: Faq[] }) {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   return (
-    <div className="mt-6 grid gap-3 sm:grid-cols-2">
+    <div className="mt-6 grid items-start gap-3 sm:grid-cols-2">
       {faqs.map((faq, index) => {
         const isOpen = openIndex === index;
         return (
