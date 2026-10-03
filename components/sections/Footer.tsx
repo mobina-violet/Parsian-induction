@@ -1,3 +1,5 @@
+"use client";
+import { usePathname } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import { MapPin, Phone, ChevronDown } from "lucide-react";
@@ -14,6 +16,9 @@ const quickLinks = [
 ];
 
 export function Footer() {
+  const pathname = usePathname();
+  if (pathname.startsWith("/admin")) return null;
+
   return (
     <footer dir="rtl" className="bg-white">
       <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
@@ -199,8 +204,8 @@ export function Footer() {
               </div>
             </div>
             <p className="mt-4 text-sm leading-7 text-gray-500">
-              طراحی و تولید انواع کوره‌های القایی با فناوری روز دنیا برای
-              صنایع ذوب فلزات با راندمان بالا و مصرف انرژی بهینه.
+              طراحی و تولید انواع کوره‌های القایی با فناوری روز دنیا برای صنایع
+              ذوب فلزات با راندمان بالا و مصرف انرژی بهینه.
             </p>
           </div>
 

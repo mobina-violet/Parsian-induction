@@ -84,7 +84,9 @@ export function Header() {
 
   const pathname = usePathname();
   const { open } = useConsultationModal();
-
+if (pathname.startsWith("/admin")) {
+  return null;
+}
   return (
     <header
       dir="rtl"

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
 import { FaWhatsapp } from "react-icons/fa";
 
 const WHATSAPP_NUMBER = "989124384191";
@@ -9,12 +10,15 @@ const DEFAULT_MESSAGE =
 const APPEAR_DELAY_MS = 1500;
 
 export function FloatingWhatsApp() {
+  const pathname = usePathname();
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
     const timer = setTimeout(() => setVisible(true), APPEAR_DELAY_MS);
     return () => clearTimeout(timer);
   }, []);
+
+  if (pathname.startsWith("/admin")) return null;
 
   const href = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(
     DEFAULT_MESSAGE,

@@ -1,5 +1,5 @@
 "use client";
-
+import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -19,6 +19,8 @@ import {
 import { submitConsultationRequest } from "@/app/actions/consultation";
 
 export function ConsultationModal() {
+  const pathname = usePathname();
+  if (pathname.startsWith("/admin")) return null;
   const { isOpen, source, productId, close } = useConsultationModal();
   const [status, setStatus] = useState<"idle" | "success" | "error">("idle");
   const [errorMessage, setErrorMessage] = useState("");
@@ -53,7 +55,9 @@ export function ConsultationModal() {
       reset();
     } else {
       setStatus("error");
-      setErrorMessage(result.error ?? "مشکلی در ثبت درخواست پیش آمد. لطفاً دوباره تلاش کنید.");
+      setErrorMessage(
+        result.error ?? "مشکلی در ثبت درخواست پیش آمد. لطفاً دوباره تلاش کنید.",
+      );
     }
   }
 
@@ -71,9 +75,21 @@ export function ConsultationModal() {
           </p>
         ) : (
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-            <Input aria-label="نام و نام خانوادگی" placeholder="نام و نام خانوادگی" {...register("fullName")} />
-            <Input aria-label="شماره موبایل" placeholder="شماره موبایل" {...register("phoneNumber")} />
-            <Input aria-label="ایمیل" placeholder="ایمیل (اختیاری)" {...register("email")} />
+            <Input
+              aria-label="نام و نام خانوادگی"
+              placeholder="نام و نام خانوادگی"
+              {...register("fullName")}
+            />
+            <Input
+              aria-label="شماره موبایل"
+              placeholder="شماره موبایل"
+              {...register("phoneNumber")}
+            />
+            <Input
+              aria-label="ایمیل"
+              placeholder="ایمیل (اختیاری)"
+              {...register("email")}
+            />
             {errors.phoneNumber && (
               <p className="text-sm text-red-500">
                 {errors.phoneNumber.message}

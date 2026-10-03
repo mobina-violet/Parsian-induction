@@ -138,8 +138,8 @@ export default async function ArticleDetailPage({
           <ArticleContent content={article.content} />
         </div>
 
-        <div className="mt-12 rounded-2xl border border-orange-100 bg-orange-50 p-6 text-center">
-          <p className="text-sm font-bold text-slate-900">
+        <div className="mt-12  rounded-2xl border border-orange-100 bg-orange-50 p-6 text-center">
+          <p className="text-sm text-center font-bold text-slate-900">
             برای انتخاب کوره یا تجهیزات مناسب، از کارشناسان ما مشاوره بگیرید.
           </p>
           <Link

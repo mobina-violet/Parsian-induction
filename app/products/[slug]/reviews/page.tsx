@@ -36,8 +36,7 @@ export default async function ProductReviewsPage({
   }
 
   const reviews = await prisma.review.findMany({
-    where: { productId: product.id },
-    orderBy: { createdAt: "desc" },
+    where: { productId: product.id, approved: true },
   });
 
   return (

@@ -49,6 +49,7 @@ model Review {
   email     String
   rating    Int      @default(5)
   message   String
+  approved  Boolean  @default(false)
   createdAt DateTime @default(now())
 
   @@index([productId])
