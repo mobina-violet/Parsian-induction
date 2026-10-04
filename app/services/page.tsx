@@ -304,7 +304,7 @@ export default async function ServicesPage({
                   {service.title}
                 </h3>
 
-                <p className="mt-2 text-xs leading-6 text-gray-400">
+                <p className="mt-2  text-center text-xs leading-6 text-gray-400">
                   {service.desc}
                 </p>
               </div>
@@ -339,7 +339,7 @@ export default async function ServicesPage({
                   {item.title}
                 </h3>
 
-                <p className="mt-2 text-xs leading-6 text-slate-300">
+                <p className="mt-2 text-center text-xs leading-6 text-slate-300">
                   {item.desc}
                 </p>
               </div>
@@ -375,8 +375,7 @@ export default async function ServicesPage({
                 <h3 className="mt-4 text-sm font-bold text-slate-900">
                   {step.title}
                 </h3>
-
-                <p className="mt-1.5 text-xs leading-6 text-gray-400">
+                <p className="mt-1.5 text-center text-xs leading-6 text-gray-400">
                   {step.desc}
                 </p>
               </div>

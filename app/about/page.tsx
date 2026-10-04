@@ -155,7 +155,9 @@ export default function AboutPage() {
                 <p className="mt-2 text-lg font-bold text-slate-900">
                   {stat.value}
                 </p>
-                <p className="text-xs text-gray-400">{stat.label}</p>
+                <p className="text-center text-xs text-gray-400">
+                  {stat.label}
+                </p>
               </div>
             ))}
           </div>
@@ -350,7 +352,7 @@ export default function AboutPage() {
                 <h3 className="mt-3 text-sm font-bold text-slate-900">
                   {value.title}
                 </h3>
-                <p className="mt-1.5 text-xs leading-6 text-gray-400">
+                <p className="mt-1.5 text-center text-xs leading-6 text-gray-400">
                   {value.desc}
                 </p>
               </div>

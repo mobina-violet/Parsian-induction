@@ -44,7 +44,7 @@ export function WhyUsSection() {
                 <p dir="rtl" className="mt-3 text-lg font-bold text-slate-900">
                   {item.value}
                 </p>
-                <p dir="rtl" className="text-xs text-gray-400">
+                <p dir="rtl" className="text-center text-xs text-gray-400">
                   {item.label}
                 </p>
               </div>
