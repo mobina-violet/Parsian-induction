@@ -14,11 +14,10 @@ A modern, SEO-optimized corporate website for **Parsian Porto Alvand**, an Irani
 ## 📸 Preview
 
 <div align="center">
-  <img src="docs/screenshots/home.png" alt="Home page" width="800" />
+  <img src="docs/screenshot/home.png" alt="Home page" width="800" />
   <br /><br />
-  <img src="docs/screenshots/products.png" alt="Product detail page" width="800" />
+  <img src="docs/screenshot/product.png" alt="Product detail page" width="800" />
   <br /><br />
-  <img src="docs/screenshots/admin.png" alt="Admin dashboard" width="800" />
 </div>
 
 ---
