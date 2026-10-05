@@ -522,7 +522,7 @@ const spareParts: Prisma.ProductCreateInput[] = [
     frequencyHz: null,
     variants: [],
     components: [],
-    images: ["/images/services/igbt-module1.webp"],
+    images: ["/images/services/igbt-module.webp"],
     featured: false,
     order: 17,
   },

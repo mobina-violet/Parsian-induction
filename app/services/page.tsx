@@ -211,11 +211,7 @@ export default async function ServicesPage({
         <div className="absolute inset-0">
           <Image
             src="/images/services/hero-section.webp"
-            alt="خدمات پارسیان"
-            fill
-            priority
-            className="object-cover"
-            sizes="100vw"
+          
           />
 
           <div className="absolute inset-0 bg-gradient-to-l from-black/80 via-black/60 to-black/40" />
