@@ -5,6 +5,8 @@ import { ChevronLeft } from "lucide-react";
 import type { Metadata } from "next";
 import { prisma } from "@/lib/prisma";
 import { ArticleContent } from "@/components/ArticleContent";
+import { ArticleCta } from "@/components/ArticleCta";
+import { extractFaq, stripMarkup } from "@/lib/article-markup";
 import { siteConfig } from "@/lib/site-config";
 
 export const revalidate = 3600;
@@ -89,12 +91,35 @@ export default async function ArticleDetailPage({
     },
   };
 
+  const faqItems = extractFaq(article.content);
+  const faqJsonLd =
+    faqItems.length > 0
+      ? {
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          mainEntity: faqItems.map((item) => ({
+            "@type": "Question",
+            name: item.q,
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: stripMarkup(item.a),
+            },
+          })),
+        }
+      : null;
+
   return (
     <main dir="rtl" className="bg-white">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }}
       />
+      {faqJsonLd && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+        />
+      )}
 
       <div className="border-b border-gray-100 bg-gray-50">
         <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
@@ -138,16 +163,7 @@ export default async function ArticleDetailPage({
           <ArticleContent content={article.content} />
         </div>
 
-        <div className="mt-12  rounded-2xl border border-orange-100 bg-orange-50 p-6 text-center">
-          <p className="text-sm text-center font-bold text-slate-900">
-            برای انتخاب کوره یا تجهیزات مناسب، از کارشناسان ما مشاوره بگیرید.
-          </p>
-          <Link
-            href="/contact"
-            className="mt-4 inline-block rounded-full bg-orange-500 px-6 py-2.5 text-sm font-medium text-white transition hover:bg-orange-600">
-            تماس با ما
-          </Link>
-        </div>
+        <ArticleCta />
       </article>
     </main>
   );

@@ -2,8 +2,8 @@
 
 import { prisma } from '@/lib/prisma'
 import { consultationSchema, type ConsultationFormData } from '@/lib/validations/consultation'
-import { sendTelegramMessage } from '@/lib/telegram'
 
+import { sendTelegramMessage, escapeHtml } from '@/lib/telegram'
 const sourceLabels: Record<string, string> = {
   HEADER_BUTTON: 'دکمه هدر',
   HERO_WIDGET: 'صفحه اصلی',
