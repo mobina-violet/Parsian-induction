@@ -49,7 +49,7 @@ export function ProductCard({
       {/* توضیحات / مشخصات */}
       <div className="mt-2 flex-1">
         {isFurnace ? (
-          <div className="space-y-1 text-center text-xs text-gray-400">
+          <div className="space-y-1 text-center text-xs text-gray-500">
             <p>ظرفیت: {toPersianDigits(product.capacityKg!)} کیلوگرم</p>
             <p>توان: {toPersianDigits(product.powerKw!)} کیلووات</p>
             {product.frequencyHz != null && (
@@ -57,7 +57,7 @@ export function ProductCard({
             )}
           </div>
         ) : (
-          <p className="line-clamp-2 text-center text-xs leading-5 text-gray-400">
+          <p className="line-clamp-2 text-center text-xs leading-5 text-gray-500">
             {product.description}
           </p>
         )}
@@ -66,6 +66,7 @@ export function ProductCard({
       {/* دکمه */}
       <Link
         href={href}
+        aria-label={`${buttonLabel} ${product.name.trim()}`}
         className="mt-4 flex items-center justify-center gap-1.5 rounded-full bg-orange-500 py-2.5 text-xs font-medium text-white transition hover:bg-orange-600">
         {buttonLabel}
         <ChevronLeft className="h-3.5 w-3.5" />

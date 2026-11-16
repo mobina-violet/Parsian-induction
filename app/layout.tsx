@@ -5,7 +5,7 @@ import { Header } from "@/components/sections/Header";
 
 import { cn } from "@/lib/utils";
 import { Footer } from "@/components/sections/Footer";
-import { ConsultationModal } from "../components/ConsultationModal";
+import { ConsultationModalLoader } from "@/components/ConsultationModalLoader";
 import { FloatingWhatsApp } from "@/components/FloatingWhatsApp";
 import { siteConfig } from "@/lib/site-config";
 
@@ -90,7 +90,7 @@ export default function RootLayout({
         />
         <Header />
         {children}
-        <ConsultationModal />
+        <ConsultationModalLoader />
         <FloatingWhatsApp />
         <Footer/>
       </body>

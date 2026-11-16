@@ -145,6 +145,7 @@ export default function ProjectsPage() {
                     src={video.src}
                     poster={video.poster}
                     controls
+                    preload="none"
                     playsInline
                     className="h-full w-full object-cover"
                   />
