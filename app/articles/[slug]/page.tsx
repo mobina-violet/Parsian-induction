@@ -190,13 +190,7 @@ export default async function ArticleDetailPage({
       <article className="mx-auto max-w-3xl px-4 py-10 sm:px-6">
         <div className="relative aspect-[16/9] w-full overflow-hidden rounded-2xl border border-gray-100 bg-gray-50">
           <Image
-            src={
-              article.slug === "how-induction-melting-furnace-works"
-                ? "/images/articles/mehr-cover.webp"
-                : article.slug === "induction-furnace-winter-preparation"
-                  ? "/images/articles/aban-cover.webp"
-                  : article.coverImage || "/images/placeholder.webp"
-            }
+            src={article.coverImage || "/og-image.webp"}
             alt={article.title}
             fill
             priority

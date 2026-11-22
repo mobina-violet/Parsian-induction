@@ -287,7 +287,57 @@ body {
   animation: neon-pulse 2.4s ease-in-out infinite;
 }
 
+@keyframes neon-field-flow {
+  to {
+    stroke-dashoffset: -96;
+  }
+}
+
+.neon-field {
+  animation: neon-field-flow 6s linear infinite;
+}
+
+.neon-field-slow {
+  animation-duration: 10s;
+  animation-direction: reverse;
+}
+
+/* زمینه‌ی نقشه‌ی فنی (شبکه‌ی ظریف + محو شدن لبه‌ها) */
+.blueprint {
+  background-color: #f8fafc;
+  background-image:
+    linear-gradient(rgba(100, 116, 139, 0.07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(100, 116, 139, 0.07) 1px, transparent 1px),
+    radial-gradient(70% 40% at 100% 0%, rgba(249, 115, 22, 0.07), transparent 70%);
+  background-size:
+    28px 28px,
+    28px 28px,
+    100% 100%;
+}
+
+/* کارت مشخصات با خط نور بالا هنگام هاور */
+.spec-tile {
+  position: relative;
+}
+
+.spec-tile::before {
+  content: "";
+  position: absolute;
+  inset-inline: 1rem;
+  top: -1px;
+  height: 2px;
+  border-radius: 9999px;
+  background: linear-gradient(90deg, transparent, #f97316, transparent);
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+}
+
+.spec-tile:hover::before {
+  transform: scaleX(1);
+}
+
 @media (prefers-reduced-motion: reduce) {
+  .neon-field,
   .neon-card::before,
   .neon-btn::after,
   .neon-dot {

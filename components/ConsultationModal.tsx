@@ -20,7 +20,6 @@ import { submitConsultationRequest } from "@/app/actions/consultation";
 
 export function ConsultationModal() {
   const pathname = usePathname();
-  if (pathname.startsWith("/admin")) return null;
   const { isOpen, source, productId, close } = useConsultationModal();
   const [status, setStatus] = useState<"idle" | "success" | "error">("idle");
   const [errorMessage, setErrorMessage] = useState("");
@@ -60,6 +59,9 @@ export function ConsultationModal() {
       );
     }
   }
+
+  // بعد از همه‌ی هوک‌ها بررسی می‌شود تا ترتیب هوک‌ها همیشه ثابت بماند
+  if (pathname.startsWith("/admin")) return null;
 
   return (
     <Dialog open={isOpen} onOpenChange={close}>

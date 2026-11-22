@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import { Award, Users, Trophy, Target } from "lucide-react";
 import { Phone } from "lucide-react";
 export function Hero() {
@@ -46,11 +47,11 @@ export function Hero() {
 
           {/* Buttons */}
           <div className="mt-8 flex flex-col gap-4 sm:flex-row">
-            <a
+            <Link
               href="/products"
               className="flex h-12 items-center justify-center rounded-full bg-orange-600 px-8 text-white shadow-lg transition hover:bg-orange-700">
               مشاهده محصولات
-            </a>
+            </Link>
 
             <a
               href="tel:09124384191"

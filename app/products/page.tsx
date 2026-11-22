@@ -52,7 +52,16 @@ export async function generateMetadata({
       description: base.description,
       url: `${siteConfig.url}${canonical}`,
       locale: "fa_IR",
+      siteName: siteConfig.name,
       type: "website",
+      images: [
+        {
+          url: "/og-image.webp",
+          width: 1200,
+          height: 630,
+          alt: siteConfig.name,
+        },
+      ],
     },
     // نتایج جستجوی داخلی نباید ایندکس شوند
     ...(params.search?.trim()
