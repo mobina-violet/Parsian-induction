@@ -22,7 +22,7 @@ const articles = [
     title: "کوره القایی ذوب چطور کار می‌کند؟",
     excerpt:
       "کوره القایی ذوب چگونه کار می‌کند؟ از کویل و جریان گردابی تا فرکانس، مصرف برق، انتخاب توان و نکات ایمنی را در این راهنمای فنی بخوانید.",
-    coverImage: "/images/articles/mehr-cover.webp",
+    coverImage: "/images/articles/mehr-cover-article.webp",
     publishedAt: new Date("2026-09-28"),
     file: "content/mehr.md",
   },
@@ -31,7 +31,7 @@ const articles = [
     title: "آماده‌سازی کوره القایی برای زمستان",
     excerpt:
       "راهنمای نگهداری کوره القایی در زمستان؛ جلوگیری از یخ‌زدگی مدار خنک‌کاری، میعان، رطوبت شارژ و مشکلات قطع برق همراه با چک‌لیست.",
-    coverImage: "/images/articles/aban-cover.webp",
+    coverImage: "/images/articles/aban-cover-article.webp",
     publishedAt: new Date("2026-10-29"),
     file: "content/aban.md",
   },
@@ -40,7 +40,7 @@ const articles = [
     title: "کاهش مصرف برق کوره القایی؛ راهنمای عملی برای ارزان‌تر شدن هر تن مذاب",
     excerpt:
       "مصرف برق کوره القایی را با kWh بر تن بسنجید؛ تلفات کجاست، شارژ و درپوش و دمای تخلیه چه اثری دارند و چک‌لیست ۸ مرحله‌ای کاهش مصرف.",
-    coverImage: "/images/articles/azar-cover.webp",
+    coverImage: "/images/articles/azar-cover-article.webp",
     publishedAt: new Date("2026-11-22"),
     file: "content/azar.md",
   },
