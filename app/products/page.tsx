@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
 import {
@@ -13,11 +14,53 @@ import { prisma } from "@/lib/prisma";
 import { ProductCard } from "@/components/ProductCard";
 import { ConsultationCtaButton } from "@/components/ConsultationCtaButton";
 import { ProductFaq } from "@/components/ProductFaq";
-export const metadata = {
+import { AutoPlayVideo } from "@/components/AutoPlayVideo";
+import { MeltingFurnaceContent } from "@/components/MeltingFurnaceContent";
+import { siteConfig } from "@/lib/site-config";
+
+const defaultMetadata = {
   title: "محصولات کوره القایی | ذوب، فورج، سخت‌کاری و فورمینگ",
   description:
     "انواع کوره‌های القایی ذوب، فورج، سخت‌کاری و فورمینگ پارسیان پرتو الوند. مشاهده مشخصات فنی، توان و کاربرد هر مدل برای خطوط تولید فلزات.",
 };
+
+// متای اختصاصی دسته‌بندی ذوب (برند را layout به انتهای عنوان اضافه می‌کند)
+const meltingMetadata = {
+  title: "کوره القایی ذوب | طراحی، ساخت و خرید",
+  description:
+    "کوره القایی ذوب صنعتی پارسیان پرتو الوند؛ آشنایی با مشخصات فنی، ظرفیت، کاربردها و عوامل مؤثر بر قیمت. برای انتخاب کوره مناسب مشاوره بگیرید.",
+};
+
+export async function generateMetadata({
+  searchParams,
+}: {
+  searchParams: Promise<{ category?: string; search?: string }>;
+}): Promise<Metadata> {
+  const params = await searchParams;
+  const explicit = isValidCategory(params.category)
+    ? params.category
+    : undefined;
+  const base =
+    explicit === "MELTING_FURNACE" ? meltingMetadata : defaultMetadata;
+  const canonical = explicit ? `/products?category=${explicit}` : "/products";
+
+  return {
+    ...base,
+    alternates: { canonical },
+    openGraph: {
+      title: base.title,
+      description: base.description,
+      url: `${siteConfig.url}${canonical}`,
+      locale: "fa_IR",
+      type: "website",
+    },
+    // نتایج جستجوی داخلی نباید ایندکس شوند
+    ...(params.search?.trim()
+      ? { robots: { index: false, follow: true } }
+      : {}),
+  };
+}
+
 const validCategories = [
   "MELTING_FURNACE",
   "FORGING_FURNACE",
@@ -119,6 +162,37 @@ export default async function ProductsPage({
     category = detectCategoryFromSearch(search);
   }
 
+  const isMelting = category === "MELTING_FURNACE";
+
+  const breadcrumbJsonLd = category
+    ? {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          {
+            "@type": "ListItem",
+            position: 1,
+            name: "خانه",
+            item: siteConfig.url,
+          },
+          {
+            "@type": "ListItem",
+            position: 2,
+            name: "محصولات",
+            item: `${siteConfig.url}/products`,
+          },
+          {
+            "@type": "ListItem",
+            position: 3,
+            name:
+              categoryTabs.find((t) => t.value === category)?.label ??
+              "محصولات",
+            item: `${siteConfig.url}/products?category=${category}`,
+          },
+        ],
+      }
+    : null;
+
   const products = await prisma.product.findMany({
     where: {
       category: category
@@ -154,6 +228,14 @@ export default async function ProductsPage({
   });
   return (
     <main dir="rtl" className="bg-white">
+      {breadcrumbJsonLd && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(breadcrumbJsonLd).replace(/</g, "\\u003c"),
+          }}
+        />
+      )}
       {/* هیرو */}
       <div className="relative overflow-hidden">
         <div className="absolute inset-0">
@@ -180,13 +262,22 @@ export default async function ProductsPage({
 
           <div className="max-w-2xl">
             <h1 className="text-3xl font-bold text-white sm:text-4xl lg:text-4xl">
-              محصولات <span className="text-orange-400">کوره القایی</span>{" "}
-              پارسیان
+              {isMelting ? (
+                <>
+                  <span className="text-orange-400">کوره القایی ذوب</span>{" "}
+                  پارسیان
+                </>
+              ) : (
+                <>
+                  محصولات <span className="text-orange-400">کوره القایی</span>{" "}
+                  پارسیان
+                </>
+              )}
             </h1>
             <p className="mt-5 text-sm leading-7 text-white/80 sm:text-base lg:text-lg lg:leading-8">
-              انواع کوره‌های القایی ذوب، فورج، سخت‌کاری و فورمینگ به همراه
-              تجهیزات جانبی. مشخصات فنی شفاف و امکان تنظیم بر اساس نیاز خط تولید
-              شما.
+              {isMelting
+                ? "طراحی و ساخت کوره‌های ذوب فلزات آهنی و غیرآهنی با اینورتر رزونانس سری و موازی؛ مشخصات فنی هر مدل را ببینید و برای انتخاب ظرفیت و توان مناسب مشاوره بگیرید."
+                : "انواع کوره‌های القایی ذوب، فورج، سخت‌کاری و فورمینگ به همراه تجهیزات جانبی. مشخصات فنی شفاف و امکان تنظیم بر اساس نیاز خط تولید شما."}
             </p>
 
             <div className="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-4">
@@ -205,7 +296,8 @@ export default async function ProductsPage({
       {/* تب‌های دسته‌بندی */}
       <div
         id="products"
-        className="mx-auto scroll-mt-24 max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+        className="mx-auto scroll-mt-24 max-w-7xl px-4 py-6 sm:px-6 lg:px-8"
+      >
         <div className="-mx-4 flex gap-2 overflow-x-auto px-4 pb-1 sm:mx-0 sm:flex-wrap sm:gap-3 sm:overflow-visible sm:px-0 sm:pb-0">
           {categoryTabs.map((tab) => {
             const isActive = category === tab.value;
@@ -222,7 +314,8 @@ export default async function ProductsPage({
                   isActive
                     ? "shrink-0 whitespace-nowrap rounded-full bg-orange-500 px-4 py-2 text-xs font-medium text-white sm:px-5 sm:py-2.5 sm:text-sm"
                     : "shrink-0 whitespace-nowrap rounded-full border border-gray-200 px-4 py-2 text-xs font-medium text-slate-600 transition hover:border-orange-300 hover:text-orange-500 sm:px-5 sm:py-2.5 sm:text-sm"
-                }>
+                }
+              >
                 {tab.label}
               </Link>
             );
@@ -272,12 +365,10 @@ export default async function ProductsPage({
       <div className="mx-auto max-w-7xl px-4 pb-10 sm:px-6 lg:px-8">
         <div className="grid overflow-hidden rounded-2xl border border-gray-100 lg:grid-cols-2">
           <div className="relative h-56 lg:h-auto">
-            <video
+            <AutoPlayVideo
               src="/product.mp4"
-              autoPlay
-              muted
-              loop
-              playsInline
+              preload="metadata"
+              label="معرفی کوره‌های القایی پارسیان"
               className="h-full w-full object-cover"
             />
           </div>
@@ -312,44 +403,51 @@ export default async function ProductsPage({
         </div>
       </div>
 
+      {/* محتوای سئو دسته‌بندی ذوب (شامل FAQ و CTA اختصاصی) */}
+      {isMelting && !search && <MeltingFurnaceContent />}
+
       {/* سوالات متداول */}
-      <div className="mx-auto max-w-7xl px-4 pb-10 sm:px-6 lg:px-8">
-        <h2 className="text-xl font-bold text-orange-500 sm:text-2xl">
-          سوالات متداول
-        </h2>
-        <ProductFaq faqs={faqs} />
-      </div>
+      {!(isMelting && !search) && (
+        <div className="mx-auto max-w-7xl px-4 pb-10 sm:px-6 lg:px-8">
+          <h2 className="text-xl font-bold text-orange-500 sm:text-2xl">
+            سوالات متداول
+          </h2>
+          <ProductFaq faqs={faqs} />
+        </div>
+      )}
 
       {/* مشاوره */}
-      <div className="bg-gradient-to-l from-orange-50 via-gray-50 to-white">
-        <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-          <div className="flex flex-col gap-6 rounded-3xl border border-orange-100 bg-white p-6 shadow-sm sm:flex-row sm:items-center sm:justify-between sm:p-8">
-            <div className="flex items-start gap-4">
-              <div className="rounded-2xl bg-orange-100 p-3">
-                <Headset className="h-7 w-7 text-orange-500" />
-              </div>
-              <div>
-                <h3 className="text-lg font-bold text-slate-900">
-                  نیاز به راهنمایی برای انتخاب کوره دارید؟
-                </h3>
-                <p className="mt-2 max-w-xl text-sm leading-7 text-gray-500">
-                  کارشناسان پارسیان پرتوالوند بر اساس ظرفیت تولید، نوع فلز و
-                  شرایط کاری، مناسب‌ترین تجهیزات را پیشنهاد می‌دهند.
-                </p>
-                <div className="mt-3 flex flex-wrap gap-3 text-xs text-slate-600">
-                  <span>✓ مشاوره تخصصی</span>
-                  <span>✓ طراحی سفارشی</span>
-                  <span>✓ پشتیبانی فنی</span>
+      {!(isMelting && !search) && (
+        <div className="bg-gradient-to-l from-orange-50 via-gray-50 to-white">
+          <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+            <div className="flex flex-col gap-6 rounded-3xl border border-orange-100 bg-white p-6 shadow-sm sm:flex-row sm:items-center sm:justify-between sm:p-8">
+              <div className="flex items-start gap-4">
+                <div className="rounded-2xl bg-orange-100 p-3">
+                  <Headset className="h-7 w-7 text-orange-500" />
+                </div>
+                <div>
+                  <h3 className="text-lg font-bold text-slate-900">
+                    نیاز به راهنمایی برای انتخاب کوره دارید؟
+                  </h3>
+                  <p className="mt-2 max-w-xl text-sm leading-7 text-gray-500">
+                    کارشناسان پارسیان پرتوالوند بر اساس ظرفیت تولید، نوع فلز و
+                    شرایط کاری، مناسب‌ترین تجهیزات را پیشنهاد می‌دهند.
+                  </p>
+                  <div className="mt-3 flex flex-wrap gap-3 text-xs text-slate-600">
+                    <span>✓ مشاوره تخصصی</span>
+                    <span>✓ طراحی سفارشی</span>
+                    <span>✓ پشتیبانی فنی</span>
+                  </div>
                 </div>
               </div>
+              <ConsultationCtaButton
+                label="دریافت مشاوره رایگان"
+                source="PRODUCT_PAGE"
+              />
             </div>
-            <ConsultationCtaButton
-              label="دریافت مشاوره رایگان"
-              source="PRODUCT_PAGE"
-            />
           </div>
         </div>
-      </div>
+      )}
     </main>
   );
 }

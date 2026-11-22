@@ -6,11 +6,7 @@ import type { Metadata } from "next";
 import { prisma } from "@/lib/prisma";
 import { ArticleContent } from "@/components/ArticleContent";
 import { ArticleCta } from "@/components/ArticleCta";
-import {
-  extractFaq,
-  readingMinutes,
-  stripMarkup,
-} from "@/lib/article-markup";
+import { extractFaq, readingMinutes, stripMarkup } from "@/lib/article-markup";
 import { siteConfig } from "@/lib/site-config";
 
 export const revalidate = 3600;
@@ -105,7 +101,11 @@ export default async function ArticleDetailPage({
     dateModified: article.updatedAt.toISOString(),
     inLanguage: "fa",
     mainEntityOfPage: url,
-    author: { "@type": "Organization", name: siteConfig.name, url: siteConfig.url },
+    author: {
+      "@type": "Organization",
+      name: siteConfig.name,
+      url: siteConfig.url,
+    },
     publisher: {
       "@type": "Organization",
       name: siteConfig.name,
@@ -190,7 +190,13 @@ export default async function ArticleDetailPage({
       <article className="mx-auto max-w-3xl px-4 py-10 sm:px-6">
         <div className="relative aspect-[16/9] w-full overflow-hidden rounded-2xl border border-gray-100 bg-gray-50">
           <Image
-            src={article.coverImage || "/images/placeholder-project.webp"}
+            src={
+              article.slug === "how-induction-melting-furnace-works"
+                ? "/images/articles/mehr-cover.webp"
+                : article.slug === "induction-furnace-winter-preparation"
+                  ? "/images/articles/aban-cover.webp"
+                  : article.coverImage || "/images/placeholder.webp"
+            }
             alt={article.title}
             fill
             priority
@@ -249,7 +255,9 @@ export default async function ArticleDetailPage({
                   className="group overflow-hidden rounded-2xl border border-gray-100 bg-white transition hover:border-orange-200 hover:shadow-md">
                   <div className="relative aspect-[16/9] w-full bg-gray-50">
                     <Image
-                      src={item.coverImage || "/images/placeholder-project.webp"}
+                      src={
+                        item.coverImage || "/images/placeholder-project.webp"
+                      }
                       alt={item.title}
                       fill
                       className="object-cover"

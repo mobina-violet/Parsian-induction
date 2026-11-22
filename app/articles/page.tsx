@@ -51,7 +51,14 @@ export default async function ArticlesPage() {
                 className="group overflow-hidden rounded-2xl border border-gray-100 bg-white transition hover:border-orange-200 hover:shadow-md">
                 <div className="relative aspect-[16/10] w-full bg-gray-50">
                   <Image
-                    src={article.coverImage || "/images/placeholder-project.webp"}
+                    src={
+                      article.slug === "how-induction-melting-furnace-works"
+                        ? "/images/articles/mehr-cover.webp"
+                        : article.slug ===
+                            "induction-furnace-winter-preparation"
+                          ? "/images/articles/aban-cover.webp"
+                          : article.coverImage || "/images/placeholder.webp"
+                    }
                     alt={article.title}
                     fill
                     className="object-cover"

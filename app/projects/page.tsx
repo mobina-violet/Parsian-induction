@@ -2,6 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { ChevronLeft } from "lucide-react";
 import { StrategicCapabilityBanner } from "@/components/StrategicCapabilityBanner";
+import { AutoPlayVideo } from "@/components/AutoPlayVideo";
 
 export const metadata = {
   title: "پروژه‌ها",
@@ -141,12 +142,11 @@ export default function ProjectsPage() {
                 key={video.title}
                 className="overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-sm">
                 <div className="relative aspect-video bg-black">
-                  <video
+                  <AutoPlayVideo
                     src={video.src}
                     poster={video.poster}
                     controls
-                    preload="none"
-                    playsInline
+                    label={video.title}
                     className="h-full w-full object-cover"
                   />
                 </div>

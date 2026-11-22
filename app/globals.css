@@ -151,3 +151,146 @@ body {
     text-wrap: pretty;
   }
 }
+/* ───────── استایل نئونی/صنعتی برای بلاک محتوای دسته‌بندی ───────── */
+@property --neon-angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
+@keyframes neon-spin {
+  to {
+    --neon-angle: 360deg;
+  }
+}
+
+@keyframes neon-sweep {
+  0% {
+    transform: translateX(-160%) skewX(-20deg);
+  }
+  60%,
+  100% {
+    transform: translateX(460%) skewX(-20deg);
+  }
+}
+
+@keyframes neon-pulse {
+  0%,
+  100% {
+    opacity: 0.45;
+  }
+  50% {
+    opacity: 0.9;
+  }
+}
+
+/* کارت تیره با حاشیه‌ی نئونی چرخان */
+.neon-card {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  border-radius: 1.5rem;
+  background:
+    radial-gradient(60% 80% at 100% 0%, rgba(249, 115, 22, 0.22), transparent 70%),
+    radial-gradient(50% 70% at 0% 100%, rgba(34, 211, 238, 0.12), transparent 70%),
+    linear-gradient(160deg, #0a1020 0%, #101a2e 60%, #170e08 100%);
+  box-shadow:
+    0 0 0 1px rgba(249, 115, 22, 0.18),
+    0 24px 60px -24px rgba(249, 115, 22, 0.5);
+}
+
+.neon-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  padding: 1.5px;
+  border-radius: inherit;
+  pointer-events: none;
+  background: conic-gradient(
+    from var(--neon-angle),
+    transparent 0 55%,
+    #f97316 68%,
+    #fbbf24 78%,
+    #22d3ee 90%,
+    transparent 100%
+  );
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask:
+    linear-gradient(#000 0 0) content-box exclude,
+    linear-gradient(#000 0 0);
+  animation: neon-spin 7s linear infinite;
+}
+
+/* شبکه‌ی مهندسی محو در پس‌زمینه */
+.neon-grid::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(rgba(148, 163, 184, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(148, 163, 184, 0.08) 1px, transparent 1px);
+  background-size: 32px 32px;
+  -webkit-mask-image: radial-gradient(ellipse at 70% 20%, #000, transparent 75%);
+  mask-image: radial-gradient(ellipse at 70% 20%, #000, transparent 75%);
+}
+
+.neon-card > * {
+  position: relative;
+  z-index: 1;
+}
+
+.neon-text {
+  text-shadow:
+    0 0 10px rgba(251, 146, 60, 0.55),
+    0 0 28px rgba(249, 115, 22, 0.35);
+}
+
+/* دکمه‌ی نئونی با خط نور عبوری */
+.neon-btn {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(135deg, #fb923c, #f97316 55%, #ea580c);
+  color: #fff;
+  box-shadow:
+    0 0 0 1px rgba(253, 186, 116, 0.5),
+    0 0 22px rgba(249, 115, 22, 0.55);
+  transition:
+    box-shadow 0.25s ease,
+    transform 0.25s ease;
+}
+
+.neon-btn:hover {
+  transform: translateY(-1px);
+  box-shadow:
+    0 0 0 1px rgba(253, 186, 116, 0.8),
+    0 0 36px rgba(249, 115, 22, 0.85);
+}
+
+.neon-btn::after {
+  content: "";
+  position: absolute;
+  inset-block: 0;
+  inset-inline-start: 0;
+  width: 28%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.55), transparent);
+  animation: neon-sweep 3.6s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.neon-dot {
+  animation: neon-pulse 2.4s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .neon-card::before,
+  .neon-btn::after,
+  .neon-dot {
+    animation: none;
+  }
+}
