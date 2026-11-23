@@ -19,6 +19,9 @@ export async function submitConsultationRequest(data: Partial<ConsultationFormDa
     return { success: false, error: parsed.error.issues[0].message }
   }
 
+  // honeypot پر شده یعنی ربات است؛ بی‌صدا موفق نشان می‌دهیم و ذخیره نمی‌کنیم
+  if (parsed.data.hp_field) return { success: true }
+
   try {
     await prisma.consultationRequest.create({
       data: {

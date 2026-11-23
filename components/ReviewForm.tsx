@@ -52,6 +52,16 @@ export function ReviewForm({ productId }: { productId: string }) {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+      {/* honeypot: کاربر واقعی نمی‌بیند؛ ربات‌ها پرش می‌کنند */}
+      <input
+        type="text"
+        tabIndex={-1}
+        autoComplete="off"
+        aria-hidden="true"
+        className="hidden"
+        {...register("hp_field")}
+      />
+
       <input type="hidden" {...register("productId")} />
       <input type="hidden" {...register("rating", { valueAsNumber: true })} />
 

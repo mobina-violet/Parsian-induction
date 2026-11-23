@@ -214,7 +214,7 @@ export default function AboutPage() {
             {/* عکس بنیان‌گذار */}
             <div className="relative h-72 overflow-hidden rounded-2xl lg:h-96">
               <Image
-                src="/images/about/founder.webp"
+                src="/images/about/founder-v1.webp"
                 alt="بنیان‌گذار پارسیان"
                 fill
                 className="object-cover transition-transform duration-500 hover:scale-105"
@@ -322,7 +322,7 @@ export default function AboutPage() {
             {/* عکس مدیرعامل */}
             <div className="relative h-72 overflow-hidden rounded-2xl lg:h-96">
               <Image
-                src="/images/about/ceo.webp"
+                src="/images/about/ceo-v2.webp"
                 alt="مدیرعامل پارسیان"
                 fill
                 className="object-cover transition-transform duration-500 hover:scale-105"

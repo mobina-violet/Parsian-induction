@@ -79,6 +79,16 @@ export function ConsultationModal() {
           </p>
         ) : (
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+            {/* honeypot: کاربر واقعی نمی‌بیند؛ ربات‌ها پرش می‌کنند */}
+            <input
+              type="text"
+              tabIndex={-1}
+              autoComplete="off"
+              aria-hidden="true"
+              className="hidden"
+              {...register("hp_field")}
+            />
+
             <Input
               aria-label="نام و نام خانوادگی"
               placeholder="نام و نام خانوادگی"

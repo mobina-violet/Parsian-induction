@@ -64,6 +64,16 @@ export function ContactForm() {
       dir="rtl"
       onSubmit={handleSubmit(onSubmit)}
       className="rounded-2xl border border-gray-100 bg-white p-6 sm:p-8">
+      {/* honeypot: کاربر واقعی نمی‌بیند؛ ربات‌ها پرش می‌کنند */}
+      <input
+        type="text"
+        tabIndex={-1}
+        autoComplete="off"
+        aria-hidden="true"
+        className="hidden"
+        {...register("hp_field")}
+      />
+
       <h2 className="text-lg font-bold text-slate-900 sm:text-xl">
         برای ما پیام بگذارید
       </h2>

@@ -10,7 +10,7 @@ import {
   Check,
   Headset,
 } from "lucide-react";
-import { prisma } from "@/lib/prisma";
+import { findProducts } from "@/lib/data/catalog";
 import { ProductCard } from "@/components/ProductCard";
 import { ConsultationCtaButton } from "@/components/ConsultationCtaButton";
 import { ProductFaq } from "@/components/ProductFaq";
@@ -202,8 +202,8 @@ export default async function ProductsPage({
       }
     : null;
 
-  const products = await prisma.product.findMany({
-    where: {
+  const products = await findProducts(
+    {
       category: category
         ? category
         : {
@@ -233,8 +233,9 @@ export default async function ProductsPage({
           }
         : {}),
     },
-    orderBy: { order: "asc" },
-  });
+    { order: "asc" },
+    { cache: !search },
+  );
   return (
     <main dir="rtl" className="bg-white">
       {breadcrumbJsonLd && (

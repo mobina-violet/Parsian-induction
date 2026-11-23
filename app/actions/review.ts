@@ -11,6 +11,8 @@ export async function submitReview(data: Partial<ReviewFormInput>, path?: string
     return { success: false, error: parsed.error.issues[0].message }
   }
 
+  if (parsed.data.hp_field) return { success: true }
+
   try {
     await prisma.review.create({
       data: {

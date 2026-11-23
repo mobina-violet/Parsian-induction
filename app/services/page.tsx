@@ -18,7 +18,7 @@ import {
   Wrench,
 } from "lucide-react";
 
-import { prisma } from "@/lib/prisma";
+import { findProducts } from "@/lib/data/catalog";
 import { ProductCard } from "@/components/ProductCard";
 import { ServiceCategoryMenu } from "@/components/ServiceCategoryMenu";
 
@@ -187,21 +187,13 @@ export default async function ServicesPage({
   /*
    * دریافت محصولات
    */
-  const items = await prisma.product.findMany({
-    where: {
+  const items = await findProducts(
+    {
       category: activeCategory,
-
-      ...(activeSub !== "all"
-        ? {
-            subCategory: activeSub,
-          }
-        : {}),
+      ...(activeSub !== "all" ? { subCategory: activeSub } : {}),
     },
-
-    orderBy: {
-      order: "asc",
-    },
-  });
+    { order: "asc" },
+  );
 
   return (
     <main dir="rtl" className="bg-white">
