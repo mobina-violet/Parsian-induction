@@ -16,6 +16,7 @@ import {
 } from "lucide-react";
 
 export const metadata = {
+  alternates: { canonical: "/about" },
   title: "درباره ما",
   description: "تجربه، تخصص و نوآوری پارسیان در صنعت کوره‌های القایی",
 };
@@ -118,7 +119,7 @@ export default function AboutPage() {
             </p>
 
             <a
-              href="/catalog.pdf"
+              href="/parsian-partoalvand.pdf"
               download
               className="mt-7 inline-flex items-center gap-3 rounded-full border border-white/15 py-2 pl-2 pr-5 text-sm font-medium text-white transition hover:border-orange-400 hover:text-orange-400">
               دانلود کاتالوگ

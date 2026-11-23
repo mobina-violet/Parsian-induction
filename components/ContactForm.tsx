@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Send } from "lucide-react";
 import { submitConsultationRequest } from "@/app/actions/consultation";
+import { trackEvent } from "@/lib/analytics";
 import {
   consultationSchema,
   type ConsultationFormData,
@@ -39,6 +40,7 @@ export function ContactForm() {
     });
 
     if (result.success) {
+      trackEvent("generate_lead", { source: "CONTACT_PAGE" });
       setSuccess(true);
       reset({ source: "CONTACT_PAGE" });
     } else {

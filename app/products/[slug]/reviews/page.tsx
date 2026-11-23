@@ -19,7 +19,10 @@ export async function generateMetadata({
     return { title: "محصول یافت نشد" };
   }
 
-  return { title: `نظرات ${product.name}` };
+  return {
+    title: `نظرات ${product.name}`,
+    alternates: { canonical: `/products/${slug}/reviews` },
+  };
 }
 
 export default async function ProductReviewsPage({

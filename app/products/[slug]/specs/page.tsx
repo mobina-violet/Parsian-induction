@@ -30,7 +30,10 @@ export async function generateMetadata({
     return { title: "محصول یافت نشد" };
   }
 
-  return { title: `مشخصات فنی ${product.name}` };
+  return {
+    title: `مشخصات فنی ${product.name}`,
+    alternates: { canonical: `/products/${slug}/specs` },
+  };
 }
 
 export default async function ProductSpecsPage({

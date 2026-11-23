@@ -5,6 +5,7 @@ import { StrategicCapabilityBanner } from "@/components/StrategicCapabilityBanne
 import { AutoPlayVideo } from "@/components/AutoPlayVideo";
 
 export const metadata = {
+  alternates: { canonical: "/projects" },
   title: "پروژه‌ها",
   description: "نمونه‌ای از پروژه‌های اجرایی پارسیان در صنایع مختلف",
 };

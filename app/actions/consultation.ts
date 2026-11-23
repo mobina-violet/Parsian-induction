@@ -34,11 +34,11 @@ export async function submitConsultationRequest(data: Partial<ConsultationFormDa
 
     const lines = [
       '📩 <b>درخواست مشاوره جدید</b>',
-      parsed.data.fullName ? `👤 نام: ${parsed.data.fullName}` : null,
-      parsed.data.phoneNumber ? `📱 موبایل: ${parsed.data.phoneNumber}` : null,
-      parsed.data.email ? `✉️ ایمیل: ${parsed.data.email}` : null,
-      parsed.data.subject ? `📌 موضوع: ${parsed.data.subject}` : null,
-      parsed.data.message ? `💬 پیام: ${parsed.data.message}` : null,
+      parsed.data.fullName ? `👤 نام: ${escapeHtml(parsed.data.fullName)}` : null,
+      parsed.data.phoneNumber ? `📱 موبایل: ${escapeHtml(parsed.data.phoneNumber)}` : null,
+      parsed.data.email ? `✉️ ایمیل: ${escapeHtml(parsed.data.email)}` : null,
+      parsed.data.subject ? `📌 موضوع: ${escapeHtml(parsed.data.subject)}` : null,
+      parsed.data.message ? `💬 پیام: ${escapeHtml(parsed.data.message)}` : null,
       `🔗 منبع: ${sourceLabels[parsed.data.source] ?? parsed.data.source}`,
     ].filter(Boolean)
 

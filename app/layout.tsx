@@ -7,6 +7,7 @@ import { cn } from "@/lib/utils";
 import { Footer } from "@/components/sections/Footer";
 import { ConsultationModalLoader } from "@/components/ConsultationModalLoader";
 import { FloatingWhatsApp } from "@/components/FloatingWhatsApp";
+import { GoogleAnalytics } from "@/components/GoogleAnalytics";
 import { siteConfig } from "@/lib/site-config";
 
 
@@ -59,7 +60,7 @@ const organizationJsonLd = {
   url: siteConfig.url,
   logo: `${siteConfig.url}/parsian-logo.webp`,
   description: siteConfig.description,
-  telephone: siteConfig.phone,
+  telephone: siteConfig.phoneE164,
   address: {
     "@type": "PostalAddress",
     streetAddress: siteConfig.address,
@@ -93,6 +94,7 @@ export default function RootLayout({
         <ConsultationModalLoader />
         <FloatingWhatsApp />
         <Footer/>
+        <GoogleAnalytics />
       </body>
     </html>
   );

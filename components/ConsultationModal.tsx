@@ -17,6 +17,7 @@ import {
   type ConsultationFormData,
 } from "@/lib/validations/consultation";
 import { submitConsultationRequest } from "@/app/actions/consultation";
+import { trackEvent } from "@/lib/analytics";
 
 export function ConsultationModal() {
   const pathname = usePathname();
@@ -50,6 +51,7 @@ export function ConsultationModal() {
       productId,
     });
     if (result.success) {
+      trackEvent("generate_lead", { source });
       setStatus("success");
       reset();
     } else {

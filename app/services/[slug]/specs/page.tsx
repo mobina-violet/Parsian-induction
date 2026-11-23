@@ -16,7 +16,10 @@ export async function generateMetadata({
     return { title: "یافت نشد" };
   }
 
-  return { title: `مشخصات فنی ${item.name}` };
+  return {
+    title: `مشخصات فنی ${item.name}`,
+    alternates: { canonical: `/services/${slug}/specs` },
+  };
 }
 
 export default async function ServiceSpecsPage({

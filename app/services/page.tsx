@@ -23,6 +23,7 @@ import { ProductCard } from "@/components/ProductCard";
 import { ServiceCategoryMenu } from "@/components/ServiceCategoryMenu";
 
 export const metadata = {
+  alternates: { canonical: "/services" },
   title: "خدمات",
   description:
     "خدمات تخصصی پارسیان در مشاوره، طراحی، ساخت، نصب و پشتیبانی سیستم‌های کوره های القایی",

@@ -18,7 +18,10 @@ export async function generateMetadata({
     return { title: "یافت نشد" };
   }
 
-  return { title: `نظرات ${item.name}` };
+  return {
+    title: `نظرات ${item.name}`,
+    alternates: { canonical: `/services/${slug}/reviews` },
+  };
 }
 
 export default async function ServiceReviewsPage({

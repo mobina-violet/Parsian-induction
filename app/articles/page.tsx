@@ -6,6 +6,7 @@ import { prisma } from "@/lib/prisma";
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/articles" },
   title: "مقالات",
   description:
     "مقالات تخصصی درباره کوره‌های القایی، انتخاب توان و ظرفیت، نگهداری و تجهیزات جانبی از پارسیان پرتو الوند.",

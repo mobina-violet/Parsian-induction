@@ -59,7 +59,12 @@ export async function generateMetadata({
   return {
     title,
     description,
+    alternates: { canonical: `/products/${slug}` },
     openGraph: {
+      type: "website",
+      locale: "fa_IR",
+      siteName: siteConfig.name,
+      url: `${siteConfig.url}/products/${slug}`,
       title,
       description,
       images: [{ url: imageUrl, alt: product.name }],

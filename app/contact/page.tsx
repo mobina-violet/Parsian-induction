@@ -15,6 +15,7 @@ import { ChevronLeft } from "lucide-react";
 import { ContactForm } from "@/components/ContactForm";
 
 export const metadata = {
+  alternates: { canonical: "/contact" },
   title: "تماس با ما",
   description: "راه‌های ارتباطی با تیم پارسیان — تلفن، ایمیل، آدرس و فرم تماس",
 };
