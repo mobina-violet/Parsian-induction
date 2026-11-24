@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { heroBlur } from "@/lib/hero-blur";
 import Image from "next/image";
 
 import {
@@ -200,13 +201,15 @@ export default async function ServicesPage({
       {/* =========================
           Hero
       ========================== */}
-      <section className="relative overflow-hidden">
+      <section className="relative overflow-hidden bg-slate-900">
         <div className="absolute inset-0">
           <Image
             src="/images/services/hero-section.webp"
             alt="خدمات پارسیان"
             fill
             priority
+            placeholder="blur"
+            blurDataURL={heroBlur.services}
             className="object-cover"
             sizes="100vw"
           />

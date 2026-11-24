@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { heroBlur } from "@/lib/hero-blur";
 import Link from "next/link";
 import {
   MessageCircle,
@@ -62,7 +63,7 @@ export default function ContactPage() {
   return (
     <main className="bg-white">
       {/* هیرو*/}
-      <section className="relative overflow-hidden">
+      <section className="relative overflow-hidden bg-slate-900">
         {/* بردکرامب + هیرو */}
         <div className="absolute top-0 left-0 right-0 z-20">
           <div className="mx-auto max-w-7xl px-4 pt-6 sm:px-6 lg:px-8">
@@ -85,6 +86,8 @@ export default function ContactPage() {
           alt="تماس با پارسیان"
           fill
           priority
+          placeholder="blur"
+          blurDataURL={heroBlur.contact}
           quality={75}
           sizes="100vw"
           className="object-cover"

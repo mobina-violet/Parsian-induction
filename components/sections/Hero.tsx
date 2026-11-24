@@ -1,10 +1,11 @@
 import Image from "next/image";
+import { heroBlur } from "@/lib/hero-blur";
 import Link from "next/link";
 import { Award, Users, Trophy, Target } from "lucide-react";
 import { Phone } from "lucide-react";
 export function Hero() {
   return (
-    <section className="relative overflow-hidden pt-28 pb-52 md:pt-32 md:pb-44 lg:min-h-[90vh] lg:flex lg:items-center">
+    <section className="relative overflow-hidden bg-slate-900 pt-28 pb-52 md:pt-32 md:pb-44 lg:min-h-[90vh] lg:flex lg:items-center">
       <div className="absolute inset-0 z-0">
         <picture className="absolute inset-0 block h-full w-full">
           {/* Mobile */}
@@ -15,6 +16,8 @@ export function Hero() {
             alt="کوره القایی صنعتی"
             fill
             priority
+            placeholder="blur"
+            blurDataURL={heroBlur.home}
             fetchPriority="high"
             quality={75}
             sizes="100vw"

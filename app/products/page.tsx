@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { heroBlur } from "@/lib/hero-blur";
 import Link from "next/link";
 import Image from "next/image";
 import {
@@ -247,13 +248,15 @@ export default async function ProductsPage({
         />
       )}
       {/* هیرو */}
-      <div className="relative overflow-hidden">
+      <div className="relative overflow-hidden bg-slate-900">
         <div className="absolute inset-0">
           <Image
             src="/product-hero.webp"
             alt="کوره القایی پارسیان"
             fill
             priority
+            placeholder="blur"
+            blurDataURL={heroBlur.products}
             quality={75}
             sizes="100vw"
             className="object-cover"

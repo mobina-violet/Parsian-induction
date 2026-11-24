@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { heroBlur } from "@/lib/hero-blur";
 import Link from "next/link";
 import {
   Download,
@@ -93,6 +94,8 @@ export default function AboutPage() {
           alt="کارخانه پارسیان"
           fill
           priority
+          placeholder="blur"
+          blurDataURL={heroBlur.about}
           quality={75}
           sizes="100vw"
           className="object-cover opacity-40"
@@ -214,7 +217,7 @@ export default function AboutPage() {
             {/* عکس بنیان‌گذار */}
             <div className="relative h-72 overflow-hidden rounded-2xl lg:h-96">
               <Image
-                src="/images/about/founder-v1.webp"
+                src="/images/about/founder.webp"
                 alt="بنیان‌گذار پارسیان"
                 fill
                 className="object-cover transition-transform duration-500 hover:scale-105"

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { heroBlur } from "@/lib/hero-blur";
 import Image from "next/image";
 import { ChevronLeft } from "lucide-react";
 import { StrategicCapabilityBanner } from "@/components/StrategicCapabilityBanner";
@@ -55,7 +56,7 @@ export default function ProjectsPage() {
     <main dir="rtl" className="bg-white">
       {/* هیرو - هم‌اندازه با بقیه صفحات */}
       {/* هیرو - عکس بزرگ تمام‌عرض + متن روی عکس */}
-      <section className="relative overflow-hidden">
+      <section className="relative overflow-hidden bg-slate-900">
         {/* عکس پس‌زمینه */}
         <div className="absolute inset-0">
           <Image
@@ -63,6 +64,8 @@ export default function ProjectsPage() {
             alt="پروژه‌های پارسیان"
             fill
             priority
+            placeholder="blur"
+            blurDataURL={heroBlur.projects}
             className="object-cover"
             sizes="100vw"
           />
