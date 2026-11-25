@@ -1,45 +1,99 @@
-import crypto from 'crypto'
-import { cookies } from 'next/headers'
+import "server-only";
 
-const COOKIE_NAME = 'admin_session'
+import crypto from "node:crypto";
+import { cookies } from "next/headers";
 
-function getExpectedToken() {
-  const password = process.env.ADMIN_PASSWORD ?? ''
-  const secret = process.env.ADMIN_SESSION_SECRET ?? ''
-  // اگه هر کدوم از env ها ست نشده باشن، پنل کلاً قفل می‌مونه
-  // (وگرنه توکن همیشه sha256(":") می‌شد و هر کسی می‌تونست کوکیش رو جعل کنه)
-  if (!password || !secret) return null
-  return crypto.createHash('sha256').update(`${password}:${secret}`).digest('hex')
-}
+const COOKIE_NAME = "admin_session";
+const SESSION_DURATION = 60 * 60 * 8;
 
 function safeEqual(a: string, b: string) {
-  const ab = Buffer.from(a)
-  const bb = Buffer.from(b)
-  return ab.length === bb.length && crypto.timingSafeEqual(ab, bb)
+  const ab = Buffer.from(a);
+  const bb = Buffer.from(b);
+
+  return (
+    ab.length === bb.length &&
+    crypto.timingSafeEqual(ab, bb)
+  );
+}
+
+function getSecret() {
+  return process.env.ADMIN_SESSION_SECRET ?? "";
+}
+
+function sign(payload: string) {
+  return crypto
+    .createHmac("sha256", getSecret())
+    .update(payload)
+    .digest("hex");
 }
 
 export function isValidPassword(password: string) {
-  const expected = process.env.ADMIN_PASSWORD ?? ''
-  return expected.length > 0 && safeEqual(password, expected)
+  const expected = process.env.ADMIN_PASSWORD ?? "";
+
+  if (!expected || getSecret().length < 32) {
+    return false;
+  }
+
+  return safeEqual(password, expected);
 }
 
 export function getSessionCookieName() {
-  return COOKIE_NAME
+  return COOKIE_NAME;
 }
 
 export function getSessionToken() {
-  return getExpectedToken() ?? ''
+  if (
+    !process.env.ADMIN_PASSWORD ||
+    getSecret().length < 32
+  ) {
+    throw new Error("Admin authentication is not configured");
+  }
+
+  const expiresAt =
+    Math.floor(Date.now() / 1000) + SESSION_DURATION;
+
+  const nonce = crypto.randomBytes(32).toString("hex");
+
+  const payload = `${expiresAt}.${nonce}`;
+
+  return `${payload}.${sign(payload)}`;
 }
 
-export function isValidSessionToken(token: string | undefined) {
-  const expected = getExpectedToken()
-  return Boolean(token) && expected !== null && safeEqual(token as string, expected)
+export function isValidSessionToken(
+  token: string | undefined
+) {
+  if (
+    !token ||
+    !process.env.ADMIN_PASSWORD ||
+    getSecret().length < 32
+  ) {
+    return false;
+  }
+
+  const parts = token.split(".");
+
+  if (parts.length !== 3) return false;
+
+  const [expiresAt, nonce, signature] = parts;
+
+  const expiration = Number(expiresAt);
+
+  if (
+    !Number.isSafeInteger(expiration) ||
+    expiration <= Math.floor(Date.now() / 1000)
+  ) {
+    return false;
+  }
+
+  const payload = `${expiresAt}.${nonce}`;
+
+  return safeEqual(signature, sign(payload));
 }
 
-// چون محافظت در سطح مسیر به‌تنهایی سرور-اکشن‌ها رو امن نمی‌کنه،
-// هر اکشن حساس تو پنل باید این رو هم جدا صدا بزنه
 export async function requireAdmin() {
-  const cookieStore = await cookies()
-  const token = cookieStore.get(COOKIE_NAME)?.value
-  return isValidSessionToken(token)
+  const cookieStore = await cookies();
+
+  const token = cookieStore.get(COOKIE_NAME)?.value;
+
+  return isValidSessionToken(token);
 }

@@ -1,42 +1,63 @@
 import type { Metadata } from "next";
-import Link from "next/link";
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
+
 import { LogoutButton } from "@/components/admin/LogoutButton";
+import { AdminSidebar } from "@/components/admin/AdminSidebar";
+
+import {
+  getSessionCookieName,
+  isValidSessionToken,
+} from "@/lib/admin-auth";
 
 export const metadata: Metadata = {
-  title: "پنل مدیریت",
-  robots: { index: false, follow: false },
+  title: "پنل مدیریت | پارسیان پرتو الوند",
+  robots: {
+    index: false,
+    follow: false,
+  },
 };
 
-export default function AdminDashboardLayout({
+export default async function AdminDashboardLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const cookieStore = await cookies();
+
+  const token = cookieStore.get(
+    getSessionCookieName()
+  )?.value;
+
+  if (!isValidSessionToken(token)) {
+    redirect("/admin/login");
+  }
+
   return (
     <div dir="rtl" className="min-h-screen bg-gray-50">
       <header className="border-b border-gray-100 bg-white">
-        <div className="mx-auto flex max-w-5xl items-center justify-between px-4 py-4 sm:px-6">
+        <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-5 sm:px-6">
           <div>
-            <p className="text-sm font-bold text-slate-900">پنل مدیریت</p>
-            <p className="text-xs text-gray-400">پارسیان پرتو الوند</p>
+            <p className="text-base font-bold text-slate-900">
+              پنل مدیریت
+            </p>
+
+            <p className="mt-1 text-xs text-gray-400">
+              شرکت پارسیان پرتو الوند
+            </p>
           </div>
+
           <LogoutButton />
         </div>
-        <nav className="mx-auto flex max-w-5xl gap-1 px-4 pb-2 text-sm font-medium sm:px-6">
-          <Link
-            href="/admin/leads"
-            className="rounded-lg px-4 py-2 text-slate-600 transition hover:bg-orange-50 hover:text-orange-600">
-            درخواست‌ها
-          </Link>
-          <Link
-            href="/admin/reviews"
-            className="rounded-lg px-4 py-2 text-slate-600 transition hover:bg-orange-50 hover:text-orange-600">
-            نظرات
-          </Link>
-        </nav>
       </header>
 
-      <main className="mx-auto max-w-5xl px-4 py-8 sm:px-6">{children}</main>
+      <div className="mx-auto flex max-w-7xl flex-col items-start gap-6 px-4 py-6 sm:px-6 lg:flex-row">
+        <AdminSidebar />
+
+        <main className="min-w-0 flex-1">
+          {children}
+        </main>
+      </div>
     </div>
   );
 }

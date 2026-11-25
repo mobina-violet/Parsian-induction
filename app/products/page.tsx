@@ -379,8 +379,9 @@ export default async function ProductsPage({
         <div className="grid overflow-hidden rounded-2xl border border-gray-100 lg:grid-cols-2">
           <div className="relative h-56 lg:h-auto">
             <AutoPlayVideo
-              src="/product.mp4"
-              preload="metadata"
+              src="/product-v2.mp4"
+              poster="/product-poster.webp"
+              preload="none"
               label="معرفی کوره‌های القایی پارسیان"
               className="h-full w-full object-cover"
             />

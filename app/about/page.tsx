@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { AutoPlayVideo } from "@/components/AutoPlayVideo";
 import { heroBlur } from "@/lib/hero-blur";
 import Link from "next/link";
 import {
@@ -195,13 +196,11 @@ export default function AboutPage() {
                 <div
                   key={img}
                   className="relative h-32 overflow-hidden rounded-2xl sm:h-40">
-                  <video
-                    src="/images/about/about-video.mp4"
-                    autoPlay
-                    muted
-                    loop
-                    playsInline
-                    className="object-cover "
+                  <AutoPlayVideo
+                    src="/images/about/about-video-v2.mp4"
+                    poster="/images/about/about-video-poster.webp"
+                    label="فعالیت‌های پارسیان"
+                    className="h-full w-full object-cover"
                   />
                 </div>
               ))}

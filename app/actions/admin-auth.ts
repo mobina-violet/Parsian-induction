@@ -1,26 +1,56 @@
-'use server'
+"use server";
 
-import { cookies } from 'next/headers'
-import { isValidPassword, getSessionCookieName, getSessionToken } from '@/lib/admin-auth'
+import { cookies } from "next/headers";
+
+import {
+  isValidPassword,
+  getSessionToken,
+  getSessionCookieName,
+} from "@/lib/admin-auth";
 
 export async function loginAdmin(password: string) {
-  if (!isValidPassword(password)) {
-    return { success: false, error: 'رمز اشتباه است' }
+  if (
+    !process.env.ADMIN_PASSWORD ||
+    (process.env.ADMIN_SESSION_SECRET ?? "").length < 32
+  ) {
+    return {
+      success: false,
+      error: "تنظیمات ورود پنل کامل نشده است.",
+    };
   }
 
-  const cookieStore = await cookies()
-  cookieStore.set(getSessionCookieName(), getSessionToken(), {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === 'production',
-    sameSite: 'lax',
-    path: '/',
-    maxAge: 60 * 60 * 24 * 7,
-  })
+  if (
+    typeof password !== "string" ||
+    password.length > 256 ||
+    !isValidPassword(password)
+  ) {
+    return {
+      success: false,
+      error: "رمز عبور صحیح نیست.",
+    };
+  }
 
-  return { success: true }
+  const cookieStore = await cookies();
+
+  cookieStore.set(
+    getSessionCookieName(),
+    getSessionToken(),
+    {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "strict",
+      path: "/",
+      maxAge: 60 * 60 * 8,
+    }
+  );
+
+  return { success: true };
 }
 
 export async function logoutAdmin() {
-  const cookieStore = await cookies()
-  cookieStore.delete(getSessionCookieName())
+  const cookieStore = await cookies();
+
+  cookieStore.delete(getSessionCookieName());
+
+  return { success: true };
 }
