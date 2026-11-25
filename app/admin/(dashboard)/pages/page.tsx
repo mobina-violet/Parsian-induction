@@ -1,0 +1,1 @@
+export default function Page(){return <section className="rounded-2xl border border-gray-100 bg-white p-6"><h1 className="text-xl font-bold">محتوای صفحات</h1><p className="mt-3 text-sm text-slate-500">این بخش هنوز به داده‌های صفحات عمومی متصل نشده است. فعلاً محتوای اصلی سایت بدون تغییر باقی می‌ماند.</p></section>}
