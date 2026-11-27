@@ -1,3 +1,4 @@
+import {getPublicSettings} from "@/lib/cms-public";
 import Image from "next/image";
 import { heroBlur } from "@/lib/hero-blur";
 import Link from "next/link";
@@ -27,29 +28,29 @@ const heroFeatures = [
   { icon: Headset, title: "پشتیبانی فنی", desc: "در تمام مراحل پروژه" },
 ];
 
-const contactInfo = [
+const makeContactInfo = (s: Awaited<ReturnType<typeof getPublicSettings>>) => [
   {
     icon: MapPin,
     title: "آدرس شرکت",
-    lines: ["رباط کریم میدان غدیر مجتمع صنعتی تجاری نور"],
+    lines: [s.address],
     link: { label: "مشاهده در نقشه", href: "#map" },
   },
   {
     icon: Phone,
     title: "تلفن تماس",
-    lines: ["۰۹۱۲۴۳۸۴۱۹۱"],
-    href: "tel:+989124384191",
+    lines: [s.phone],
+    href: `tel:${s.phone}`,
   },
   {
     icon: Mail,
     title: "ایمیل",
-    lines: ["info@parsian-induction.com"],
-    href: "mailto:info@parsian-induction.com",
+    lines: [s.email],
+    href: `mailto:${s.email}`,
   },
   {
     icon: Clock,
     title: "ساعات کاری",
-    lines: ["شنبه تا چهارشنبه: ۸ تا ۱۷", "پنجشنبه: ۸ تا ۱۳"],
+    lines: s.hours.split("\n"),
   },
 ];
 
@@ -59,7 +60,8 @@ const urgentFeatures = [
   "پشتیبانی و همراهی",
 ];
 
-export default function ContactPage() {
+export default async function ContactPage() {
+ const s=await getPublicSettings(); const contactInfo=makeContactInfo(s);
   return (
     <main className="bg-white">
       {/* هیرو*/}
@@ -247,7 +249,7 @@ export default function ContactPage() {
                 </p>
               </div>
               <Link
-                href="tel:+989124384191"
+                href={`tel:${s.phone}`}
                 className="mr-2 flex items-center gap-1.5 whitespace-nowrap rounded-full bg-white px-4 py-2 text-xs font-medium text-orange-600 transition hover:bg-orange-50">
                 <Phone className="h-3.5 w-3.5" />
                 تماس سریع

@@ -1,1 +1,5 @@
-export default function Page(){return <section className="rounded-2xl border border-gray-100 bg-white p-6"><h1 className="text-xl font-bold">تنظیمات سایت</h1><p className="mt-3 text-sm text-slate-500">این بخش هنوز به داده‌های صفحات عمومی متصل نشده است. فعلاً محتوای اصلی سایت بدون تغییر باقی می‌ماند.</p></section>}
+import {getPublicSettings} from "@/lib/cms-public";
+import {contactFields,type PublicSettings} from "@/lib/cms-public-fields";
+import {SettingsForm} from "@/components/admin/SettingsForm";
+export const dynamic="force-dynamic";
+export default async function Page(){const values=await getPublicSettings();return <section className="space-y-4"><h1 className="text-xl font-bold">اطلاعات تماس</h1><SettingsForm group="settings" fields={Object.entries(contactFields).map(([key,label])=>({key,label,value:values[key as keyof PublicSettings]}))}/></section>}

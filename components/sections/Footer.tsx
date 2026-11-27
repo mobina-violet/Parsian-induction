@@ -15,7 +15,7 @@ const quickLinks = [
   { label: "تماس با ما", href: "/contact" },
 ];
 
-export function Footer() {
+export function Footer({settings}:{settings:import("@/lib/cms-public-fields").PublicSettings}) {
   const pathname = usePathname();
   if (pathname.startsWith("/admin")) return null;
 
@@ -151,28 +151,26 @@ export function Footer() {
                 <Link
                   href="https://nshn.ir/ae_bQV-eyx5bku"
                   className="flex flex-col transition hover:text-orange-500">
-                  <span>رباط کریم میدان غدیر</span>
-                  <span>مجتمع صنعتی و تجاری نور</span>
-                  <span>واحد ۱۷</span>
+                  <span>{settings.address}</span>
                 </Link>
               </li>
               <li className="flex items-center gap-2">
                 <Phone className="h-4 w-4 shrink-0 text-orange-500" />
                 <a
-                  href="tel:09124384191"
+                  href={`tel:${settings.phone}`}
                   className="transition-colors hover:text-orange-500"
                   dir="ltr">
-                  ۰۹۱۲۴۳۸۴۱۹۱
+                  {settings.phone}
                 </a>
               </li>
               <li className="flex items-center gap-2">
                 <a
-                  href="https://instagram.com/parsian_partoalvand"
+                  href={settings.instagram}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center gap-2 transition-colors hover:text-orange-500">
                   <FaInstagram className="h-4 w-4 shrink-0 text-orange-500" />
-                  <span>parsian_partoalvand</span>
+                  <span>{settings.instagram.split("/").filter(Boolean).at(-1)}</span>
                 </a>
               </li>
             </ul>
@@ -299,28 +297,26 @@ export function Footer() {
                 <Link
                   href="https://nshn.ir/ae_bQV-eyx5bku"
                   className="flex flex-col transition hover:text-orange-500">
-                  <span>رباط کریم میدان غدیر</span>
-                  <span>مجتمع صنعتی و تجاری نور</span>
-                  <span>واحد ۱۷</span>
+                  <span>{settings.address}</span>
                 </Link>
               </li>
               <li className="flex items-center gap-2">
                 <Phone className="h-4 w-4 shrink-0 text-orange-500" />
                 <a
-                  href="tel:09124384191"
+                  href={`tel:${settings.phone}`}
                   className="transition-colors hover:text-orange-500"
                   dir="ltr">
-                  ۰۹۱۲۴۳۸۴۱۹۱
+                  {settings.phone}
                 </a>
               </li>
               <li className="flex items-center gap-2">
                 <a
-                  href="https://instagram.com/parsian_partoalvand"
+                  href={settings.instagram}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center gap-2 transition-colors hover:text-orange-500">
                   <FaInstagram className="h-4 w-4 shrink-0 text-orange-500" />
-                  <span>parsian_partoalvand</span>
+                  <span>{settings.instagram.split("/").filter(Boolean).at(-1)}</span>
                 </a>
               </li>
             </ul>

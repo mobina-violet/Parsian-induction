@@ -13,6 +13,7 @@ export async function saveCms(kind: string, id: string, form: FormData) {
  const b = (key:string) => form.get(key) === "on";
  try {
   const slug = slugSchema.parse(t("slug"));
+  if(id){const old=kind==="articles"?await prisma.article.findUnique({where:{id},select:{slug:true}}):kind==="projects"?await prisma.project.findUnique({where:{id},select:{slug:true}}):await prisma.product.findUnique({where:{id},select:{slug:true}});if(!old||old.slug!==slug)throw new Error("slug locked");}
   const title = z.string().min(1).max(300).parse(t("title"));
   if (kind === "articles") {
    const data = {slug,title,excerpt:z.string().min(1).max(2000).parse(t("excerpt")),content:z.string().min(1).max(150000).parse(t("content")),coverImage:t("coverImage") ? imageSchema.parse(t("coverImage")) : null,published:b("published")};

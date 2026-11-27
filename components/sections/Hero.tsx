@@ -1,9 +1,11 @@
+import {getPublicSettings} from "@/lib/cms-public";
 import Image from "next/image";
 import { heroBlur } from "@/lib/hero-blur";
 import Link from "next/link";
 import { Award, Users, Trophy, Target } from "lucide-react";
 import { Phone } from "lucide-react";
-export function Hero() {
+export async function Hero() {
+ const settings=await getPublicSettings();
   return (
     <section className="relative overflow-hidden bg-slate-900 pt-28 pb-52 md:pt-32 md:pb-44 lg:min-h-[90vh] lg:flex lg:items-center">
       <div className="absolute inset-0 z-0">
@@ -38,14 +40,13 @@ export function Hero() {
           </p>
 
           <h1 className="text-3xl font-bold leading-tight text-white sm:text-4xl lg:text-5xl">
-            کوره‌های القایی
+            {settings.heroTitle}
             <br />
-            <span className="text-orange-500">با تکنولوژی روز دنیا</span>
+            <span className="text-orange-500">{settings.heroSubtitle}</span>
           </h1>
 
           <p className="mt-5 text-sm leading-7 text-gray-200 sm:text-base lg:text-lg lg:leading-8">
-            طراحی و ساخت کوره القایی صنعتی با کیفیت بالا، راندمان عالی و خدمات
-            پس از فروش مطمئن برای صنایع فولاد، مس و آلومینیوم.
+            {settings.heroText}
           </p>
 
           {/* Buttons */}
@@ -57,7 +58,7 @@ export function Hero() {
             </Link>
 
             <a
-              href="tel:09124384191"
+              href={`tel:${settings.phone}`}
               className="flex h-12 items-center justify-center gap-2 rounded-full border border-white/40 bg-white/10 px-8 text-white backdrop-blur transition hover:bg-white/20"
               dir="ltr">
               <Phone className="h-4 w-4 shrink-0 text-orange-500" />

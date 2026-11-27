@@ -1,0 +1,5 @@
+"use client";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { saveSettings } from "@/app/actions/admin-settings";
+export function SettingsForm({group,fields}:{group:string;fields:{key:string;label:string;value:string}[]}){const [busy,setBusy]=useState(false);const [message,setMessage]=useState("");const router=useRouter();return <form className="space-y-4 rounded-2xl border bg-white p-5" onSubmit={async e=>{e.preventDefault();const data=new FormData(e.currentTarget);setBusy(true);try{const r=await saveSettings(group,data);setMessage(r.success?"تغییرات ذخیره شد":r.error??"خطا");if(r.success)router.refresh();}catch{setMessage("خطای ارتباط");}finally{setBusy(false);}}}>{fields.map(f=><label key={f.key} className="block space-y-1 text-sm"><span>{f.label}</span><textarea name={f.key} defaultValue={f.value} required maxLength={2000} rows={f.value.length>80?4:2} className="block w-full rounded-xl border p-3"/></label>)}<button disabled={busy} className="rounded-xl bg-orange-600 px-5 py-2 text-white">{busy?"در حال ذخیره":"ذخیره تغییرات"}</button><p role="status">{message}</p></form>}

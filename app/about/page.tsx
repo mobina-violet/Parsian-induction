@@ -1,3 +1,4 @@
+import {getPublicSettings} from "@/lib/cms-public";
 import Image from "next/image";
 import { AutoPlayVideo } from "@/components/AutoPlayVideo";
 import { heroBlur } from "@/lib/hero-blur";
@@ -71,7 +72,8 @@ const values = [
   },
 ];
 
-export default function AboutPage() {
+export default async function AboutPage() {
+ const settings=await getPublicSettings();
   return (
     <main className="bg-white">
       {/* هیرو تیره */}
@@ -117,9 +119,7 @@ export default function AboutPage() {
             </h1>
 
             <p className="mt-4 max-w-lg text-sm leading-7 text-slate-300 sm:text-base lg:text-lg lg:leading-8">
-              پارسیان پرتو الوند متخصص طراحی، ساخت و راه‌اندازی کوره القایی است.
-              ما با دانش فنی و تیمی مجرب، راهکارهای مطمئن برای صنایع فولاد، مس و
-              آلومینیوم ارائه می‌دهیم.
+              {settings.aboutText}
             </p>
 
             <a

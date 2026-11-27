@@ -4,12 +4,12 @@ import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import { FaWhatsapp } from "react-icons/fa";
 
-const WHATSAPP_NUMBER = "989124384191";
+
 const DEFAULT_MESSAGE =
   "سلام، درباره کوره القایی پارسیان پرتو الوند نیاز به مشاوره دارم";
 const APPEAR_DELAY_MS = 1500;
 
-export function FloatingWhatsApp() {
+export function FloatingWhatsApp({number}:{number:string}) {
   const pathname = usePathname();
   const [visible, setVisible] = useState(false);
 
@@ -20,7 +20,7 @@ export function FloatingWhatsApp() {
 
   if (pathname.startsWith("/admin")) return null;
 
-  const href = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(
+  const href = `https://wa.me/${number}?text=${encodeURIComponent(
     DEFAULT_MESSAGE,
   )}`;
 

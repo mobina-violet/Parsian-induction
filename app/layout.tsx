@@ -1,3 +1,4 @@
+import {getPublicSettings} from "@/lib/cms-public";
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
@@ -69,11 +70,12 @@ const organizationJsonLd = {
   sameAs: [siteConfig.instagram],
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const settings=await getPublicSettings();
   return (
     <html
       lang="fa"
@@ -87,13 +89,13 @@ export default function RootLayout({
       <body className="min-h-screen font-iransans">
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify({...organizationJsonLd,telephone:settings.phone,address:{...organizationJsonLd.address,streetAddress:settings.address},sameAs:[settings.instagram]}).replace(/</g,"\\u003c") }}
         />
         <Header />
         {children}
         <ConsultationModalLoader />
-        <FloatingWhatsApp />
-        <Footer/>
+        <FloatingWhatsApp number={settings.whatsapp} />
+        <Footer settings={settings}/>
         <GoogleAnalytics />
       </body>
     </html>
