@@ -216,9 +216,10 @@ export default async function AboutPage() {
             {/* عکس بنیان‌گذار */}
             <div className="relative h-72 overflow-hidden rounded-2xl lg:h-96">
               <Image
-                src="/images/about/founder.webp"
+                src={settings.founderImage}
                 alt="بنیان‌گذار پارسیان"
                 fill
+                sizes="(min-width: 1024px) 33vw, 100vw"
                 className="object-cover transition-transform duration-500 hover:scale-105"
               />
             </div>
@@ -324,9 +325,10 @@ export default async function AboutPage() {
             {/* عکس مدیرعامل */}
             <div className="relative h-72 overflow-hidden rounded-2xl lg:h-96">
               <Image
-                src="/images/about/ceo-v2.webp"
+                src={settings.ceoImage}
                 alt="مدیرعامل پارسیان"
                 fill
+                sizes="(min-width: 1024px) 33vw, 100vw"
                 className="object-cover transition-transform duration-500 hover:scale-105"
               />
             </div>

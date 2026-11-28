@@ -8,18 +8,18 @@ import {
   Headset,
   MapPin,
   Phone,
-  Mail,
   Clock,
   ArrowLeft,
   Navigation,
 } from "lucide-react";
 import { ChevronLeft } from "lucide-react";
+import { FaInstagram } from "react-icons/fa";
 import { ContactForm } from "@/components/ContactForm";
 
 export const metadata = {
   alternates: { canonical: "/contact" },
   title: "تماس با ما",
-  description: "راه‌های ارتباطی با تیم پارسیان — تلفن، ایمیل، آدرس و فرم تماس",
+  description: "راه‌های ارتباطی با تیم پارسیان — تلفن، اینستاگرام، آدرس و فرم تماس",
 };
 
 const heroFeatures = [
@@ -42,10 +42,11 @@ const makeContactInfo = (s: Awaited<ReturnType<typeof getPublicSettings>>) => [
     href: `tel:${s.phone}`,
   },
   {
-    icon: Mail,
-    title: "ایمیل",
-    lines: [s.email],
-    href: `mailto:${s.email}`,
+    icon: FaInstagram,
+    title: "اینستاگرام",
+    lines: [`@${s.instagram.split("/").filter(Boolean).at(-1)}`],
+    href: s.instagram,
+    external: true,
   },
   {
     icon: Clock,
@@ -167,6 +168,7 @@ export default async function ContactPage() {
                         <Link
                           key={line}
                           href={item.href}
+                          {...(item.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
                           className="block text-slate-400 transition hover:text-orange-400">
                           {line}
                         </Link>
@@ -234,38 +236,43 @@ export default async function ContactPage() {
       <section className="bg-white">
         <div className="mx-auto max-w-7xl px-4 pb-14 sm:px-6 lg:px-8">
           <div
-            dir="ltr"
-            className="flex flex-col gap-6 rounded-2xl bg-orange-500 hover:bg-orange-600 p-6 sm:flex-row sm:items-center sm:justify-between">
-            <div dir="rtl" className="flex items-center gap-4">
+            dir="rtl"
+            className="flex flex-col gap-6 rounded-2xl bg-gradient-to-l from-orange-500 to-orange-600 p-6 text-right shadow-lg shadow-orange-500/20 lg:flex-row lg:items-center lg:justify-between lg:gap-8 lg:p-8">
+            {/* تیتر */}
+            <div className="flex items-center gap-4">
               <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-white/15">
                 <Headset className="h-6 w-6 text-white" />
               </span>
-              <div className="text-right">
-                <p className="text-sm font-bold text-white">
+              <div>
+                <p className="text-base font-bold text-white sm:text-lg">
                   نیاز به مشاوره فوری دارید؟
                 </p>
-                <p className="mt-0.5 text-xs text-white/80">
-                  کارشناسان ما همین حالا در کنار شما هستند.
+                <p className="mt-1 text-sm leading-7 text-white/85">
+                  در ساعات کاری، کارشناسان ما پاسخگوی سؤال‌های فنی شما هستند.
                 </p>
               </div>
-              <Link
-                href={`tel:${s.phone}`}
-                className="mr-2 flex items-center gap-1.5 whitespace-nowrap rounded-full bg-white px-4 py-2 text-xs font-medium text-orange-600 transition hover:bg-orange-50">
-                <Phone className="h-3.5 w-3.5" />
-                تماس سریع
-              </Link>
             </div>
 
-            <div
-              dir="rtl"
-              className="flex flex-wrap gap-4 text-xs text-white/90">
+            {/* مزیت‌ها */}
+            <ul className="flex flex-wrap gap-x-5 gap-y-2 text-xs text-white/90 sm:text-sm lg:flex-1 lg:justify-center">
               {urgentFeatures.map((f) => (
-                <span key={f} className="flex items-center gap-1.5">
-                  <ShieldCheck className="h-3.5 w-3.5" />
+                <li key={f} className="flex items-center gap-1.5">
+                  <ShieldCheck className="h-4 w-4 shrink-0" />
                   {f}
-                </span>
+                </li>
               ))}
-            </div>
+            </ul>
+
+            {/* دکمه */}
+            <Link
+              href={`tel:${s.phone}`}
+              className="inline-flex shrink-0 items-center justify-center gap-2 self-start rounded-full bg-white px-6 py-3 text-sm font-bold text-orange-600 shadow-sm transition hover:bg-orange-50 lg:self-auto">
+              <Phone className="h-4 w-4" />
+              تماس سریع
+              <span dir="ltr" className="font-medium text-orange-500">
+                {s.phone}
+              </span>
+            </Link>
           </div>
         </div>
       </section>
