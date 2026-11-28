@@ -1,5 +1,5 @@
 import "server-only";
-import { Client } from "pg";
+import { Pool } from "pg";
 import { mkdir,writeFile,readFile,readdir,rename } from "node:fs/promises";
 import path from "node:path";
 const folder=()=>process.env.CMS_MEDIA_DIR || (process.env.NODE_ENV!=="production"?path.join(process.cwd(),".cms-media"):null);
@@ -7,16 +7,30 @@ const valid=(id:string)=>/^[a-f0-9-]{36}$/i.test(id);
 
 export type MediaRow = { id: string; name: string; width: number; height: number; size: number };
 
-async function withMediaClient<T>(run: (client: Client) => Promise<T>): Promise<T> {
-  const connectionString = process.env.DATABASE_URL;
-  if (!connectionString) throw new Error("Missing DATABASE_URL");
-  const client = new Client({ connectionString, connectionTimeoutMillis: 10000, query_timeout: 15000, statement_timeout: 12000, keepAlive: true });
-  try {
-    await client.connect();
-    return await run(client);
-  } finally {
-    await client.end().catch(() => {});
+// یک Pool مشترک (به‌جای ساخت اتصال جدید در هر درخواست): روی Netlify هر اتصال تازه به دیتابیس
+// (TCP + TLS) نیم تا یک ثانیه طول می‌کشید و برای هر عکس تکرار می‌شد. حالا تا وقتی تابع «گرم» است، اتصال‌ها دوباره استفاده می‌شوند.
+let pool: Pool | undefined;
+
+function getPool(): Pool {
+  if (!pool) {
+    const connectionString = process.env.DATABASE_URL;
+    if (!connectionString) throw new Error("Missing DATABASE_URL");
+    pool = new Pool({
+      connectionString,
+      max: 2,
+      connectionTimeoutMillis: 10000,
+      idleTimeoutMillis: 30000,
+      query_timeout: 15000,
+      statement_timeout: 12000,
+      keepAlive: true,
+    });
+    pool.on("error", (e) => console.error("Media pool error", e));
   }
+  return pool;
+}
+
+async function withMediaClient<T>(run: (client: Pool) => Promise<T>): Promise<T> {
+  return run(getPool());
 }
 
 export async function listMedia() {

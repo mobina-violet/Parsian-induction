@@ -6,7 +6,8 @@ export async function GET(_req: Request, { params }: { params: Promise<{ id: str
   try {
     const data = await readMedia(id);
     if (!data) return new Response(null, { status: 404 });
-    return new Response(new Uint8Array(data), { headers: { "Content-Type": "image/webp", "Cache-Control": "public, max-age=31536000, immutable", "X-Content-Type-Options": "nosniff" } });
+    return new Response(new Uint8Array(data), { headers: { "Content-Type": "image/webp", "Cache-Control": "public, max-age=31536000, immutable",
+"Netlify-CDN-Cache-Control": "public, max-age=31536000, durable", "X-Content-Type-Options": "nosniff" } });
   } catch (error) {
     console.error("Media read failed:", error);
     return new Response(null, { status: 503 });
