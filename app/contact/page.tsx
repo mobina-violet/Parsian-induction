@@ -232,41 +232,41 @@ export default async function ContactPage() {
         </div>
       </section>
 
-      {/* بنر نیاز فوری */}
+      {/* بنر نیاز فوری (اول موبایل؛ از sm و lg به بالا بازتر می‌شود) */}
       <section className="bg-white">
         <div className="mx-auto max-w-7xl px-4 pb-14 sm:px-6 lg:px-8">
           <div
             dir="rtl"
-            className="flex flex-col gap-6 rounded-2xl bg-gradient-to-l from-orange-500 to-orange-600 p-6 text-right shadow-lg shadow-orange-500/20 lg:flex-row lg:items-center lg:justify-between lg:gap-8 lg:p-8">
+            className="flex flex-col gap-5 rounded-2xl bg-gradient-to-l from-orange-500 to-orange-600 p-5 text-right shadow-lg shadow-orange-500/20 sm:p-6 lg:flex-row lg:items-center lg:justify-between lg:gap-8 lg:p-8">
             {/* تیتر */}
-            <div className="flex items-center gap-4">
-              <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-white/15">
-                <Headset className="h-6 w-6 text-white" />
+            <div className="flex items-start gap-3 sm:items-center sm:gap-4">
+              <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-white/15 sm:h-12 sm:w-12">
+                <Headset className="h-5 w-5 text-white sm:h-6 sm:w-6" />
               </span>
-              <div>
-                <p className="text-base font-bold text-white sm:text-lg">
+              <div className="min-w-0">
+                <p className="text-base font-bold leading-7 text-white sm:text-lg">
                   نیاز به مشاوره فوری دارید؟
                 </p>
-                <p className="mt-1 text-sm leading-7 text-white/85">
+                <p className="mt-0.5 text-sm leading-7 text-white/85">
                   در ساعات کاری، کارشناسان ما پاسخگوی سؤال‌های فنی شما هستند.
                 </p>
               </div>
             </div>
 
-            {/* مزیت‌ها */}
-            <ul className="flex flex-wrap gap-x-5 gap-y-2 text-xs text-white/90 sm:text-sm lg:flex-1 lg:justify-center">
+            {/* مزیت‌ها: موبایل زیر هم با خط جداکننده، از sm به بعد کنار هم */}
+            <ul className="grid gap-2.5 border-t border-white/20 pt-4 text-sm text-white/90 sm:flex sm:flex-wrap sm:gap-x-5 sm:gap-y-2 sm:border-t-0 sm:pt-0 lg:flex-1 lg:justify-center">
               {urgentFeatures.map((f) => (
-                <li key={f} className="flex items-center gap-1.5">
+                <li key={f} className="flex items-center gap-2">
                   <ShieldCheck className="h-4 w-4 shrink-0" />
-                  {f}
+                  <span>{f}</span>
                 </li>
               ))}
             </ul>
 
-            {/* دکمه */}
+            {/* دکمه: موبایل تمام‌عرض */}
             <Link
               href={`tel:${s.phone}`}
-              className="inline-flex shrink-0 items-center justify-center gap-2 self-start rounded-full bg-white px-6 py-3 text-sm font-bold text-orange-600 shadow-sm transition hover:bg-orange-50 lg:self-auto">
+              className="flex w-full shrink-0 items-center justify-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-bold text-orange-600 shadow-sm transition hover:bg-orange-50 sm:inline-flex sm:w-auto sm:self-start lg:self-auto">
               <Phone className="h-4 w-4" />
               تماس سریع
               <span dir="ltr" className="font-medium text-orange-500">
